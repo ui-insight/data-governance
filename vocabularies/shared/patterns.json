@@ -1,0 +1,111 @@
+{
+  "description": "Cross-application vocabulary patterns - value groups that express the same concept across multiple applications",
+  "version": "1.0.0",
+  "last_updated": "2026-02-28",
+  "patterns": [
+    {
+      "concept": "Severity / Priority Level",
+      "description": "Ranked importance or urgency scale",
+      "occurrences": [
+        {
+          "app": "UCM Daily Register",
+          "group": "Severity",
+          "codes": ["error", "warning", "info"]
+        },
+        {
+          "app": "Audit Dashboard",
+          "group": "Severity",
+          "codes": ["HIGH", "MEDIUM", "LOW"]
+        },
+        {
+          "app": "Audit Dashboard",
+          "group": "Priority",
+          "codes": ["HIGH", "MEDIUM", "LOW"]
+        }
+      ]
+    },
+    {
+      "concept": "Lifecycle Status",
+      "description": "Ordered progression through workflow stages",
+      "occurrences": [
+        {
+          "app": "UCM Daily Register",
+          "group": "Submission_Status",
+          "codes": ["new", "ai_edited", "in_review", "approved", "scheduled", "published", "rejected"]
+        },
+        {
+          "app": "UCM Daily Register",
+          "group": "Newsletter_Status",
+          "codes": ["draft", "in_progress", "ready_for_review", "submitted", "published"]
+        },
+        {
+          "app": "Audit Dashboard",
+          "group": "ObservationStatus",
+          "codes": ["OPEN", "IN_PROGRESS", "CLOSED", "CLOSED_FIRST_FOLLOWUP"]
+        },
+        {
+          "app": "Audit Dashboard",
+          "group": "ActionItemStatus",
+          "codes": ["OPEN", "IN_PROGRESS", "COMPLETED", "OVERDUE", "CLOSED"]
+        },
+        {
+          "app": "Audit Dashboard",
+          "group": "ExtractionStatus",
+          "codes": ["PENDING", "OCR_IN_PROGRESS", "OCR_COMPLETE", "LLM_IN_PROGRESS", "REVIEW_PENDING", "APPROVED", "REJECTED", "FAILED"]
+        },
+        {
+          "app": "OpenERA",
+          "group": "ProposalStatus",
+          "codes": ["draft", "department_review", "college_review", "osp_review", "submitted", "awarded", "declined", "withdrawn"]
+        },
+        {
+          "app": "OpenERA",
+          "group": "ApprovalStatus",
+          "codes": ["pending", "approved", "returned", "not_required"]
+        }
+      ]
+    },
+    {
+      "concept": "Document / Content Type",
+      "description": "Classification of documents or content items",
+      "occurrences": [
+        {
+          "app": "UCM Daily Register",
+          "group": "Submission_Category",
+          "codes": ["faculty_staff", "student", "job_opportunity", "kudos", "in_memoriam", "news_release", "calendar_event"]
+        },
+        {
+          "app": "Audit Dashboard",
+          "group": "DocumentType",
+          "codes": ["SOURCE_PDF", "EVIDENCE", "CORRESPONDENCE", "OTHER"]
+        },
+        {
+          "app": "Audit Dashboard",
+          "group": "ReportType",
+          "codes": ["FULL_REPORT", "FOLLOW_UP", "LETTER"]
+        },
+        {
+          "app": "OpenERA",
+          "group": "DocumentType",
+          "codes": ["proposal_narrative", "budget_justification", "biosketches", "facilities", "data_management_plan", "other_supplementary", "subcontract", "letter_of_support"]
+        }
+      ]
+    },
+    {
+      "concept": "Role Assignment",
+      "description": "Roles assigned to people within a workflow",
+      "occurrences": [
+        {
+          "app": "Audit Dashboard",
+          "group": "AssignmentRole",
+          "codes": ["IMPLEMENTER", "REVIEWER"]
+        },
+        {
+          "app": "OpenERA",
+          "group": "ProjectRole",
+          "codes": ["pi", "co_pi", "senior_personnel", "postdoc", "grad_student", "undergrad", "consultant", "other_professional", "administrative", "technician"]
+        }
+      ]
+    }
+  ]
+}

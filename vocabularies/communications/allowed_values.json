@@ -1,0 +1,105 @@
+{
+  "application": "UCM Daily Register",
+  "description": "Controlled vocabulary values for the UCM Daily Register newsletter production pipeline",
+  "version": "1.0.0",
+  "last_updated": "2026-02-28",
+  "value_groups": [
+    {
+      "Value_Group": "Submission_Category",
+      "description": "Type of content submitted to the newsletter",
+      "values": [
+        { "Code": "faculty_staff", "Label": "Faculty/Staff", "Display_Order": 1, "Description": "General faculty and staff announcements" },
+        { "Code": "student", "Label": "Student", "Display_Order": 2, "Description": "Student-focused announcements and information" },
+        { "Code": "job_opportunity", "Label": "Job Opportunity", "Display_Order": 3, "Description": "Employment and position listings" },
+        { "Code": "kudos", "Label": "Kudos", "Display_Order": 4, "Description": "Recognition and achievements" },
+        { "Code": "in_memoriam", "Label": "In Memoriam", "Display_Order": 5, "Description": "Memorial notices for community members" },
+        { "Code": "news_release", "Label": "News Release", "Display_Order": 6, "Description": "Official university news releases" },
+        { "Code": "calendar_event", "Label": "Calendar Event", "Display_Order": 7, "Description": "Upcoming events and calendar items" }
+      ]
+    },
+    {
+      "Value_Group": "Newsletter_Type",
+      "description": "Newsletter publications produced by UCM",
+      "values": [
+        { "Code": "tdr", "Label": "The Daily Register", "Display_Order": 1, "Description": "Faculty and staff newsletter" },
+        { "Code": "myui", "Label": "My UI", "Display_Order": 2, "Description": "Student newsletter" }
+      ]
+    },
+    {
+      "Value_Group": "Target_Newsletter",
+      "description": "Which newsletter(s) a submission is intended for",
+      "values": [
+        { "Code": "tdr", "Label": "TDR Only", "Display_Order": 1, "Description": "Publish only in The Daily Register" },
+        { "Code": "myui", "Label": "My UI Only", "Display_Order": 2, "Description": "Publish only in My UI" },
+        { "Code": "both", "Label": "Both", "Display_Order": 3, "Description": "Publish in both newsletters" }
+      ]
+    },
+    {
+      "Value_Group": "Submission_Status",
+      "description": "Lifecycle status of a newsletter submission",
+      "values": [
+        { "Code": "new", "Label": "New", "Display_Order": 1, "Description": "Newly received submission, not yet processed" },
+        { "Code": "ai_edited", "Label": "AI Edited", "Display_Order": 2, "Description": "Submission has been processed by the AI editing pipeline" },
+        { "Code": "in_review", "Label": "In Review", "Display_Order": 3, "Description": "Under editorial review by UCM staff" },
+        { "Code": "approved", "Label": "Approved", "Display_Order": 4, "Description": "Approved for publication" },
+        { "Code": "scheduled", "Label": "Scheduled", "Display_Order": 5, "Description": "Assigned to a specific newsletter edition" },
+        { "Code": "published", "Label": "Published", "Display_Order": 6, "Description": "Published in a newsletter edition" },
+        { "Code": "rejected", "Label": "Rejected", "Display_Order": 7, "Description": "Declined for publication" }
+      ]
+    },
+    {
+      "Value_Group": "Newsletter_Status",
+      "description": "Lifecycle status of a newsletter edition",
+      "values": [
+        { "Code": "draft", "Label": "Draft", "Display_Order": 1, "Description": "Edition is being assembled" },
+        { "Code": "in_progress", "Label": "In Progress", "Display_Order": 2, "Description": "Active editing and layout in progress" },
+        { "Code": "ready_for_review", "Label": "Ready for Review", "Display_Order": 3, "Description": "Edition is complete and awaiting final review" },
+        { "Code": "submitted", "Label": "Submitted", "Display_Order": 4, "Description": "Submitted for distribution" },
+        { "Code": "published", "Label": "Published", "Display_Order": 5, "Description": "Edition has been distributed" }
+      ]
+    },
+    {
+      "Value_Group": "Version_Type",
+      "description": "Type of content version in the editing pipeline",
+      "values": [
+        { "Code": "original", "Label": "Original", "Display_Order": 1, "Description": "Original submitted text" },
+        { "Code": "ai_suggested", "Label": "AI Suggested", "Display_Order": 2, "Description": "AI-generated edited version" },
+        { "Code": "editor_final", "Label": "Editor Final", "Display_Order": 3, "Description": "Final version after human editor review" }
+      ]
+    },
+    {
+      "Value_Group": "Headline_Case",
+      "description": "Capitalization style for headlines",
+      "values": [
+        { "Code": "sentence_case", "Label": "Sentence Case", "Display_Order": 1, "Description": "Only first word and proper nouns capitalized" },
+        { "Code": "title_case", "Label": "Title Case", "Display_Order": 2, "Description": "Major words capitalized" }
+      ]
+    },
+    {
+      "Value_Group": "Rule_Set",
+      "description": "Which newsletter(s) a style rule applies to",
+      "values": [
+        { "Code": "shared", "Label": "Shared", "Display_Order": 1, "Description": "Rule applies to both newsletters" },
+        { "Code": "tdr", "Label": "TDR", "Display_Order": 2, "Description": "Rule applies only to The Daily Register" },
+        { "Code": "myui", "Label": "My UI", "Display_Order": 3, "Description": "Rule applies only to My UI" }
+      ]
+    },
+    {
+      "Value_Group": "Severity",
+      "description": "Severity level for style rule violations",
+      "values": [
+        { "Code": "error", "Label": "Error", "Display_Order": 1, "Description": "Must be corrected before publication" },
+        { "Code": "warning", "Label": "Warning", "Display_Order": 2, "Description": "Should be reviewed but may be acceptable" },
+        { "Code": "info", "Label": "Info", "Display_Order": 3, "Description": "Informational suggestion only" }
+      ]
+    },
+    {
+      "Value_Group": "Schedule_Mode",
+      "description": "Publication schedule mode based on academic calendar",
+      "values": [
+        { "Code": "academic_year", "Label": "Academic Year", "Display_Order": 1, "Description": "Regular academic year schedule (daily)" },
+        { "Code": "summer", "Label": "Summer", "Display_Order": 2, "Description": "Summer schedule (reduced frequency)" }
+      ]
+    }
+  ]
+}

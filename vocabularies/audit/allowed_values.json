@@ -1,0 +1,88 @@
+{
+  "application": "Audit Dashboard",
+  "description": "Controlled vocabulary values for the internal audit management and tracking system",
+  "version": "1.0.0",
+  "last_updated": "2026-02-28",
+  "value_groups": [
+    {
+      "Value_Group": "ReportType",
+      "description": "Classification of audit report documents",
+      "values": [
+        { "Code": "FULL_REPORT", "Label": "Full Report", "Display_Order": 1, "Description": "Complete audit report with all findings and recommendations" },
+        { "Code": "FOLLOW_UP", "Label": "Follow-Up Report", "Display_Order": 2, "Description": "Report on status of previously identified observations" },
+        { "Code": "LETTER", "Label": "Letter Report", "Display_Order": 3, "Description": "Abbreviated report in letter format" }
+      ]
+    },
+    {
+      "Value_Group": "ObservationStatus",
+      "description": "Lifecycle status of an audit observation",
+      "values": [
+        { "Code": "OPEN", "Label": "Open", "Display_Order": 1, "Description": "Observation has been identified and is awaiting action" },
+        { "Code": "IN_PROGRESS", "Label": "In Progress", "Display_Order": 2, "Description": "Corrective action is underway" },
+        { "Code": "CLOSED", "Label": "Closed", "Display_Order": 3, "Description": "Observation has been fully resolved" },
+        { "Code": "CLOSED_FIRST_FOLLOWUP", "Label": "Closed at First Follow Up", "Display_Order": 4, "Description": "Observation resolved and verified at the first follow-up review" }
+      ]
+    },
+    {
+      "Value_Group": "ActionItemStatus",
+      "description": "Lifecycle status of a corrective action item",
+      "values": [
+        { "Code": "OPEN", "Label": "Open", "Display_Order": 1, "Description": "Action item has been created but work has not started" },
+        { "Code": "IN_PROGRESS", "Label": "In Progress", "Display_Order": 2, "Description": "Work on the action item is underway" },
+        { "Code": "COMPLETED", "Label": "Completed", "Display_Order": 3, "Description": "Action item has been fulfilled" },
+        { "Code": "OVERDUE", "Label": "Overdue", "Display_Order": 4, "Description": "Action item has passed its target completion date" },
+        { "Code": "CLOSED", "Label": "Closed", "Display_Order": 5, "Description": "Action item has been verified and closed" }
+      ]
+    },
+    {
+      "Value_Group": "Severity",
+      "description": "Severity level of an audit observation",
+      "values": [
+        { "Code": "HIGH", "Label": "High", "Display_Order": 1, "Description": "Significant risk requiring immediate attention" },
+        { "Code": "MEDIUM", "Label": "Medium", "Display_Order": 2, "Description": "Moderate risk requiring timely remediation" },
+        { "Code": "LOW", "Label": "Low", "Display_Order": 3, "Description": "Minor risk or process improvement opportunity" }
+      ]
+    },
+    {
+      "Value_Group": "AssignmentRole",
+      "description": "Roles assigned to personnel for audit action items",
+      "values": [
+        { "Code": "IMPLEMENTER", "Label": "Implementing Employee", "Display_Order": 1, "Description": "Person responsible for executing the corrective action" },
+        { "Code": "REVIEWER", "Label": "Reviewing Manager", "Display_Order": 2, "Description": "Manager responsible for verifying corrective action completion" }
+      ]
+    },
+    {
+      "Value_Group": "Priority",
+      "description": "Priority level for scheduling and resource allocation",
+      "values": [
+        { "Code": "HIGH", "Label": "High", "Display_Order": 1, "Description": "Requires immediate attention and resource allocation" },
+        { "Code": "MEDIUM", "Label": "Medium", "Display_Order": 2, "Description": "Standard priority for normal workflow" },
+        { "Code": "LOW", "Label": "Low", "Display_Order": 3, "Description": "Can be addressed as resources allow" }
+      ]
+    },
+    {
+      "Value_Group": "DocumentType",
+      "description": "Classification of documents associated with audits",
+      "values": [
+        { "Code": "SOURCE_PDF", "Label": "Source Audit PDF", "Display_Order": 1, "Description": "Original audit report PDF for data extraction" },
+        { "Code": "EVIDENCE", "Label": "Supporting Evidence", "Display_Order": 2, "Description": "Documentation supporting corrective action completion" },
+        { "Code": "CORRESPONDENCE", "Label": "Correspondence", "Display_Order": 3, "Description": "Communications related to audit findings" },
+        { "Code": "OTHER", "Label": "Other Document", "Display_Order": 4, "Description": "Other document types not otherwise classified" }
+      ]
+    },
+    {
+      "Value_Group": "ExtractionStatus",
+      "description": "Status of AI-assisted data extraction from audit documents",
+      "values": [
+        { "Code": "PENDING", "Label": "Pending", "Display_Order": 1, "Description": "Document uploaded but extraction has not started" },
+        { "Code": "OCR_IN_PROGRESS", "Label": "OCR In Progress", "Display_Order": 2, "Description": "Optical character recognition is running" },
+        { "Code": "OCR_COMPLETE", "Label": "OCR Complete", "Display_Order": 3, "Description": "OCR finished, text is available for LLM processing" },
+        { "Code": "LLM_IN_PROGRESS", "Label": "LLM In Progress", "Display_Order": 4, "Description": "Large language model is extracting structured data" },
+        { "Code": "REVIEW_PENDING", "Label": "Awaiting Human Review", "Display_Order": 5, "Description": "Extraction complete, awaiting human verification" },
+        { "Code": "APPROVED", "Label": "Approved", "Display_Order": 6, "Description": "Extracted data has been verified and approved" },
+        { "Code": "REJECTED", "Label": "Rejected", "Display_Order": 7, "Description": "Extracted data was rejected and requires re-processing" },
+        { "Code": "FAILED", "Label": "Failed", "Display_Order": 8, "Description": "Extraction process encountered an unrecoverable error" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,140 @@
+{
+  "application": "OpenERA",
+  "description": "Controlled vocabulary values for the OpenERA research administration platform",
+  "version": "1.0.0",
+  "last_updated": "2026-02-28",
+  "value_groups": [
+    {
+      "Value_Group": "ContactType",
+      "description": "Types of contact information for persons and organizations",
+      "values": [
+        { "Code": "phone", "Label": "Phone", "Display_Order": 1, "Description": "Telephone number" },
+        { "Code": "email", "Label": "Email", "Display_Order": 2, "Description": "Email address" },
+        { "Code": "fax", "Label": "Fax", "Display_Order": 3, "Description": "Fax number" },
+        { "Code": "url", "Label": "URL", "Display_Order": 4, "Description": "Web address" },
+        { "Code": "mailing_address", "Label": "Mailing Address", "Display_Order": 5, "Description": "Physical mailing address" }
+      ]
+    },
+    {
+      "Value_Group": "OrganizationType",
+      "description": "Classification of sponsoring and partner organizations",
+      "values": [
+        { "Code": "university", "Label": "University", "Display_Order": 1, "Description": "College or university institution" },
+        { "Code": "federal_agency", "Label": "Federal Agency", "Display_Order": 2, "Description": "United States federal government agency" },
+        { "Code": "state_agency", "Label": "State Agency", "Display_Order": 3, "Description": "State government agency" },
+        { "Code": "foundation", "Label": "Foundation", "Display_Order": 4, "Description": "Private or public foundation" },
+        { "Code": "corporation", "Label": "Corporation", "Display_Order": 5, "Description": "For-profit corporation or business entity" },
+        { "Code": "nonprofit", "Label": "Nonprofit", "Display_Order": 6, "Description": "Nonprofit organization" },
+        { "Code": "consortium", "Label": "Consortium", "Display_Order": 7, "Description": "Multi-institutional research consortium" },
+        { "Code": "laboratory", "Label": "Laboratory", "Display_Order": 8, "Description": "National or independent research laboratory" },
+        { "Code": "other", "Label": "Other", "Display_Order": 9, "Description": "Organization type not otherwise classified" }
+      ]
+    },
+    {
+      "Value_Group": "ProjectRole",
+      "description": "Roles of personnel on sponsored research projects",
+      "values": [
+        { "Code": "pi", "Label": "Principal Investigator", "Display_Order": 1, "Description": "Lead researcher responsible for the project" },
+        { "Code": "co_pi", "Label": "Co-Principal Investigator", "Display_Order": 2, "Description": "Co-lead researcher sharing project responsibility" },
+        { "Code": "senior_personnel", "Label": "Senior Personnel", "Display_Order": 3, "Description": "Senior researcher contributing significantly to the project" },
+        { "Code": "postdoc", "Label": "Postdoctoral Researcher", "Display_Order": 4, "Description": "Postdoctoral fellow or researcher" },
+        { "Code": "grad_student", "Label": "Graduate Student", "Display_Order": 5, "Description": "Graduate research assistant" },
+        { "Code": "undergrad", "Label": "Undergraduate Student", "Display_Order": 6, "Description": "Undergraduate research assistant" },
+        { "Code": "consultant", "Label": "Consultant", "Display_Order": 7, "Description": "External subject matter expert" },
+        { "Code": "other_professional", "Label": "Other Professional", "Display_Order": 8, "Description": "Professional staff contributing to the project" },
+        { "Code": "administrative", "Label": "Administrative", "Display_Order": 9, "Description": "Administrative support personnel" },
+        { "Code": "technician", "Label": "Technician", "Display_Order": 10, "Description": "Technical support personnel" }
+      ]
+    },
+    {
+      "Value_Group": "ProposalStatus",
+      "description": "Lifecycle status of a grant proposal through the review and submission process",
+      "values": [
+        { "Code": "draft", "Label": "Draft", "Display_Order": 1, "Description": "Proposal is being prepared by the PI" },
+        { "Code": "department_review", "Label": "Department Review", "Display_Order": 2, "Description": "Under review by the department chair or head" },
+        { "Code": "college_review", "Label": "College Review", "Display_Order": 3, "Description": "Under review by the college dean or designee" },
+        { "Code": "osp_review", "Label": "OSP Review", "Display_Order": 4, "Description": "Under review by the Office of Sponsored Programs" },
+        { "Code": "submitted", "Label": "Submitted", "Display_Order": 5, "Description": "Proposal has been submitted to the sponsor" },
+        { "Code": "awarded", "Label": "Awarded", "Display_Order": 6, "Description": "Proposal has been funded by the sponsor" },
+        { "Code": "declined", "Label": "Declined", "Display_Order": 7, "Description": "Proposal was not selected for funding" },
+        { "Code": "withdrawn", "Label": "Withdrawn", "Display_Order": 8, "Description": "Proposal was withdrawn before or after submission" }
+      ]
+    },
+    {
+      "Value_Group": "AccountType",
+      "description": "Budget account categories for sponsored project financial management",
+      "values": [
+        { "Code": "salary", "Label": "Salary", "Display_Order": 1, "Description": "Personnel salary and wages" },
+        { "Code": "fringe", "Label": "Fringe Benefits", "Display_Order": 2, "Description": "Employee fringe benefit costs" },
+        { "Code": "equipment", "Label": "Equipment", "Display_Order": 3, "Description": "Capital equipment purchases" },
+        { "Code": "travel", "Label": "Travel", "Display_Order": 4, "Description": "Domestic and international travel costs" },
+        { "Code": "participant_support", "Label": "Participant Support", "Display_Order": 5, "Description": "Stipends, travel, and subsistence for project participants" },
+        { "Code": "other_direct", "Label": "Other Direct Costs", "Display_Order": 6, "Description": "Direct costs not classified elsewhere" },
+        { "Code": "indirect", "Label": "Indirect Costs", "Display_Order": 7, "Description": "Facilities and administrative (F&A) costs" },
+        { "Code": "subaward", "Label": "Subaward", "Display_Order": 8, "Description": "Subcontract or subaward to another institution" },
+        { "Code": "materials_supplies", "Label": "Materials and Supplies", "Display_Order": 9, "Description": "Consumable materials and supplies" },
+        { "Code": "publication", "Label": "Publication", "Display_Order": 10, "Description": "Publication and dissemination costs" },
+        { "Code": "consultant", "Label": "Consultant", "Display_Order": 11, "Description": "External consultant services" },
+        { "Code": "tuition", "Label": "Tuition", "Display_Order": 12, "Description": "Graduate student tuition remission" }
+      ]
+    },
+    {
+      "Value_Group": "ComplianceType",
+      "description": "Types of regulatory compliance requirements for sponsored research",
+      "values": [
+        { "Code": "irb", "Label": "Human Subjects", "Display_Order": 1, "Description": "Institutional Review Board approval for human subjects research" },
+        { "Code": "iacuc", "Label": "Animal Subjects", "Display_Order": 2, "Description": "Institutional Animal Care and Use Committee approval" },
+        { "Code": "ibc", "Label": "Biosafety", "Display_Order": 3, "Description": "Institutional Biosafety Committee approval for biohazards" },
+        { "Code": "export_control", "Label": "Export Control", "Display_Order": 4, "Description": "Export control review for restricted technologies or data" },
+        { "Code": "conflict_of_interest", "Label": "Conflict of Interest", "Display_Order": 5, "Description": "Financial conflict of interest disclosure and management" },
+        { "Code": "responsible_conduct", "Label": "Responsible Conduct", "Display_Order": 6, "Description": "Responsible conduct of research training requirements" },
+        { "Code": "data_management", "Label": "Data Management", "Display_Order": 7, "Description": "Data management and sharing plan requirements" }
+      ]
+    },
+    {
+      "Value_Group": "DocumentType",
+      "description": "Types of documents included in a proposal submission package",
+      "values": [
+        { "Code": "proposal_narrative", "Label": "Proposal Narrative", "Display_Order": 1, "Description": "Main proposal document describing the research plan" },
+        { "Code": "budget_justification", "Label": "Budget Justification", "Display_Order": 2, "Description": "Narrative justification for each budget category" },
+        { "Code": "biosketches", "Label": "Biosketches", "Display_Order": 3, "Description": "Biographical sketches of key personnel" },
+        { "Code": "facilities", "Label": "Facilities", "Display_Order": 4, "Description": "Description of facilities, equipment, and resources" },
+        { "Code": "data_management_plan", "Label": "Data Management Plan", "Display_Order": 5, "Description": "Plan for managing and sharing research data" },
+        { "Code": "other_supplementary", "Label": "Other Supplementary", "Display_Order": 6, "Description": "Additional supplementary documents" },
+        { "Code": "subcontract", "Label": "Subcontract", "Display_Order": 7, "Description": "Subaward or subcontract documentation" },
+        { "Code": "letter_of_support", "Label": "Letter of Support", "Display_Order": 8, "Description": "Letters of support or commitment from collaborators" }
+      ]
+    },
+    {
+      "Value_Group": "ApprovalStatus",
+      "description": "Status of internal routing approvals",
+      "values": [
+        { "Code": "pending", "Label": "Pending", "Display_Order": 1, "Description": "Approval request is awaiting review" },
+        { "Code": "approved", "Label": "Approved", "Display_Order": 2, "Description": "Request has been approved" },
+        { "Code": "returned", "Label": "Returned", "Display_Order": 3, "Description": "Request has been returned for revision" },
+        { "Code": "not_required", "Label": "Not Required", "Display_Order": 4, "Description": "Approval is not required for this item" }
+      ]
+    },
+    {
+      "Value_Group": "FundType",
+      "description": "Source classification for sponsored funding",
+      "values": [
+        { "Code": "federal", "Label": "Federal", "Display_Order": 1, "Description": "United States federal government funding" },
+        { "Code": "state", "Label": "State", "Display_Order": 2, "Description": "State government funding" },
+        { "Code": "private", "Label": "Private", "Display_Order": 3, "Description": "Private foundation or corporate funding" },
+        { "Code": "internal", "Label": "Internal", "Display_Order": 4, "Description": "University internal funding programs" },
+        { "Code": "other", "Label": "Other", "Display_Order": 5, "Description": "Funding source not otherwise classified" }
+      ]
+    },
+    {
+      "Value_Group": "RateType",
+      "description": "Indirect cost rate calculation bases",
+      "values": [
+        { "Code": "mtdc", "Label": "Modified Total Direct Cost", "Display_Order": 1, "Description": "Standard federal indirect cost rate base excluding equipment, patient care, and subaward amounts over $25K" },
+        { "Code": "tdc", "Label": "Total Direct Cost", "Display_Order": 2, "Description": "Indirect cost rate applied to all direct costs" },
+        { "Code": "salary_wages", "Label": "Salary and Wages", "Display_Order": 3, "Description": "Indirect cost rate applied only to salary and wage base" },
+        { "Code": "other", "Label": "Other", "Display_Order": 4, "Description": "Custom or sponsor-specified rate base" }
+      ]
+    }
+  ]
+}

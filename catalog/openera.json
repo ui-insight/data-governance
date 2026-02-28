@@ -1,0 +1,659 @@
+{
+  "application": "OpenERA",
+  "repository": "https://github.com/ui-insight/OpenERA",
+  "domain": "Research Administration",
+  "tech_stack": {
+    "backend": "FastAPI + SQLAlchemy 2.0",
+    "frontend": "React + TypeScript + Tailwind CSS",
+    "database": "SQLite (dev) / PostgreSQL 16 (prod)"
+  },
+  "table_count": 28,
+  "tables": [
+    {
+      "table_name": "AllowedValues",
+      "model_class": "AllowedValue",
+      "description": "Reference data table for controlled vocabularies (pick lists) grouped by Allowed_Value_Group",
+      "columns": [
+        {"name": "Allowed_Value_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Allowed_Value_Group", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Allowed_Value_Code", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Allowed_Value_Label", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Allowed_Value_Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["Allowed_Value_Group", "Allowed_Value_Code"]],
+      "relationships": []
+    },
+    {
+      "table_name": "Organization",
+      "model_class": "Organization",
+      "description": "Self-referential hierarchy of organizations: universities, colleges, departments, sponsors, and subawardees",
+      "columns": [
+        {"name": "Organization_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Organization_Name", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Organization_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Parent_Organization_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "UEI", "type": "String(12)", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "parent", "target": "Organization", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "Personnel",
+      "model_class": "Personnel",
+      "description": "Individuals involved in sponsored research with salary, appointment, and eligibility details",
+      "columns": [
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "ORCID", "type": "String(19)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "First_Name", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Last_Name", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Middle_Name", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Institutional_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Primary_Email", "type": "String(320)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Person_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Department_Organization_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "Base_Salary", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Salary_Basis", "type": "String(20)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Salary_Effective_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Appointment_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Faculty_Rank", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Non_US_Person", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Terminal_Degree_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Terminal_Degree_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["ORCID"], ["Institutional_ID"]],
+      "relationships": [
+        {"name": "department", "target": "Organization", "type": "many_to_one"},
+        {"name": "compliance_records", "target": "PersonnelComplianceRecord", "type": "one_to_many"}
+      ]
+    },
+    {
+      "table_name": "ContactDetails",
+      "model_class": "ContactDetails",
+      "description": "Polymorphic contact information (phone, email, fax, address) for personnel or organizations",
+      "columns": [
+        {"name": "ContactDetails_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Organization_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "AllowedValue_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "AllowedValues.Allowed_Value_ID"},
+        {"name": "ContactDetails_Value", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "Project",
+      "model_class": "Project",
+      "description": "Funded research projects (post-award) with self-referential hierarchy for multi-component awards",
+      "columns": [
+        {"name": "Project_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Project_Title", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Acronym", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Parent_Project_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Project.Project_ID"},
+        {"name": "Project_Type_Value_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "AllowedValues.Allowed_Value_ID"},
+        {"name": "Abstract", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Start_Date", "type": "Date", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "End_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Lead_Organization_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "Project_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "lead_organization", "target": "Organization", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "Proposal",
+      "model_class": "Proposal",
+      "description": "Central entity representing a sponsored-research funding request with full lifecycle tracking",
+      "columns": [
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Proposal_Number", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Proposal_Title", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Project_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Project.Project_ID"},
+        {"name": "Sponsor_Organization_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "Submitting_Organization_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "Administering_Organization_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "RFA_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "RFA.RFA_ID"},
+        {"name": "Previous_Proposal_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "Submission_Version", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Proposed_Start_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Proposed_End_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Total_Proposed_Direct", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Total_Proposed_Indirect", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Total_Proposed_Budget", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Submission_Deadline", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Submission_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Internal_Approval_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Decision_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Decision_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "PAF_Routing_Status", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Proposal_Category", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Proposal_Action_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Project_Type_Code", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Agreement_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Campus_Type", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Campus_Location", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Sponsor_Regulatory_Flags", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "NSF_Off_Campus_Flag", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "CHIPS_Act_Foreign_Cert", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "SFI_Disclosure_Required", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "RCR_Training_Certified", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Export_Control_Flags", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Publication_Restrictions", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Potential_New_IP", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Uses_Existing_UI_IP", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Tribal_Collaboration", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Institutional_LOC_Required", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Capital_Equipment_Over_50K", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "CAES_Lab_Space", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Space_Renovation", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Research_Institute_Affiliations", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Multi_College_FA_Split", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "FA_Split_Details", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "FA_Split_Rationale", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["Proposal_Number"]],
+      "relationships": [
+        {"name": "sponsor", "target": "Organization", "type": "many_to_one"},
+        {"name": "submitting_org", "target": "Organization", "type": "many_to_one"},
+        {"name": "administering_org", "target": "Organization", "type": "many_to_one"},
+        {"name": "rfa", "target": "RFA", "type": "many_to_one"},
+        {"name": "project", "target": "Project", "type": "many_to_one"},
+        {"name": "budget_items", "target": "ProposalBudget", "type": "one_to_many"},
+        {"name": "approval_steps", "target": "ApprovalStep", "type": "one_to_many"},
+        {"name": "team_roles", "target": "ProjectRole", "type": "one_to_many"},
+        {"name": "compliance_requirements", "target": "ComplianceRequirement", "type": "one_to_many"},
+        {"name": "conflicts_of_interest", "target": "ConflictOfInterest", "type": "one_to_many"},
+        {"name": "checklist_items", "target": "ProposalChecklistItem", "type": "one_to_many"}
+      ]
+    },
+    {
+      "table_name": "ProposalBudget",
+      "model_class": "ProposalBudget",
+      "description": "Itemized budget line items for a proposal organized by period number and cost category",
+      "columns": [
+        {"name": "ProposalBudget_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "Period_Number", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "BudgetCategory_ID", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": "BudgetCategory.BudgetCategory_ID"},
+        {"name": "Line_Item_Description", "type": "String(500)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Direct_Cost", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Indirect_Cost", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Total_Cost", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Quantity", "type": "Numeric(10,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Unit_Cost", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Applied_Indirect_Rate_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "IndirectRate.IndirectRate_ID"},
+        {"name": "Rate_Base_Used", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Version_No", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["Proposal_ID", "Period_Number", "BudgetCategory_ID", "Line_Item_Description"]],
+      "relationships": [
+        {"name": "proposal", "target": "Proposal", "type": "many_to_one"},
+        {"name": "category", "target": "BudgetCategory", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "BudgetCategory",
+      "model_class": "BudgetCategory",
+      "description": "Standard NSF-style MTDC budget categories (Senior Personnel, Equipment, Travel, etc.)",
+      "columns": [
+        {"name": "BudgetCategory_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Category_Code", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Category_Name", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Category_Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["Category_Code"]],
+      "relationships": []
+    },
+    {
+      "table_name": "IndirectRate",
+      "model_class": "IndirectRate",
+      "description": "Negotiated F&A (Facilities & Administrative) indirect cost rates for organizations",
+      "columns": [
+        {"name": "IndirectRate_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Organization_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "Rate_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Rate_Percentage", "type": "Numeric(5,2)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Effective_Start_Date", "type": "Date", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Effective_End_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Base_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Negotiated_Agreement_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "ProjectRole",
+      "model_class": "ProjectRole",
+      "description": "Links personnel to proposals and projects with a role (PI, Co-PI, Senior Personnel, etc.)",
+      "columns": [
+        {"name": "ProjectRole_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Project_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Project.Project_ID"},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Role_Value_ID", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": "AllowedValues.Allowed_Value_ID"},
+        {"name": "Is_Key_Personnel", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Funding_Award_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Start_Date", "type": "Date", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "End_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "FTE_Percent", "type": "Numeric(5,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Salary_Charged", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_TBD", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "TBD_Label", "type": "String(200)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Default_Salary", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Default_Salary_Basis", "type": "String(20)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Role_Override_Requested", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "project", "target": "Project", "type": "many_to_one"},
+        {"name": "personnel", "target": "Personnel", "type": "many_to_one"},
+        {"name": "role_value", "target": "AllowedValue", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "RFA",
+      "model_class": "RFA",
+      "description": "Request for Applications (funding opportunity announcements) from sponsors with deadlines and constraints",
+      "columns": [
+        {"name": "RFA_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Sponsor_Organization_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "RFA_Number", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "RFA_Title", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Program_Code", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Announcement_URL", "type": "String(1000)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Opportunity_Number", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "CFDA_Number", "type": "String(20)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Submission_Deadline", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "LOI_Deadline", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Preproposal_Deadline", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Announcement_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Funding_Floor", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Funding_Ceiling", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Expected_Awards", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Max_Duration_Months", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Submission_Method", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "RFA_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "sponsor", "target": "Organization", "type": "many_to_one"},
+        {"name": "requirements", "target": "RFARequirement", "type": "one_to_many"}
+      ]
+    },
+    {
+      "table_name": "RFARequirement",
+      "model_class": "RFARequirement",
+      "description": "Structured requirements extracted from funding announcements (documents, formatting, eligibility, etc.)",
+      "columns": [
+        {"name": "RFARequirement_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "RFA_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "RFA.RFA_ID"},
+        {"name": "Requirement_Category", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Requirement_Code", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Requirement_Label", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Page_Limit", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Format_Spec", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Required", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Sort_Order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Source_Section", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Structured_Rule_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["RFA_ID", "Requirement_Category", "Requirement_Code"]],
+      "relationships": [
+        {"name": "rfa", "target": "RFA", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "ComplianceRequirement",
+      "model_class": "ComplianceRequirement",
+      "description": "Regulatory compliance protocols (IRB, IACUC, IBC, Radiation Safety) required for proposals or projects",
+      "columns": [
+        {"name": "ComplianceRequirement_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Requirement_Number", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Requirement_Title", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Requirement_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Project_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Project.Project_ID"},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "Review_Type", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Initial_Approval_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Expiration_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Requirement_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Principal_Investigator_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Approval_Body", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Risk_Level", "type": "String(20)", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["Requirement_Number"]],
+      "relationships": [
+        {"name": "pi", "target": "Personnel", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "ConflictOfInterest",
+      "model_class": "ConflictOfInterest",
+      "description": "Significant Financial Interest disclosures for proposal team members per federal COI regulations",
+      "columns": [
+        {"name": "ConflictOfInterest_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Project_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Project.Project_ID"},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "Award_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Disclosure_Date", "type": "Date", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Relationship_Type_Value_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "AllowedValues.Allowed_Value_ID"},
+        {"name": "Entity_Name", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Financial_Interest_Amount", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Relationship_Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Management_Plan", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "ConflictOfInterest_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Review_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Reviewed_By_Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "personnel", "target": "Personnel", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "Document",
+      "model_class": "Document",
+      "description": "Polymorphic file attachment metadata for proposals, RFAs, personnel, projects, and organizations",
+      "columns": [
+        {"name": "Document_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Document_Type_Value_ID", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": "AllowedValues.Allowed_Value_ID"},
+        {"name": "Related_Entity_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Related_Entity_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "File_Name", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Storage_Location", "type": "String(500)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "File_Size_Bytes", "type": "BigInteger", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "MIME_Type", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "File_Hash", "type": "String(128)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Version_Number", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "DocumentReviewFinding",
+      "model_class": "DocumentReviewFinding",
+      "description": "Auto-evaluated findings from the document review engine checking completeness, personnel match, and consistency",
+      "columns": [
+        {"name": "Finding_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "Document_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "Document.Document_ID"},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Check_Category", "type": "String(30)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Check_Code", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Severity", "type": "String(10)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Message", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Details", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_AI_Generated", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Can_Override", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Acknowledged", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Acknowledged_By_Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Acknowledged_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Acknowledge_Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "proposal", "target": "Proposal", "type": "many_to_one"},
+        {"name": "document", "target": "Document", "type": "many_to_one"},
+        {"name": "personnel", "target": "Personnel", "type": "many_to_one"},
+        {"name": "acknowledged_by", "target": "Personnel", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "PersonnelReviewFinding",
+      "model_class": "PersonnelReviewFinding",
+      "description": "Auto-evaluated findings from the personnel review engine checking eligibility, compliance, and team composition",
+      "columns": [
+        {"name": "Finding_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Check_Category", "type": "String(30)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Check_Code", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Severity", "type": "String(10)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Message", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Details", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Can_Override", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Acknowledged", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Acknowledged_By_Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Acknowledged_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Acknowledge_Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "proposal", "target": "Proposal", "type": "many_to_one"},
+        {"name": "personnel", "target": "Personnel", "type": "many_to_one"},
+        {"name": "acknowledged_by", "target": "Personnel", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "approval_steps",
+      "model_class": "ApprovalStep",
+      "description": "Steps in the institutional approval workflow chain (Dept Head, Dean, ORED) for proposal routing",
+      "columns": [
+        {"name": "id", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "proposal_id", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "step_order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "step_name", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "assignee_id", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "action_date", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "comments", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "proposal", "target": "Proposal", "type": "many_to_one"},
+        {"name": "assignee", "target": "Personnel", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "ActivityLog",
+      "model_class": "ActivityLog",
+      "description": "Audit trail recording create, update, and delete operations with before/after JSON snapshots",
+      "columns": [
+        {"name": "Activity_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Table_Name", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Record_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Action_Type", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Action_Timestamp", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "User_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Old_Values", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "New_Values", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "IP_Address", "type": "String(45)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Session_ID", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "users",
+      "model_class": "User",
+      "description": "Application user accounts for authentication with role-based access control (admin, ored, dept_head, pi)",
+      "columns": [
+        {"name": "id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "username", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "hashed_password", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "personnel_id", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "role", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "is_active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["username"]],
+      "relationships": [
+        {"name": "personnel", "target": "Personnel", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "llm_endpoints",
+      "model_class": "LLMEndpoint",
+      "description": "Configuration for external AI/LLM service endpoints with provider type and activation status",
+      "columns": [
+        {"name": "id", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "name", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "endpoint_url", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "api_key_env_var", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "model_name", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "provider_type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "is_active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "endpoint_kind", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "purpose", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["name"]],
+      "relationships": []
+    },
+    {
+      "table_name": "ai_workflow_mappings",
+      "model_class": "AIWorkflowMapping",
+      "description": "Maps AI workflow tasks to specific LLM/extraction endpoints for dynamic provider routing",
+      "columns": [
+        {"name": "id", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "workflow_task", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "llm_endpoint_id", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "llm_endpoints.id"}
+      ],
+      "unique_constraints": [["workflow_task"]],
+      "relationships": [
+        {"name": "llm_endpoint", "target": "LLMEndpoint", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "DataDictionary",
+      "model_class": "DataDictionary",
+      "description": "Metadata governance catalog describing tables, columns, and views with PII flags and data classification",
+      "columns": [
+        {"name": "DataDictionary_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Entity", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Entity_Type", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Parent_Entity", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Synonyms", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "PII_Flag", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Data_Classification", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Updated_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [["Entity", "Entity_Type", "Parent_Entity"]],
+      "relationships": []
+    },
+    {
+      "table_name": "ProposalChecklistItem",
+      "model_class": "ProposalChecklistItem",
+      "description": "Per-proposal preparation checklist items generated from RFA requirements with status tracking",
+      "columns": [
+        {"name": "ChecklistItem_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "RFARequirement_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "RFARequirement.RFARequirement_ID"},
+        {"name": "Requirement_Category", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Requirement_Code", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Label", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Page_Limit", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Format_Spec", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Required", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Sort_Order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Assignee_Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Completed_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Document_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "Document.Document_ID"}
+      ],
+      "unique_constraints": [["Proposal_ID", "Requirement_Category", "Requirement_Code"]],
+      "relationships": [
+        {"name": "proposal", "target": "Proposal", "type": "many_to_one"},
+        {"name": "source_requirement", "target": "RFARequirement", "type": "many_to_one"},
+        {"name": "assignee", "target": "Personnel", "type": "many_to_one"},
+        {"name": "document", "target": "Document", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "EligibilityOverride",
+      "model_class": "EligibilityOverride",
+      "description": "VPR eligibility override requests for personnel who need special approval for PI/Co-PI roles per APM 45.22",
+      "columns": [
+        {"name": "Override_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Proposal_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Proposal.Proposal_ID"},
+        {"name": "APM_Category", "type": "String(10)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Requested_Role", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Request_Date", "type": "Date", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Requested_By_Personnel_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Status", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Decision_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Decided_By_Personnel_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Justification", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Decision_Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "personnel", "target": "Personnel", "type": "many_to_one"},
+        {"name": "requested_by", "target": "Personnel", "type": "many_to_one"},
+        {"name": "decided_by", "target": "Personnel", "type": "many_to_one"},
+        {"name": "proposal", "target": "Proposal", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "PersonnelComplianceRecord",
+      "model_class": "PersonnelComplianceRecord",
+      "description": "Per-person compliance records for SFI disclosures, MFTRP training, and Research Security Training",
+      "columns": [
+        {"name": "Record_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Personnel_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Personnel.Personnel_ID"},
+        {"name": "Compliance_Type", "type": "String(30)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Status", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Completion_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Expiration_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "personnel", "target": "Personnel", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "SponsorCompliancePolicy",
+      "model_class": "SponsorCompliancePolicy",
+      "description": "Sponsor-specific MFTRP and Research Security Training policies defining covered individual rules",
+      "columns": [
+        {"name": "Policy_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Sponsor_Organization_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "Policy_Label", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Covered_Individual_Rule", "type": "String(30)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Covered_Individual_Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "FTE_Threshold_Percent", "type": "Numeric(5,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "MFTRP_Required", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "RST_Required", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "RST_Effective_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "sponsor", "target": "Organization", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "SponsorEligibilityRule",
+      "model_class": "SponsorEligibilityRule",
+      "description": "Sponsor-level PI/Co-PI eligibility rules for degree requirements, citizenship, early career, and role limits",
+      "columns": [
+        {"name": "Rule_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Sponsor_Organization_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Organization.Organization_ID"},
+        {"name": "Rule_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Rule_Label", "type": "String(200)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Applies_To_Role", "type": "String(30)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Degree_Types", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Max_Years_Since_Degree", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "sponsor", "target": "Organization", "type": "many_to_one"}
+      ]
+    }
+  ]
+}

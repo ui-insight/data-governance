@@ -1,0 +1,69 @@
+site_name: UI Insight Data Governance
+site_description: Institutional data governance documentation for the University of Idaho UI Insight application portfolio
+site_url: https://ui-insight.github.io/data-governance
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: custom
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: custom
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.indexes
+    - toc.integrate
+    - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Adopted Standard:
+    - Naming Conventions: standard/naming-conventions.md
+    - AllowedValue Pattern: standard/allowed-values.md
+    - Design Patterns: standard/design-patterns.md
+    - Upstream (AI4RA-UDM): standard/upstream.md
+  - Domain Models:
+    - Research Administration: domains/research-admin.md
+    - Communications: domains/communications.md
+    - Internal Audit: domains/audit.md
+    - Strategic Planning: domains/strategic-planning.md
+  - Vocabulary Registry:
+    - Overview: vocabulary/index.md
+    - Shared Patterns: vocabulary/shared-patterns.md
+    - By Domain: vocabulary/by-domain.md
+  - Application Portfolio:
+    - Architecture: portfolio/architecture.md
+    - Applications: portfolio/applications.md
+  - Governance:
+    - Extension Protocol: governance/extension-protocol.md
+    - Review Process: governance/review-process.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets

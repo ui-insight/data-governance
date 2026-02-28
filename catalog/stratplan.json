@@ -1,0 +1,95 @@
+{
+  "application": "StratPlan Tactics Dashboard",
+  "repository": "https://github.com/ui-insight/StratPlanTacticsMB",
+  "domain": "Strategic Planning",
+  "tech_stack": {
+    "backend": "FastAPI",
+    "frontend": "React + JSX + Custom CSS",
+    "database": "None (static JSON)"
+  },
+  "data_source": "strategic_plan_data.json",
+  "entity_count": 6,
+  "entities": [
+    {
+      "name": "Pillar",
+      "description": "Top-level strategic goal",
+      "count": 5,
+      "fields": [
+        {"name": "code", "type": "string"},
+        {"name": "name", "type": "string"},
+        {"name": "priorities", "type": "dict<string,string>"}
+      ]
+    },
+    {
+      "name": "Priority",
+      "description": "Sub-goal within a pillar",
+      "count": 20,
+      "fields": [
+        {"name": "code", "type": "string (e.g. A.1)"},
+        {"name": "description", "type": "string"}
+      ],
+      "parent": "Pillar"
+    },
+    {
+      "name": "Unit",
+      "description": "University organizational unit",
+      "count": 25,
+      "fields": [
+        {"name": "unit_name", "type": "string"},
+        {"name": "source_files", "type": "array<string>"},
+        {"name": "alignment_metadata", "type": "AlignmentMetadata"}
+      ]
+    },
+    {
+      "name": "Tactic",
+      "description": "Specific action aligned to a priority",
+      "count": 385,
+      "fields": [
+        {"name": "id", "type": "integer"},
+        {"name": "tactic_text", "type": "string"},
+        {"name": "pillar", "type": "string"},
+        {"name": "priority_code", "type": "string"},
+        {"name": "metrics", "type": "array<string>"},
+        {"name": "timeline", "type": "string"},
+        {"name": "status", "type": "string"},
+        {"name": "funding_source", "type": "string nullable"},
+        {"name": "fy_budget_range", "type": "string nullable"},
+        {"name": "roi_type", "type": "string nullable"},
+        {"name": "priority_codes", "type": "array<PriorityCodeMapping>"}
+      ],
+      "parent": "Unit"
+    },
+    {
+      "name": "PriorityCodeMapping",
+      "description": "Junction between tactic and priority with confidence",
+      "fields": [
+        {"name": "code", "type": "string"},
+        {"name": "confidence", "type": "string"},
+        {"name": "source", "type": "string"}
+      ],
+      "parent": "Tactic"
+    },
+    {
+      "name": "SPIGPAward",
+      "description": "Strategic plan implementation grant",
+      "count": 3,
+      "fields": [
+        {"name": "award_id", "type": "string"},
+        {"name": "lead_pi", "type": "string"},
+        {"name": "lead_unit", "type": "string"},
+        {"name": "pillar", "type": "string"},
+        {"name": "total_award", "type": "integer"},
+        {"name": "status", "type": "string"},
+        {"name": "linked_tactic_ids", "type": "array<integer>"}
+      ]
+    }
+  ],
+  "controlled_vocabularies": {
+    "pillar_codes": ["A", "B", "C", "D", "E"],
+    "tactic_status": ["planned"],
+    "alignment_level": ["pillar_only", "mixed", "explicit_subpillar"],
+    "confidence": ["explicit", "inferred", "pillar_only"],
+    "roi_type": ["efficiency", "retention", "revenue"],
+    "spigp_award_status": ["in_progress", "delayed_at_risk", "completed"]
+  }
+}

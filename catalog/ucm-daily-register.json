@@ -1,0 +1,206 @@
+{
+  "application": "UCM Daily Register",
+  "repository": "https://github.com/ui-insight/UCMDailyRegister",
+  "domain": "Communications",
+  "tech_stack": {
+    "backend": "FastAPI + SQLAlchemy 2.0",
+    "frontend": "React + TypeScript + Tailwind CSS",
+    "database": "SQLite (dev) / PostgreSQL 16 (prod)"
+  },
+  "table_count": 10,
+  "tables": [
+    {
+      "table_name": "allowed_values",
+      "model_class": "AllowedValue",
+      "description": "Controlled vocabulary entries for all categorical fields across the application",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Value_Group", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Code", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Label", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Display_Order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [
+        {"name": "uq_allowed_value_group_code", "columns": ["Value_Group", "Code"]}
+      ],
+      "relationships": []
+    },
+    {
+      "table_name": "submissions",
+      "model_class": "Submission",
+      "description": "Content submissions from university departments for newsletter publication",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Category", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Target_Newsletter", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Original_Headline", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Original_Body", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Submitter_Name", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Submitter_Email", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Submitter_Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Has_Image", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Image_Path", "type": "String(512)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Updated_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "Links", "target": "SubmissionLink", "type": "one-to-many", "cascade": "all, delete-orphan"},
+        {"name": "Schedule_Requests", "target": "SubmissionScheduleRequest", "type": "one-to-many", "cascade": "all, delete-orphan"},
+        {"name": "Edit_Versions", "target": "EditVersion", "type": "one-to-many", "cascade": "all, delete-orphan"}
+      ]
+    },
+    {
+      "table_name": "submission_links",
+      "model_class": "SubmissionLink",
+      "description": "Hyperlinks associated with a submission for embedding in the published newsletter item",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Submission_Id", "type": "String(36)", "nullable": false, "primary_key": false, "foreign_key": "submissions.Id"},
+        {"name": "Url", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Anchor_Text", "type": "String(500)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Display_Order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "Submission_Rel", "target": "Submission", "type": "many-to-one"}
+      ]
+    },
+    {
+      "table_name": "submission_schedule_requests",
+      "model_class": "SubmissionScheduleRequest",
+      "description": "Preferred publication dates and repeat-run preferences for a submission",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Submission_Id", "type": "String(36)", "nullable": false, "primary_key": false, "foreign_key": "submissions.Id"},
+        {"name": "Requested_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Repeat_Count", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Repeat_Note", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "Submission_Rel", "target": "Submission", "type": "many-to-one"}
+      ]
+    },
+    {
+      "table_name": "edit_versions",
+      "model_class": "EditVersion",
+      "description": "Immutable snapshots of a submission's headline and body at each editing stage",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Submission_Id", "type": "String(36)", "nullable": false, "primary_key": false, "foreign_key": "submissions.Id"},
+        {"name": "Version_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Headline", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Body", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Headline_Case", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Flags", "type": "JSON", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Changes_Made", "type": "JSON", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "AI_Provider", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "AI_Model", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "Submission_Rel", "target": "Submission", "type": "many-to-one"}
+      ]
+    },
+    {
+      "table_name": "newsletters",
+      "model_class": "Newsletter",
+      "description": "A dated edition of a UCM newsletter (The Daily Register or My UI)",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Newsletter_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Publish_Date", "type": "Date", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Updated_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [
+        {"name": "uq_newsletter_type_date", "columns": ["Newsletter_Type", "Publish_Date"]}
+      ],
+      "relationships": [
+        {"name": "Items", "target": "NewsletterItem", "type": "one-to-many", "cascade": "all, delete-orphan"}
+      ]
+    },
+    {
+      "table_name": "newsletter_items",
+      "model_class": "NewsletterItem",
+      "description": "A submission placed into a specific section and position within a newsletter edition",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Newsletter_Id", "type": "String(36)", "nullable": false, "primary_key": false, "foreign_key": "newsletters.Id"},
+        {"name": "Submission_Id", "type": "String(36)", "nullable": false, "primary_key": false, "foreign_key": "submissions.Id"},
+        {"name": "Section_Id", "type": "String(36)", "nullable": false, "primary_key": false, "foreign_key": "newsletter_sections.Id"},
+        {"name": "Position", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Final_Headline", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Final_Body", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Run_Number", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "Newsletter_Rel", "target": "Newsletter", "type": "many-to-one"},
+        {"name": "Submission_Rel", "target": "Submission", "type": "many-to-one"},
+        {"name": "Section_Rel", "target": "NewsletterSection", "type": "many-to-one"}
+      ]
+    },
+    {
+      "table_name": "newsletter_sections",
+      "model_class": "NewsletterSection",
+      "description": "Section definitions that organize content within each newsletter type",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Newsletter_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Name", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Slug", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Display_Order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Requires_Image", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Image_Dimensions", "type": "String(20)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [
+        {"name": "uq_section_type_slug", "columns": ["Newsletter_Type", "Slug"]}
+      ],
+      "relationships": []
+    },
+    {
+      "table_name": "style_rules",
+      "model_class": "StyleRule",
+      "description": "Writing-style rules enforced by the AI editing pipeline when revising submissions",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Rule_Set", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Category", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Rule_Key", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Rule_Text", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Severity", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "schedule_configs",
+      "model_class": "ScheduleConfig",
+      "description": "Publication cadence and submission deadline rules for each newsletter type and schedule mode",
+      "columns": [
+        {"name": "Id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Newsletter_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Mode", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Submission_Deadline_Description", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Deadline_Day_Of_Week", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Deadline_Time", "type": "Time", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Publish_Day_Of_Week", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Daily", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Active_Start_Month", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Active_End_Month", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    }
+  ]
+}

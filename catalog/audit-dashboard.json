@@ -1,0 +1,257 @@
+{
+  "application": "Audit Dashboard",
+  "repository": "https://github.com/ui-insight/AuditDashboard",
+  "domain": "Internal Audit",
+  "tech_stack": {
+    "backend": "FastAPI + SQLAlchemy 2.0",
+    "frontend": "React + TypeScript + Tailwind CSS",
+    "database": "SQLite (dev) / PostgreSQL 16 (prod)"
+  },
+  "table_count": 13,
+  "tables": [
+    {
+      "table_name": "AllowedValues",
+      "model_class": "AllowedValue",
+      "description": "Controlled vocabulary entries for all categorical fields across the application",
+      "columns": [
+        {"name": "Allowed_Value_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Allowed_Value_Group", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Allowed_Value_Code", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Allowed_Value_Label", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Allowed_Value_Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [
+        {"name": "uq_allowed_value_group_code", "columns": ["Allowed_Value_Group", "Allowed_Value_Code"]}
+      ],
+      "relationships": []
+    },
+    {
+      "table_name": "AuditReport",
+      "model_class": "AuditReport",
+      "description": "An internal audit report with findings, recommendations, and follow-up tracking",
+      "columns": [
+        {"name": "Audit_Report_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Report_Title", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Report_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Fiscal_Year", "type": "String(10)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Report_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Department", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Audit_Area", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Executive_Summary", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Source_Document_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "Document.Document_ID"},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Updated_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "observations", "target": "Observation", "type": "one-to-many"},
+        {"name": "follow_ups", "target": "FollowUp", "type": "one-to-many"}
+      ]
+    },
+    {
+      "table_name": "Observation",
+      "model_class": "Observation",
+      "description": "A specific finding or observation within an audit report",
+      "columns": [
+        {"name": "Observation_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Audit_Report_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "AuditReport.Audit_Report_ID"},
+        {"name": "Observation_Number", "type": "String(20)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Observation_Title", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Observation_Text", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Effect_Impact", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Recommendation", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Management_Response", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Severity", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Current_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Policy_References", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Updated_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "action_items", "target": "ActionItem", "type": "one-to-many"}
+      ]
+    },
+    {
+      "table_name": "ActionItem",
+      "model_class": "ActionItem",
+      "description": "A corrective action required to address an audit observation",
+      "columns": [
+        {"name": "Action_Item_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Observation_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "Observation.Observation_ID"},
+        {"name": "Action_Item_Number", "type": "String(20)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Target_Completion_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Actual_Completion_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Current_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Priority", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Updated_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "assignments", "target": "ActionItemAssignment", "type": "one-to-many"},
+        {"name": "status_updates", "target": "StatusUpdate", "type": "one-to-many"}
+      ]
+    },
+    {
+      "table_name": "ResponsibleParty",
+      "model_class": "ResponsibleParty",
+      "description": "A person responsible for completing or overseeing audit action items",
+      "columns": [
+        {"name": "Responsible_Party_ID", "type": "String(50)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Full_Name", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Title", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Department", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Email", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "ActionItemAssignment",
+      "model_class": "ActionItemAssignment",
+      "description": "Junction table linking action items to responsible parties with a designated role",
+      "columns": [
+        {"name": "Assignment_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Action_Item_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "ActionItem.Action_Item_ID"},
+        {"name": "Responsible_Party_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "ResponsibleParty.Responsible_Party_ID"},
+        {"name": "Role", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [
+        {"name": "uq_assignment_item_party_role", "columns": ["Action_Item_ID", "Responsible_Party_ID", "Role"]}
+      ],
+      "relationships": []
+    },
+    {
+      "table_name": "StatusUpdate",
+      "model_class": "StatusUpdate",
+      "description": "A timestamped status transition record for an action item",
+      "columns": [
+        {"name": "Status_Update_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Action_Item_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "ActionItem.Action_Item_ID"},
+        {"name": "Update_Date", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Status_From", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Status_To", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Notes", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Updated_By", "type": "String(36)", "nullable": true, "primary_key": false, "foreign_key": "users.id"}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "FollowUp",
+      "model_class": "FollowUp",
+      "description": "A follow-up review linked to a previous audit report",
+      "columns": [
+        {"name": "Follow_Up_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Audit_Report_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "AuditReport.Audit_Report_ID"},
+        {"name": "Follow_Up_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Follow_Up_Number", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Follow_Up_Report_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": "AuditReport.Audit_Report_ID"},
+        {"name": "Summary", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "ActivityLog",
+      "model_class": "ActivityLog",
+      "description": "Audit trail recording all data modifications across the application",
+      "columns": [
+        {"name": "Activity_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Table_Name", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Record_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Action_Type", "type": "String(20)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Action_Timestamp", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "User_ID", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Old_Values", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "New_Values", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "IP_Address", "type": "String(45)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Session_ID", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "Document",
+      "model_class": "Document",
+      "description": "Uploaded document metadata for audit reports and supporting evidence",
+      "columns": [
+        {"name": "Document_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Document_Type", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Related_Entity_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Related_Entity_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "File_Name", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Storage_Location", "type": "String(500)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "File_Size_Bytes", "type": "BigInteger", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "MIME_Type", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "File_Hash", "type": "String(128)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Description", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Uploaded_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "ExtractionJob",
+      "model_class": "ExtractionJob",
+      "description": "An OCR and LLM extraction job for converting scanned audit documents into structured data",
+      "columns": [
+        {"name": "Extraction_Job_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Source_File_Name", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Source_Document_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "Document.Document_ID"},
+        {"name": "Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "OCR_Started_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "OCR_Completed_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "LLM_Started_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "LLM_Completed_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Error_Message", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_By", "type": "String(36)", "nullable": true, "primary_key": false, "foreign_key": "users.id"},
+        {"name": "Created_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "results", "target": "ExtractionResult", "type": "one-to-many"}
+      ]
+    },
+    {
+      "table_name": "ExtractionResult",
+      "model_class": "ExtractionResult",
+      "description": "Output of an extraction job containing OCR markdown and structured JSON for review",
+      "columns": [
+        {"name": "Extraction_Result_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Extraction_Job_ID", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": "ExtractionJob.Extraction_Job_ID"},
+        {"name": "OCR_Markdown", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Extracted_JSON", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Reviewed_JSON", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Review_Status", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Reviewed_By", "type": "String(36)", "nullable": true, "primary_key": false, "foreign_key": "users.id"},
+        {"name": "Reviewed_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
+    },
+    {
+      "table_name": "users",
+      "model_class": "User",
+      "description": "Application user accounts for authentication and audit trail attribution",
+      "columns": [
+        {"name": "id", "type": "String(36)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "username", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "hashed_password", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "full_name", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "role", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "is_active", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [
+        {"name": "uq_user_username", "columns": ["username"]}
+      ],
+      "relationships": []
+    }
+  ]
+}
