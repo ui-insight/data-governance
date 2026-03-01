@@ -31,17 +31,18 @@ insight-db (postgres:16)  <-- shared container, port 5432
 ```
 
 - **frontend** -- Serves the production React build via nginx. Proxies all `/api/` requests to the backend container. This is the only container with a port mapped to the host.
-- **backend** -- Runs the FastAPI application via uvicorn on port 8001. Accessible only within the Docker network. Connects to the shared database via the `insight-db-net` external network.
-- **insight-db** -- Shared PostgreSQL 16 instance on the `insight-db-net` Docker network (subnet 10.20.0.0/24). Each application has its own database and credentials. Managed via the [insight-db](https://github.com/ui-insight/insight-db) repository.
+- **backend** -- Runs the FastAPI application via uvicorn on port 8001. Accessible only within the Docker network. Connects to the shared database via the `insight-db-net` external network when DB mode is enabled.
+- **insight-db** -- Shared PostgreSQL 16 instance on the `insight-db-net` Docker network (subnet 10.20.0.0/24). Each database-backed app has its own database and credentials. Managed via the [insight-db](https://github.com/ui-insight/insight-db) repository.
 
 | Database | User | Application |
 |---|---|---|
 | `openera` / `openera_dev` | `openera` | OpenERA |
 | `ucm_newsletter` / `ucm_newsletter_dev` | `ucm` | UCM Daily Register |
 | `audit_dashboard` / `audit_dashboard_dev` | `audit_user` | Audit Dashboard |
+| `stratplan` / `stratplan_dev` | `stratplan` | StratPlan Tactics (optional `insight_db` mode) |
 
-!!! note "StratPlan Tactics exception"
-    StratPlan Tactics does not use a database. It runs as a two-container stack (frontend + backend) with data stored in JSON files mounted as volumes.
+!!! note "StratPlan runtime modes"
+    StratPlan defaults to JSON-backed runtime and can run without a database. When `DATA_SOURCE=insight_db` is enabled, its backend joins `insight-db-net` and reads from a projected canonical schema.
 
 ## Port Allocations
 
@@ -81,7 +82,7 @@ graph TB
         direction TB
 
         subgraph insightdb["insight-db (shared PostgreSQL 16)"]
-            db[(postgres :5432\nopenera | ucm_newsletter | audit_dashboard)]
+            db[(postgres :5432\nopenera | ucm_newsletter | audit_dashboard | stratplan optional)]
         end
 
         subgraph openera["OpenERA :9200/:9210"]
@@ -118,6 +119,7 @@ graph TB
     ad_be --> db
     pm_be --> db
     as_be --> db
+    sp_be -. optional DATA_SOURCE=insight_db .-> db
 
     ucm_be -.-> mindrouter
     ucm_be -.-> claude
@@ -129,18 +131,26 @@ graph TB
 
 ## Deploy Command Pattern
 
-The shared database must be running before any application starts:
+The shared database must be running before any DB-backed application starts:
 
 ```bash
 # Start the shared database (once)
 cd insight-db && docker compose up -d
 
-# Deploy an application
+# Example DB-backed deploy
 HOST_PORT=<PORT> DATABASE_URL=<url> ANTHROPIC_API_KEY=<key> \
   docker compose up -d --build
+
+# StratPlan JSON mode (default)
+HOST_PORT=9220 DATA_SOURCE=json docker compose up -d --build
+
+# StratPlan optional DB mode
+HOST_PORT=9220 DATA_SOURCE=insight_db INSIGHT_DB_HOST=insight-db \
+INSIGHT_DB_PORT=5432 INSIGHT_DB_NAME=stratplan INSIGHT_DB_USER=stratplan \
+INSIGHT_DB_PASSWORD=<password> docker compose up -d --build
 ```
 
-The `HOST_PORT` variable controls which host port the frontend nginx container binds to. Applications connect to the shared `insight-db` container via the `insight-db-net` external Docker network.
+The `HOST_PORT` variable controls which host port the frontend nginx container binds to. DB-mode applications connect to the shared `insight-db` container via the `insight-db-net` external Docker network.
 
 ## Environment Variables
 
@@ -149,8 +159,10 @@ Each application requires a subset of the following environment variables:
 | Variable | Required By | Purpose |
 |---|---|---|
 | `HOST_PORT` | All | Host port for the frontend nginx container |
-| `POSTGRES_PASSWORD` | DB-backed apps | PostgreSQL password |
-| `DATABASE_URL` | Backend | Full database connection string |
+| `DATA_SOURCE` | StratPlan | Select runtime source (`json` or `insight_db`) |
+| `INSIGHT_DB_*` / `INSIGHT_DB_DSN` | StratPlan (`insight_db` mode) | Shared Postgres connection settings |
+| `POSTGRES_PASSWORD` | insight-db host | PostgreSQL superuser password |
+| `DATABASE_URL` | DB-backed backends using URL pattern | Full database connection string |
 | `LLM_PROVIDER` | AI-integrated apps | Active LLM provider (`claude`, `openai`, `mindrouter`) |
 | `ANTHROPIC_API_KEY` | Claude users | Anthropic API key |
 | `OPENAI_API_KEY` | OpenAI users | OpenAI API key |

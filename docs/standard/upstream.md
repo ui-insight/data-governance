@@ -35,7 +35,7 @@ The UDM's **domain tables** (Award, Proposal, Organization, Personnel, etc.) are
 
 - **UCM Daily Register** defines `Submission`, `Newsletter`, `EditVersion`, etc. for the communications domain
 - **Audit Dashboard** defines `AuditReport`, `Observation`, `ActionItem`, etc. for the audit domain
-- **StratPlan Tactics** defines `Pillar`, `Priority`, `Unit`, `Tactic` as JSON entities for the strategic planning domain
+- **StratPlan Tactics** defines `Pillar`, `Priority`, `Unit`, `Tactic`, and `SPIGPAward` in a canonical JSON model, with optional projection into insight-db tables for DB-backed runtime
 
 Only **OpenERA** directly implements the UDM's research administration domain tables, as it is the reference implementation for that specification.
 
@@ -53,7 +53,7 @@ UI Insight Institutional Standard (this documentation)
     ├── OpenERA         → implements UDM research admin tables
     ├── UCM Daily Register → follows UDM conventions, own domain tables
     ├── Audit Dashboard    → follows UDM conventions, own domain tables
-    └── StratPlan Tactics  → follows UDM conventions, JSON-based
+    └── StratPlan Tactics  → follows UDM conventions, JSON canonical + optional insight-db projection
 ```
 
 ## Contributing Back

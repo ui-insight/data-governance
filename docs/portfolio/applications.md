@@ -1,6 +1,6 @@
 # Application Portfolio
 
-The UI Insight portfolio comprises six applications serving four institutional domains at the University of Idaho. All applications share a common technology stack (FastAPI + React + PostgreSQL) and deployment infrastructure.
+The UI Insight portfolio comprises six applications serving four institutional domains at the University of Idaho. All applications share a FastAPI + React foundation and common deployment practices; most use PostgreSQL as the operational store.
 
 ## Summary
 
@@ -9,7 +9,7 @@ The UI Insight portfolio comprises six applications serving four institutional d
 | OpenERA | Research Administration | 31 | Multi-endpoint configurable | JWT (5 roles) | Production |
 | UCM Daily Register | Communications | 10 | Claude / OpenAI / MindRouter | None | Production |
 | Audit Dashboard | Internal Audit | 13 | MindRouter OCR + LLM | JWT (2 roles) | Production |
-| StratPlan Tactics | Strategic Planning | 0 (JSON) | None | None | Production |
+| StratPlan Tactics | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None | None | Production |
 | ProcessMapping | Process Improvement | TBD | None | None | Development |
 | AISPEG | Strategic Planning | TBD | Claude / OpenAI | None | Development |
 
@@ -57,9 +57,9 @@ The application uses JWT authentication with two roles (auditor and administrato
 **Repository:** [ui-insight/StratPlanTacticsMB](https://github.com/ui-insight/StratPlanTacticsMB)
 **Domain docs:** [Strategic Planning](../domains/strategic-planning.md)
 
-StratPlan Tactics is a lightweight application for tracking tactical initiatives aligned to the University of Idaho's strategic plan. It maps individual tactics to strategic pillars, tracks alignment confidence, and monitors implementation status. Unlike the other applications in the portfolio, it uses JSON file storage rather than a relational database.
+StratPlan Tactics is a strategic execution and investment analytics application for University of Idaho planning workflows. It combines alignment analytics with execution status rollups, SPIGP portfolio tracking, investment analysis, and horizon reporting.
 
-The application is the simplest in the portfolio, with no authentication, no AI integration, and no database. It serves as proof that the shared technology stack (FastAPI + React) scales down to simple use cases.
+The canonical model is JSON-based, with optional `insight_db` runtime for integration and operational DB-backed reads. The application has no authentication and no AI integration.
 
 ---
 

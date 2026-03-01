@@ -286,43 +286,61 @@ Tracks the AI-assisted extraction pipeline for processing audit documents via Mi
 
 ## Strategic Planning -- StratPlan Tactics
 
-StratPlan Tactics is a JSON-file-backed application without a database. Its categorical values are defined inline rather than in an AllowedValue table. They are documented here for completeness.
+StratPlan Tactics keeps its canonical dataset in JSON and exposes normalized enum domains in API/service layers for both `json` and optional `insight_db` runtime modes.
 
-!!! info "No AllowedValue table"
-    These values are embedded in the application's JSON data files and React components. If StratPlan Tactics migrates to a database backend in the future, these should be formalized as AllowedValue groups.
+!!! info "No AllowedValue table (current implementation)"
+    StratPlan does not currently persist these groups in a database `AllowedValue` table. The values are documented here for governance consistency and future migration planning.
 
-### pillar_codes (5 codes)
+### pillar_code (5 codes)
 
-Maps tactics to strategic plan pillars.
+Maps tactics and SPIGP awards to strategic plan pillars.
 
-`access`, `engagement`, `discovery`, `community`, `culture`
-
-### tactic_status (1 code)
-
-Current implementation status of a tactic. Only one value is currently defined; additional statuses are expected as the application matures.
-
-`on_track`
+`A`, `B`, `C`, `D`, `E`
 
 ### alignment_level (3 codes)
 
-Rates how strongly a tactic aligns with its parent strategic objective.
+Rates how strongly a tactic aligns with its primary strategic objective.
 
-`high`, `medium`, `low`
+`explicit_subpillar`, `mixed`, `pillar_only`
 
-### confidence (3 codes)
+### priority_code_confidence (3 codes)
 
-Rates the confidence level in a tactic's projected outcome.
+Confidence level attached to each tactic-to-priority mapping.
 
-`high`, `medium`, `low`
+`explicit`, `inferred`, `pillar_only`
 
-### roi_type (3 codes)
+### execution_status (4 codes)
 
-Classifies the expected return on investment for a tactic.
+Normalized execution status for tactic and SPIGP rollups.
 
-`cost_savings`, `revenue`, `efficiency`
+`not_started`, `in_progress`, `completed`, `delayed_at_risk`
 
-### spigp_award_status (3 codes)
+### funding_source (5 codes)
 
-Tracks the status of SPIGP (Strategic Plan Implementation Grant Program) award applications.
+Classifies tactic funding source.
 
-`pending`, `awarded`, `declined`
+`spigp`, `base`, `philanthropy`, `external`, `unfunded`
+
+### roi_type (5 codes)
+
+Classifies expected return profile for tactics/SPIGP awards.
+
+`revenue`, `retention`, `efficiency`, `compliance`, `reputation`
+
+### horizon_category (4 codes)
+
+Classifies tactic execution window.
+
+`quick_wins`, `mid_term`, `long_term`, `ongoing_operations`
+
+### spigp_status (4 codes)
+
+Normalized status domain for SPIGP award reporting.
+
+`not_started`, `in_progress`, `completed`, `delayed_at_risk`
+
+### source_status_raw (observed source value)
+
+Raw source status currently observed in canonical tactic records:
+
+`planned`

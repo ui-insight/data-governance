@@ -2,17 +2,22 @@
   "application": "StratPlan Tactics Dashboard",
   "repository": "https://github.com/ui-insight/StratPlanTacticsMB",
   "domain": "Strategic Planning",
+  "runtime_modes": [
+    "json",
+    "insight_db"
+  ],
   "tech_stack": {
     "backend": "FastAPI",
     "frontend": "React + JSX + Custom CSS",
-    "database": "None (static JSON)"
+    "database": "Optional PostgreSQL projection via insight-db"
   },
-  "data_source": "strategic_plan_data.json",
+  "data_source": "backend/app/data/strategic_plan_data.json",
   "entity_count": 6,
+  "projection_table_count": 10,
   "entities": [
     {
       "name": "Pillar",
-      "description": "Top-level strategic goal",
+      "description": "Top-level strategic pillar",
       "count": 5,
       "fields": [
         {"name": "code", "type": "string"},
@@ -22,7 +27,7 @@
     },
     {
       "name": "Priority",
-      "description": "Sub-goal within a pillar",
+      "description": "Strategic objective within a pillar",
       "count": 20,
       "fields": [
         {"name": "code", "type": "string (e.g. A.1)"},
@@ -42,20 +47,28 @@
     },
     {
       "name": "Tactic",
-      "description": "Specific action aligned to a priority",
+      "description": "Specific action aligned to one or more priorities",
       "count": 385,
       "fields": [
         {"name": "id", "type": "integer"},
         {"name": "tactic_text", "type": "string"},
         {"name": "pillar", "type": "string"},
         {"name": "priority_code", "type": "string"},
+        {"name": "priority_codes", "type": "array<PriorityCodeMapping>"},
         {"name": "metrics", "type": "array<string>"},
         {"name": "timeline", "type": "string"},
         {"name": "status", "type": "string"},
+        {"name": "execution_status", "type": "string nullable"},
+        {"name": "percent_complete", "type": "integer nullable"},
+        {"name": "has_metrics_defined", "type": "boolean nullable"},
+        {"name": "last_update_date", "type": "date nullable"},
+        {"name": "update_note", "type": "string nullable"},
         {"name": "funding_source", "type": "string nullable"},
         {"name": "fy_budget_range", "type": "string nullable"},
         {"name": "roi_type", "type": "string nullable"},
-        {"name": "priority_codes", "type": "array<PriorityCodeMapping>"}
+        {"name": "expected_roi_timeline", "type": "string nullable"},
+        {"name": "horizon_category", "type": "string nullable"},
+        {"name": "alignment_level", "type": "string nullable"}
       ],
       "parent": "Unit"
     },
@@ -78,18 +91,22 @@
         {"name": "lead_pi", "type": "string"},
         {"name": "lead_unit", "type": "string"},
         {"name": "pillar", "type": "string"},
-        {"name": "total_award", "type": "integer"},
+        {"name": "total_award", "type": "number"},
         {"name": "status", "type": "string"},
+        {"name": "percent_complete", "type": "integer"},
+        {"name": "roi_type", "type": "string nullable"},
         {"name": "linked_tactic_ids", "type": "array<integer>"}
       ]
     }
   ],
   "controlled_vocabularies": {
-    "pillar_codes": ["A", "B", "C", "D", "E"],
-    "tactic_status": ["planned"],
-    "alignment_level": ["pillar_only", "mixed", "explicit_subpillar"],
-    "confidence": ["explicit", "inferred", "pillar_only"],
-    "roi_type": ["efficiency", "retention", "revenue"],
-    "spigp_award_status": ["in_progress", "delayed_at_risk", "completed"]
+    "pillar_code": ["A", "B", "C", "D", "E"],
+    "alignment_level": ["explicit_subpillar", "mixed", "pillar_only"],
+    "priority_code_confidence": ["explicit", "inferred", "pillar_only"],
+    "execution_status": ["not_started", "in_progress", "completed", "delayed_at_risk"],
+    "funding_source": ["spigp", "base", "philanthropy", "external", "unfunded"],
+    "roi_type": ["revenue", "retention", "efficiency", "compliance", "reputation"],
+    "horizon_category": ["quick_wins", "mid_term", "long_term", "ongoing_operations"],
+    "spigp_status": ["not_started", "in_progress", "completed", "delayed_at_risk"]
   }
 }

@@ -13,7 +13,7 @@ All database-backed applications adopt conventions from the [AI4RA Unified Data 
 | [OpenERA](https://github.com/ui-insight/OpenERA) | Research Administration | 31 | Production |
 | [UCM Daily Register](https://github.com/ui-insight/UCMDailyRegister) | Communications | 10 | Production |
 | [Audit Dashboard](https://github.com/ui-insight/AuditDashboard) | Internal Audit | 13 | Production |
-| [StratPlan Tactics](https://github.com/ui-insight/StratPlanTacticsMB) | Strategic Planning | N/A (JSON) | Production |
+| [StratPlan Tactics](https://github.com/ui-insight/StratPlanTacticsMB) | Strategic Planning | Hybrid: JSON canonical + optional insight-db projection (10 tables) | Production |
 
 ## Documentation
 

@@ -15,7 +15,7 @@ Our data modeling conventions are adopted from the [AI4RA Unified Data Model](ht
 - `PascalCase_With_Underscores` column naming with standard suffixes (`_ID`, `_Date`, `_Status`, `_Type`)
 - The [`AllowedValue` pattern](standard/allowed-values.md) for database-driven controlled vocabularies
 - Service layer separation, async-first ORM, and immutable audit records
-- Consistent tech stack: FastAPI + SQLAlchemy + React + MkDocs Material
+- Consistent tech stack baseline: FastAPI + React + MkDocs Material
 
 See [Adopted Standard](standard/naming-conventions.md) for full details.
 
@@ -26,9 +26,9 @@ See [Adopted Standard](standard/naming-conventions.md) for full details.
 | [OpenERA](domains/research-admin.md) | Research Administration | 31 tables (implements AI4RA-UDM) | Multi-endpoint configurable |
 | [UCM Daily Register](domains/communications.md) | Communications | 10 tables | Claude / OpenAI / MindRouter |
 | [Audit Dashboard](domains/audit.md) | Internal Audit | 13 tables | MindRouter OCR + LLM |
-| [StratPlan Tactics](domains/strategic-planning.md) | Strategic Planning | JSON-based (6 entities) | None |
+| [StratPlan Tactics](domains/strategic-planning.md) | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None |
 
-All database-backed applications share 38 AllowedValue groups totaling 223 controlled vocabulary values. See the [Vocabulary Registry](vocabulary/index.md) for the complete cross-application view.
+All database-backed applications currently share 38 AllowedValue groups totaling 223 controlled vocabulary values. StratPlan Tactics currently keeps its vocabulary in app code/data files and exposes normalized enums through its API.
 
 ## Data Landscape
 
@@ -42,7 +42,7 @@ graph TB
         OE["OpenERA<br/>31 tables<br/>Research Admin"]
         UCM["UCM Daily Register<br/>10 tables<br/>Communications"]
         AD["Audit Dashboard<br/>13 tables<br/>Internal Audit"]
-        SP["StratPlan Tactics<br/>JSON-based<br/>Strategic Planning"]
+        SP["StratPlan Tactics<br/>JSON canonical + optional<br/>insight-db projection"]
     end
 
     subgraph shared["Shared Infrastructure"]
@@ -59,6 +59,7 @@ graph TB
     OE --> DB
     UCM --> DB
     AD --> DB
+    SP -. optional insight_db mode .-> DB
     DB --> SRV
     SP --> SRV
 

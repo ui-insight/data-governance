@@ -92,7 +92,7 @@ A notable inconsistency across applications is the casing of AllowedValue codes:
 | UCM Daily Register | `snake_case` | `ai_edited`, `in_review` |
 | Audit Dashboard | `UPPER_CASE` | `HIGH`, `IN_PROGRESS` |
 | OpenERA | `snake_case` | `proposal_narrative`, `co_pi` |
-| StratPlan Tactics | `snake_case` | `on_track`, `high` |
+| StratPlan Tactics | `snake_case` | `in_progress`, `quick_wins` |
 
 !!! warning "Casing convention"
-    OpenERA, UCM Daily Register, and StratPlan Tactics all use `snake_case` for AllowedValue codes. Only Audit Dashboard uses `UPPER_CASE`. New applications should adopt `snake_case` and document their chosen convention explicitly.
+    OpenERA, UCM Daily Register, and StratPlan normalized enums all use `snake_case` codes. Only Audit Dashboard uses `UPPER_CASE`. New applications should adopt `snake_case` and document their chosen convention explicitly.
