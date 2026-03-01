@@ -7,7 +7,7 @@
     "frontend": "React + TypeScript + Tailwind CSS",
     "database": "SQLite (dev) / PostgreSQL 16 (prod)"
   },
-  "table_count": 28,
+  "table_count": 31,
   "tables": [
     {
       "table_name": "AllowedValues",
@@ -653,6 +653,91 @@
       "unique_constraints": [],
       "relationships": [
         {"name": "sponsor", "target": "Organization", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "RFAAnalysisRun",
+      "model_class": "RFAAnalysisRun",
+      "description": "An AI analysis execution against an RFA document, tracking provenance (analysis type, model, prompt version) and supporting cross-replication evaluation",
+      "columns": [
+        {"name": "AnalysisRun_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "RFA_ID", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": "RFA.RFA_ID"},
+        {"name": "Analysis_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Run_Label", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Adapter_Name", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Model_Name", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Prompt_Version", "type": "String(50)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Source_Document_Hash", "type": "String(128)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Source_Document_Name", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Summary_Text", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Raw_Output", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Status", "type": "String(30)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Items_Extracted", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Sections_Extracted", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Started_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Completed_At", "type": "DateTime", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Created_By_User_ID", "type": "String(36)", "nullable": true, "primary_key": false, "foreign_key": "users.id"},
+        {"name": "Is_Current", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "check_constraints": {
+        "Analysis_Type": ["comprehensive_checklist", "ffr_checklist", "eligibility_review", "budget_review", "custom"],
+        "Status": ["pending", "completed", "failed", "superseded"]
+      },
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "rfa", "target": "RFA", "type": "many_to_one"},
+        {"name": "sections", "target": "RFAAnalysisSection", "type": "one_to_many"},
+        {"name": "created_by", "target": "User", "type": "many_to_one"}
+      ]
+    },
+    {
+      "table_name": "RFAAnalysisSection",
+      "model_class": "RFAAnalysisSection",
+      "description": "A structural section within an analysis run (e.g., dates & deadlines, eligibility, budget requirements) with a type discriminator controlling item structure",
+      "columns": [
+        {"name": "AnalysisSection_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "AnalysisRun_ID", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": "RFAAnalysisRun.AnalysisRun_ID"},
+        {"name": "Section_Key", "type": "String(100)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Section_Label", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Section_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Sort_Order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Summary_Text", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
+      ],
+      "check_constraints": {
+        "Section_Type": ["key_value", "table", "rule_list", "narrative", "mixed"]
+      },
+      "unique_constraints": [["AnalysisRun_ID", "Section_Key"]],
+      "relationships": [
+        {"name": "run", "target": "RFAAnalysisRun", "type": "many_to_one"},
+        {"name": "items", "target": "RFAAnalysisItem", "type": "one_to_many"}
+      ]
+    },
+    {
+      "table_name": "RFAAnalysisItem",
+      "model_class": "RFAAnalysisItem",
+      "description": "An individual extracted fact, rule, or key-value pair within an analysis section, with typed parsing columns for downstream compliance queries",
+      "columns": [
+        {"name": "AnalysisItem_ID", "type": "Integer", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "AnalysisSection_ID", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": "RFAAnalysisSection.AnalysisSection_ID"},
+        {"name": "Item_Key", "type": "String(100)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Item_Label", "type": "String(500)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Item_Value", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Item_Detail", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Item_Type", "type": "String(50)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Parsed_Date", "type": "Date", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Parsed_Number", "type": "Numeric(18,2)", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Parsed_Boolean", "type": "Boolean", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "Is_Required", "type": "Boolean", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Sort_Order", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "RFARequirement_ID", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": "RFARequirement.RFARequirement_ID"}
+      ],
+      "check_constraints": {
+        "Item_Type": ["text", "date", "currency", "integer", "boolean", "duration", "rule"]
+      },
+      "unique_constraints": [],
+      "relationships": [
+        {"name": "section", "target": "RFAAnalysisSection", "type": "many_to_one"},
+        {"name": "materialized_requirement", "target": "RFARequirement", "type": "many_to_one"}
       ]
     }
   ]

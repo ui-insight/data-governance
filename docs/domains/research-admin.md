@@ -9,8 +9,9 @@ OpenERA is the University of Idaho's pre-award proposal management system, built
 | **Domain** | Pre-award proposal management |
 | **Repository** | [github.com/ui-insight/OpenERA](https://github.com/ui-insight/OpenERA) |
 | **Data Model Spec** | AI4RA-UDM (direct implementation) |
-| **Total Tables** | 28 |
+| **Total Tables** | 31 |
 | **AllowedValue Groups** | 10 (72+ controlled values) |
+| **Check-Constrained Enums** | 4 (Analysis_Type, Analysis_Status, Section_Type, Item_Type) |
 | **Auth Model** | JWT with 5 RBAC roles |
 | **Stack** | FastAPI + SQLAlchemy 2.0 + React/TypeScript + TailwindCSS |
 | **Prod URL** | `openera.insight.uidaho.edu` (port 9200) |
@@ -30,6 +31,10 @@ erDiagram
     Proposal ||--o{ ComplianceRequirement : triggers
     Proposal }o--|| RFA : responds_to
     ProposalBudget }o--|| BudgetCategory : categorized_by
+    RFA ||--o{ RFAAnalysisRun : analyzed_by
+    RFAAnalysisRun ||--o{ RFAAnalysisSection : contains
+    RFAAnalysisSection ||--o{ RFAAnalysisItem : contains
+    RFAAnalysisItem }o--o| RFARequirement : materializes_to
 ```
 
 ## Table Inventory
@@ -81,6 +86,14 @@ erDiagram
 | `ApprovalStep` | Sequential approval routing steps for a proposal (department chair, dean, OSP reviewer), with status tracking and timestamps. |
 | `ProposalChecklistItem` | Pre-submission checklist items that must be completed before a proposal can advance to the next approval step. |
 
+### RFA Analysis
+
+| Table | Description |
+|---|---|
+| `RFAAnalysisRun` | An AI analysis execution against an RFA document. Tracks provenance (analysis type, model, prompt version) and supports cross-replication evaluation. The `Is_Current` flag marks the active source of truth per (RFA_ID, Analysis_Type) pair. |
+| `RFAAnalysisSection` | A structural section within an analysis run (e.g., "Dates & Deadlines", "Eligibility", "Budget Requirements"). Each section has a `Section_Type` discriminator controlling how its items are structured. |
+| `RFAAnalysisItem` | An individual extracted fact, rule, or key-value pair within a section. Supports typed parsing into `Parsed_Date`, `Parsed_Number`, or `Parsed_Boolean` for downstream compliance queries. Optional FK to `RFARequirement` provides traceability from raw extraction to normalized checklist items. |
+
 ### AI
 
 | Table | Description |
@@ -114,6 +127,17 @@ The `AllowedValue` table stores all controlled vocabularies for the application.
 | `Organization_Type` | Federal, State, Foundation, Industry, Academic | Organization |
 | `Eligibility_Status` | Eligible, Ineligible, Override_Granted | SponsorEligibilityRule |
 
+## Check-Constrained Enums (RFA Analysis)
+
+The RFA Analysis tables use SQL CHECK constraints rather than the AllowedValue pattern for their categorical columns. These values are enforced at the database level.
+
+| Column | Table | Values |
+|---|---|---|
+| `Analysis_Type` | RFAAnalysisRun | `comprehensive_checklist`, `ffr_checklist`, `eligibility_review`, `budget_review`, `custom` |
+| `Status` | RFAAnalysisRun | `pending`, `completed`, `failed`, `superseded` |
+| `Section_Type` | RFAAnalysisSection | `key_value`, `table`, `rule_list`, `narrative`, `mixed` |
+| `Item_Type` | RFAAnalysisItem | `text`, `date`, `currency`, `integer`, `boolean`, `duration`, `rule` |
+
 ## AI Integration
 
 !!! info "Configurable Multi-Endpoint LLM Architecture"
@@ -141,13 +165,13 @@ Key AI capabilities:
 
 ## Deployment
 
-OpenERA follows the standard three-container Docker architecture used across the UI Insight platform:
+OpenERA runs as a two-container stack (frontend + backend) connected to the shared [insight-db](https://github.com/ui-insight/insight-db) PostgreSQL instance via the `insight-db-net` Docker network:
 
 | Container | Role | Port |
 |---|---|---|
 | `frontend` (nginx) | Serves React build, proxies `/api/` to backend | Host-mapped (9200 prod / 9210 dev) |
-| `backend` (uvicorn) | FastAPI application server | 8001 (internal) |
-| `db` (postgres:16) | PostgreSQL database | 5432 (internal) |
+| `backend` (uvicorn) | FastAPI application server, connects to `insight-db` | 8001 (internal) |
+| `insight-db` (shared) | Shared PostgreSQL 16 instance | 5432 (internal, `insight-db-net`) |
 
 !!! warning "Reference Implementation Status"
     OpenERA is the only application in the UI Insight portfolio that directly implements the AI4RA-UDM domain tables. All other applications share architectural conventions (AllowedValue pattern, PascalCase column naming, service-layer design) but define their own domain-specific tables. Changes to the UDM specification should be validated against OpenERA first.

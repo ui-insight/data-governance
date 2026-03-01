@@ -31,6 +31,10 @@ Each application is the **authoritative source** for its own vocabulary. There i
 - **[Shared Patterns](shared-patterns.md)** -- Cross-cutting vocabulary concepts that appear in multiple applications. Start here to understand where domains overlap.
 - **[Vocabularies by Domain](by-domain.md)** -- Complete listing of every value group and its codes, organized by application. Use this as a reference when building new features or onboarding to an application.
 
+## Check-Constrained Enums
+
+Some tables use SQL CHECK constraints rather than the AllowedValue pattern for categorical columns. These values are enforced at the database level and are not editable at runtime. Currently this applies to the RFA Analysis tables in OpenERA (4 constrained columns with 21 total values). See [Research Administration](../domains/research-admin.md#check-constrained-enums-rfa-analysis) for the complete listing.
+
 ## Relationship to the AllowedValue Pattern
 
 The AllowedValue table pattern is documented in the [Standards section](../standard/allowed-values.md). This registry focuses on the **content** of those tables (what groups and codes exist) rather than the **schema** (how the table is structured). For schema guidance, see the standards documentation.

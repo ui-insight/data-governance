@@ -16,9 +16,9 @@ All applications are deployed to a single server managed by the UI Insight team:
 !!! warning "Custom subnet"
     All Docker Compose stacks use a `10.x.x.x` address space rather than Docker's default `172.x.x.x` range. This avoids IP address conflicts on the shared deployment server where multiple Compose stacks run simultaneously.
 
-## Container Pattern
+## Shared Database Infrastructure
 
-Every database-backed application follows the same three-container architecture:
+Database-backed applications connect to a shared PostgreSQL 16 instance managed by the [insight-db](https://github.com/ui-insight/insight-db) repository. This single container provides isolated databases and credentials for each application, eliminating per-app database containers.
 
 ```
 frontend (nginx)  <-- only container with host port mapping
@@ -26,16 +26,22 @@ frontend (nginx)  <-- only container with host port mapping
     v
 backend (uvicorn) <-- internal only, port 8001
     |
-    v
-db (postgres:16)  <-- internal only, port 5432
+    v  (insight-db-net Docker network)
+insight-db (postgres:16)  <-- shared container, port 5432
 ```
 
 - **frontend** -- Serves the production React build via nginx. Proxies all `/api/` requests to the backend container. This is the only container with a port mapped to the host.
-- **backend** -- Runs the FastAPI application via uvicorn on port 8001. Accessible only within the Docker network.
-- **db** -- PostgreSQL 16 instance. Accessible only within the Docker network on port 5432. Each application has its own isolated database container.
+- **backend** -- Runs the FastAPI application via uvicorn on port 8001. Accessible only within the Docker network. Connects to the shared database via the `insight-db-net` external network.
+- **insight-db** -- Shared PostgreSQL 16 instance on the `insight-db-net` Docker network (subnet 10.20.0.0/24). Each application has its own database and credentials. Managed via the [insight-db](https://github.com/ui-insight/insight-db) repository.
+
+| Database | User | Application |
+|---|---|---|
+| `openera` / `openera_dev` | `openera` | OpenERA |
+| `ucm_newsletter` / `ucm_newsletter_dev` | `ucm` | UCM Daily Register |
+| `audit_dashboard` / `audit_dashboard_dev` | `audit_user` | Audit Dashboard |
 
 !!! note "StratPlan Tactics exception"
-    StratPlan Tactics does not use a database container. It runs as a two-container stack (frontend + backend) with data stored in JSON files mounted as volumes.
+    StratPlan Tactics does not use a database. It runs as a two-container stack (frontend + backend) with data stored in JSON files mounted as volumes.
 
 ## Port Allocations
 
@@ -74,9 +80,12 @@ graph TB
     subgraph "openera.insight.uidaho.edu"
         direction TB
 
+        subgraph insightdb["insight-db (shared PostgreSQL 16)"]
+            db[(postgres :5432\nopenera | ucm_newsletter | audit_dashboard)]
+        end
+
         subgraph openera["OpenERA :9200/:9210"]
             oe_fe[nginx] --> oe_be[uvicorn :8001]
-            oe_be --> oe_db[(postgres :5432)]
         end
 
         subgraph stratplan["StratPlan Tactics :9220/:9230"]
@@ -85,28 +94,30 @@ graph TB
 
         subgraph processmap["ProcessMapping :9240/:9250"]
             pm_fe[nginx] --> pm_be[uvicorn :8001]
-            pm_be --> pm_db[(postgres :5432)]
         end
 
         subgraph aispeg["AISPEG :9260/:9270"]
             as_fe[nginx] --> as_be[uvicorn :8001]
-            as_be --> as_db[(postgres :5432)]
         end
 
         subgraph ucm["UCM Daily Register :9280/:9290"]
             ucm_fe[nginx] --> ucm_be[uvicorn :8001]
-            ucm_be --> ucm_db[(postgres :5432)]
         end
 
         subgraph audit["Audit Dashboard :9300"]
             ad_fe[nginx] --> ad_be[uvicorn :8001]
-            ad_be --> ad_db[(postgres :5432)]
         end
     end
 
     mindrouter[MindRouter\nmindrouter.uidaho.edu]
     claude[Claude API\ncloud]
     openai[OpenAI API\ncloud]
+
+    oe_be --> db
+    ucm_be --> db
+    ad_be --> db
+    pm_be --> db
+    as_be --> db
 
     ucm_be -.-> mindrouter
     ucm_be -.-> claude
@@ -118,15 +129,18 @@ graph TB
 
 ## Deploy Command Pattern
 
-All applications follow the same deployment command pattern:
+The shared database must be running before any application starts:
 
 ```bash
-# On the remote server
-HOST_PORT=<PORT> POSTGRES_PASSWORD=<secure> ANTHROPIC_API_KEY=<key> \
+# Start the shared database (once)
+cd insight-db && docker compose up -d
+
+# Deploy an application
+HOST_PORT=<PORT> DATABASE_URL=<url> ANTHROPIC_API_KEY=<key> \
   docker compose up -d --build
 ```
 
-The `HOST_PORT` variable controls which host port the frontend nginx container binds to. All other container ports are internal to the Docker network and do not vary between applications.
+The `HOST_PORT` variable controls which host port the frontend nginx container binds to. Applications connect to the shared `insight-db` container via the `insight-db-net` external Docker network.
 
 ## Environment Variables
 

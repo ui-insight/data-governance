@@ -23,7 +23,7 @@ See [Adopted Standard](standard/naming-conventions.md) for full details.
 
 | Application | Domain | Data Model | AI Integration |
 |---|---|---|---|
-| [OpenERA](domains/research-admin.md) | Research Administration | 28 tables (implements AI4RA-UDM) | Multi-endpoint configurable |
+| [OpenERA](domains/research-admin.md) | Research Administration | 31 tables (implements AI4RA-UDM) | Multi-endpoint configurable |
 | [UCM Daily Register](domains/communications.md) | Communications | 10 tables | Claude / OpenAI / MindRouter |
 | [Audit Dashboard](domains/audit.md) | Internal Audit | 13 tables | MindRouter OCR + LLM |
 | [StratPlan Tactics](domains/strategic-planning.md) | Strategic Planning | JSON-based (6 entities) | None |
@@ -39,13 +39,14 @@ graph TB
     end
 
     subgraph institutional["University of Idaho Applications"]
-        OE["OpenERA<br/>28 tables<br/>Research Admin"]
+        OE["OpenERA<br/>31 tables<br/>Research Admin"]
         UCM["UCM Daily Register<br/>10 tables<br/>Communications"]
         AD["Audit Dashboard<br/>13 tables<br/>Internal Audit"]
         SP["StratPlan Tactics<br/>JSON-based<br/>Strategic Planning"]
     end
 
     subgraph shared["Shared Infrastructure"]
+        DB["insight-db<br/>Shared PostgreSQL 16"]
         MR["MindRouter<br/>On-Prem AI"]
         SRV["openera.insight.uidaho.edu<br/>Docker Host"]
     end
@@ -55,9 +56,10 @@ graph TB
     UDM -->|conventions & patterns| AD
     UDM -->|conventions & patterns| SP
 
-    OE --> SRV
-    UCM --> SRV
-    AD --> SRV
+    OE --> DB
+    UCM --> DB
+    AD --> DB
+    DB --> SRV
     SP --> SRV
 
     OE -.-> MR

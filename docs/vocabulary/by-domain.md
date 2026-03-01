@@ -68,6 +68,34 @@ Identifies the type of indirect cost rate applied to an award.
 
 `on_campus`, `off_campus`, `special`, `waived`
 
+### Check-Constrained Enums (RFA Analysis)
+
+The RFA Analysis tables use SQL CHECK constraints instead of the AllowedValue pattern. These values are enforced at the database level and documented here for completeness.
+
+#### Analysis_Type (5 codes)
+
+Classifies the type of AI analysis run against an RFA document.
+
+`comprehensive_checklist`, `ffr_checklist`, `eligibility_review`, `budget_review`, `custom`
+
+#### Analysis_Status (4 codes)
+
+Tracks the execution state of an analysis run.
+
+`pending`, `completed`, `failed`, `superseded`
+
+#### Section_Type (5 codes)
+
+Discriminates how items within an analysis section are structured.
+
+`key_value`, `table`, `rule_list`, `narrative`, `mixed`
+
+#### Item_Type (7 codes)
+
+Classifies extracted items for typed parsing into Parsed_Date, Parsed_Number, or Parsed_Boolean columns.
+
+`text`, `date`, `currency`, `integer`, `boolean`, `duration`, `rule`
+
 ---
 
 ## Communications -- UCM Daily Register

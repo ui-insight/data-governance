@@ -6,7 +6,7 @@ The UI Insight portfolio comprises six applications serving four institutional d
 
 | Application | Domain | Tables | AI Integration | Auth | Production Status |
 |---|---|---|---|---|---|
-| OpenERA | Research Administration | 28 | Multi-endpoint configurable | JWT (5 roles) | Production |
+| OpenERA | Research Administration | 31 | Multi-endpoint configurable | JWT (5 roles) | Production |
 | UCM Daily Register | Communications | 10 | Claude / OpenAI / MindRouter | None | Production |
 | Audit Dashboard | Internal Audit | 13 | MindRouter OCR + LLM | JWT (2 roles) | Production |
 | StratPlan Tactics | Strategic Planning | 0 (JSON) | None | None | Production |
@@ -23,7 +23,7 @@ The UI Insight portfolio comprises six applications serving four institutional d
 
 OpenERA is a comprehensive research administration platform for managing proposals, awards, compliance, and institutional data related to sponsored programs. It is the original application from which the AI4RA Unified Data Model (UDM) was derived, and serves as the reference implementation for portfolio-wide conventions.
 
-The application has the most complex data model in the portfolio (28 tables), the most granular role-based access control (5 JWT roles), and supports multi-endpoint AI configuration where different LLM providers can be assigned to different tasks.
+The application has the most complex data model in the portfolio (31 tables), the most granular role-based access control (5 JWT roles), and supports multi-endpoint AI configuration where different LLM providers can be assigned to different tasks.
 
 ---
 
