@@ -28,7 +28,7 @@ See [Adopted Standard](standard/naming-conventions.md) for full details.
 | [Audit Dashboard](domains/audit.md) | Internal Audit | 13 tables | MindRouter OCR + LLM |
 | [StratPlan Tactics](domains/strategic-planning.md) | Strategic Planning | JSON-based (6 entities) | None |
 
-All database-backed applications share 27 AllowedValue groups totaling 139+ controlled vocabulary values. See the [Vocabulary Registry](vocabulary/index.md) for the complete cross-application view.
+All database-backed applications share 38 AllowedValue groups totaling 223 controlled vocabulary values. See the [Vocabulary Registry](vocabulary/index.md) for the complete cross-application view.
 
 ## Data Landscape
 

@@ -40,10 +40,14 @@ Ordered workflow progressions that track an entity from creation through complet
 
 ### OpenERA
 
-| Value Group | Values | Count |
+OpenERA tracks lifecycle status through inline column values rather than AllowedValue groups. One lifecycle-related AllowedValue group exists:
+
+| Source | Values | Count |
 |---|---|---|
-| ProposalStatus | `draft`, `submitted`, `under_review`, `approved`, `rejected`, `active`, `completed`, `closed` | 8 |
-| ApprovalStatus | `pending`, `approved`, `rejected`, `conditional` | 4 |
+| `ChecklistStatus` (AllowedValue) | `not_started`, `in_progress`, `complete`, `not_applicable` | 4 |
+| `Proposal.Internal_Approval_Status` (inline) | `Draft`, `In Review`, `Approved`, `Rejected`, `Returned` | 5 |
+| `Proposal.Decision_Status` (inline) | `Pending`, `Awarded`, `Declined`, `Withdrawn` | 4 |
+| `ApprovalStep.status` (inline) | `pending`, `approved`, `rejected`, `returned` | 4 |
 
 !!! tip "Common progression"
     Despite different code values, all lifecycle groups follow the same structural pattern: an initial state (draft/new/pending), one or more intermediate states (review, processing), and terminal states (approved/completed/closed, rejected/cancelled). New applications should model their status groups with this progression in mind.
@@ -59,7 +63,7 @@ Classification values that categorize content items within an application.
 | UCM Daily Register | Submission_Category | `announcement`, `event`, `deadline`, `achievement`, `grant`, `resource`, `other` | 7 |
 | Audit Dashboard | DocumentType | `REPORT`, `WORKPAPER`, `EVIDENCE`, `CORRESPONDENCE` | 4 |
 | Audit Dashboard | ReportType | `ANNUAL`, `SPECIAL`, `FOLLOW_UP` | 3 |
-| OpenERA | DocumentType | `proposal`, `budget`, `biosketches`, `facilities`, `data_management`, `compliance`, `subaward`, `other` | 8 |
+| OpenERA | DocumentType | `proposal_narrative`, `budget_justification`, `biosketch`, `current_pending`, `facilities`, `data_mgmt`, `letter_support`, `rfa_document`, `subaward_docs`, `coi_disclosure`, `other` | 11 |
 
 !!! note "Domain specificity"
     Document/content type groups are the most domain-specific vocabulary. Unlike severity or status, there is little opportunity for convergence here -- each application classifies content relevant to its own domain. The shared pattern is the use of an AllowedValue group (rather than a hard-coded enum) to keep these classifications extensible.
@@ -73,7 +77,7 @@ Roles assigned to people within the context of an application.
 | Application | Value Group | Codes | Count |
 |---|---|---|---|
 | Audit Dashboard | AssignmentRole | `LEAD`, `SUPPORT` | 2 |
-| OpenERA | ProjectRole | `pi`, `co_pi`, `senior_personnel`, `postdoc`, `graduate_student`, `undergraduate_student`, `technician`, `consultant`, `other_professional`, `administrator` | 10 |
+| OpenERA | ProjectRole | `pi`, `co_pi`, `co_i`, `key_person`, `senior_person`, `postdoc`, `grad_student`, `undergrad`, `technician`, `consultant` | 10 |
 
 OpenERA has the most granular role vocabulary, reflecting the complexity of research team composition. Audit Dashboard uses a simpler lead/support distinction appropriate for audit engagement staffing.
 
@@ -87,8 +91,8 @@ A notable inconsistency across applications is the casing of AllowedValue codes:
 |---|---|---|
 | UCM Daily Register | `snake_case` | `ai_edited`, `in_review` |
 | Audit Dashboard | `UPPER_CASE` | `HIGH`, `IN_PROGRESS` |
-| OpenERA | `snake_case` | `under_review`, `co_pi` |
+| OpenERA | `snake_case` | `proposal_narrative`, `co_pi` |
 | StratPlan Tactics | `snake_case` | `on_track`, `high` |
 
-!!! warning "Recommendation for new applications"
-    New applications should adopt **`snake_case`** for AllowedValue codes. This aligns with the majority of existing applications (OpenERA, UCM, StratPlan) and with Python/JSON conventions. The Audit Dashboard's UPPER_CASE convention predates the establishment of this standard and will be considered for migration in a future update.
+!!! warning "Casing convention"
+    OpenERA, UCM Daily Register, and StratPlan Tactics all use `snake_case` for AllowedValue codes. Only Audit Dashboard uses `UPPER_CASE`. New applications should adopt `snake_case` and document their chosen convention explicitly.

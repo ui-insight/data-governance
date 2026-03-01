@@ -6,7 +6,7 @@ The UI Insight application portfolio uses a **federated vocabulary** approach: e
 
 | Domain | Application | Value Groups | Total Values |
 |---|---|---|---|
-| Research Admin | OpenERA | 10 | 72 |
+| Research Admin | OpenERA | 21 | 156 |
 | Communications | UCM Daily Register | 9 | 37 |
 | Internal Audit | Audit Dashboard | 8 | 30 |
 | Strategic Planning | StratPlan Tactics | N/A (inline) | ~15 |
@@ -33,7 +33,7 @@ Each application is the **authoritative source** for its own vocabulary. There i
 
 ## Check-Constrained Enums
 
-Some tables use SQL CHECK constraints rather than the AllowedValue pattern for categorical columns. These values are enforced at the database level and are not editable at runtime. Currently this applies to the RFA Analysis tables in OpenERA (4 constrained columns with 21 total values). See [Research Administration](../domains/research-admin.md#check-constrained-enums-rfa-analysis) for the complete listing.
+Some tables use SQL CHECK constraints rather than the AllowedValue pattern for categorical columns. These values are enforced at the database level and are not editable at runtime. Currently this applies to the RFA Analysis tables in OpenERA (4 constrained columns with 21 total values). OpenERA, UCM Daily Register, and StratPlan Tactics all use `snake_case` naming for AllowedValue codes; only Audit Dashboard uses `UPPER_CASE`. See [Research Administration](../domains/research-admin.md#check-constrained-enums-rfa-analysis) for the complete listing.
 
 ## Relationship to the AllowedValue Pattern
 

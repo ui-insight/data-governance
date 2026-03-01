@@ -1,139 +1,275 @@
 {
   "application": "OpenERA",
   "description": "Controlled vocabulary values for the OpenERA research administration platform",
-  "version": "1.0.0",
-  "last_updated": "2026-02-28",
+  "version": "2.0.0",
+  "last_updated": "2026-03-01",
   "value_groups": [
     {
-      "Value_Group": "ContactType",
-      "description": "Types of contact information for persons and organizations",
+      "Value_Group": "DocumentType",
+      "description": "Types of documents included in a proposal submission package",
       "values": [
-        { "Code": "phone", "Label": "Phone", "Display_Order": 1, "Description": "Telephone number" },
-        { "Code": "email", "Label": "Email", "Display_Order": 2, "Description": "Email address" },
-        { "Code": "fax", "Label": "Fax", "Display_Order": 3, "Description": "Fax number" },
-        { "Code": "url", "Label": "URL", "Display_Order": 4, "Description": "Web address" },
-        { "Code": "mailing_address", "Label": "Mailing Address", "Display_Order": 5, "Description": "Physical mailing address" }
-      ]
-    },
-    {
-      "Value_Group": "OrganizationType",
-      "description": "Classification of sponsoring and partner organizations",
-      "values": [
-        { "Code": "university", "Label": "University", "Display_Order": 1, "Description": "College or university institution" },
-        { "Code": "federal_agency", "Label": "Federal Agency", "Display_Order": 2, "Description": "United States federal government agency" },
-        { "Code": "state_agency", "Label": "State Agency", "Display_Order": 3, "Description": "State government agency" },
-        { "Code": "foundation", "Label": "Foundation", "Display_Order": 4, "Description": "Private or public foundation" },
-        { "Code": "corporation", "Label": "Corporation", "Display_Order": 5, "Description": "For-profit corporation or business entity" },
-        { "Code": "nonprofit", "Label": "Nonprofit", "Display_Order": 6, "Description": "Nonprofit organization" },
-        { "Code": "consortium", "Label": "Consortium", "Display_Order": 7, "Description": "Multi-institutional research consortium" },
-        { "Code": "laboratory", "Label": "Laboratory", "Display_Order": 8, "Description": "National or independent research laboratory" },
-        { "Code": "other", "Label": "Other", "Display_Order": 9, "Description": "Organization type not otherwise classified" }
+        { "Code": "proposal_narrative", "Label": "Proposal Narrative", "Display_Order": 1 },
+        { "Code": "budget_justification", "Label": "Budget Justification", "Display_Order": 2 },
+        { "Code": "biosketch", "Label": "Biographical Sketch", "Display_Order": 3 },
+        { "Code": "current_pending", "Label": "Current & Pending Support", "Display_Order": 4 },
+        { "Code": "facilities", "Label": "Facilities & Equipment", "Display_Order": 5 },
+        { "Code": "data_mgmt", "Label": "Data Management Plan", "Display_Order": 6 },
+        { "Code": "letter_support", "Label": "Letter of Support", "Display_Order": 7 },
+        { "Code": "rfa_document", "Label": "RFA/RFP Document", "Display_Order": 8 },
+        { "Code": "subaward_docs", "Label": "Subaward Documents", "Display_Order": 9 },
+        { "Code": "coi_disclosure", "Label": "COI Disclosure", "Display_Order": 10 },
+        { "Code": "other", "Label": "Other Document", "Display_Order": 11 }
       ]
     },
     {
       "Value_Group": "ProjectRole",
       "description": "Roles of personnel on sponsored research projects",
       "values": [
-        { "Code": "pi", "Label": "Principal Investigator", "Display_Order": 1, "Description": "Lead researcher responsible for the project" },
-        { "Code": "co_pi", "Label": "Co-Principal Investigator", "Display_Order": 2, "Description": "Co-lead researcher sharing project responsibility" },
-        { "Code": "senior_personnel", "Label": "Senior Personnel", "Display_Order": 3, "Description": "Senior researcher contributing significantly to the project" },
-        { "Code": "postdoc", "Label": "Postdoctoral Researcher", "Display_Order": 4, "Description": "Postdoctoral fellow or researcher" },
-        { "Code": "grad_student", "Label": "Graduate Student", "Display_Order": 5, "Description": "Graduate research assistant" },
-        { "Code": "undergrad", "Label": "Undergraduate Student", "Display_Order": 6, "Description": "Undergraduate research assistant" },
-        { "Code": "consultant", "Label": "Consultant", "Display_Order": 7, "Description": "External subject matter expert" },
-        { "Code": "other_professional", "Label": "Other Professional", "Display_Order": 8, "Description": "Professional staff contributing to the project" },
-        { "Code": "administrative", "Label": "Administrative", "Display_Order": 9, "Description": "Administrative support personnel" },
-        { "Code": "technician", "Label": "Technician", "Display_Order": 10, "Description": "Technical support personnel" }
+        { "Code": "pi", "Label": "Principal Investigator", "Display_Order": 1 },
+        { "Code": "co_pi", "Label": "Co-Principal Investigator", "Display_Order": 2 },
+        { "Code": "co_i", "Label": "Co-Investigator", "Display_Order": 3 },
+        { "Code": "key_person", "Label": "Key Personnel", "Display_Order": 4 },
+        { "Code": "senior_person", "Label": "Senior Personnel", "Display_Order": 5 },
+        { "Code": "postdoc", "Label": "Postdoctoral Researcher", "Display_Order": 6 },
+        { "Code": "grad_student", "Label": "Graduate Student", "Display_Order": 7 },
+        { "Code": "undergrad", "Label": "Undergraduate Student", "Display_Order": 8 },
+        { "Code": "technician", "Label": "Technician", "Display_Order": 9 },
+        { "Code": "consultant", "Label": "Consultant", "Display_Order": 10 }
       ]
     },
     {
-      "Value_Group": "ProposalStatus",
-      "description": "Lifecycle status of a grant proposal through the review and submission process",
+      "Value_Group": "ProjectType",
+      "description": "Classification of funded project types",
       "values": [
-        { "Code": "draft", "Label": "Draft", "Display_Order": 1, "Description": "Proposal is being prepared by the PI" },
-        { "Code": "department_review", "Label": "Department Review", "Display_Order": 2, "Description": "Under review by the department chair or head" },
-        { "Code": "college_review", "Label": "College Review", "Display_Order": 3, "Description": "Under review by the college dean or designee" },
-        { "Code": "osp_review", "Label": "OSP Review", "Display_Order": 4, "Description": "Under review by the Office of Sponsored Programs" },
-        { "Code": "submitted", "Label": "Submitted", "Display_Order": 5, "Description": "Proposal has been submitted to the sponsor" },
-        { "Code": "awarded", "Label": "Awarded", "Display_Order": 6, "Description": "Proposal has been funded by the sponsor" },
-        { "Code": "declined", "Label": "Declined", "Display_Order": 7, "Description": "Proposal was not selected for funding" },
-        { "Code": "withdrawn", "Label": "Withdrawn", "Display_Order": 8, "Description": "Proposal was withdrawn before or after submission" }
+        { "Code": "research", "Label": "Research", "Display_Order": 1 },
+        { "Code": "instruction", "Label": "Instruction/Training", "Display_Order": 2 },
+        { "Code": "public_service", "Label": "Public Service", "Display_Order": 3 },
+        { "Code": "fellowship", "Label": "Fellowship", "Display_Order": 4 },
+        { "Code": "equipment", "Label": "Equipment", "Display_Order": 5 },
+        { "Code": "conference", "Label": "Conference/Workshop", "Display_Order": 6 },
+        { "Code": "other", "Label": "Other", "Display_Order": 7 }
       ]
     },
     {
-      "Value_Group": "AccountType",
-      "description": "Budget account categories for sponsored project financial management",
+      "Value_Group": "ContactType",
+      "description": "Contact method classification for persons and organizations",
       "values": [
-        { "Code": "salary", "Label": "Salary", "Display_Order": 1, "Description": "Personnel salary and wages" },
-        { "Code": "fringe", "Label": "Fringe Benefits", "Display_Order": 2, "Description": "Employee fringe benefit costs" },
-        { "Code": "equipment", "Label": "Equipment", "Display_Order": 3, "Description": "Capital equipment purchases" },
-        { "Code": "travel", "Label": "Travel", "Display_Order": 4, "Description": "Domestic and international travel costs" },
-        { "Code": "participant_support", "Label": "Participant Support", "Display_Order": 5, "Description": "Stipends, travel, and subsistence for project participants" },
-        { "Code": "other_direct", "Label": "Other Direct Costs", "Display_Order": 6, "Description": "Direct costs not classified elsewhere" },
-        { "Code": "indirect", "Label": "Indirect Costs", "Display_Order": 7, "Description": "Facilities and administrative (F&A) costs" },
-        { "Code": "subaward", "Label": "Subaward", "Display_Order": 8, "Description": "Subcontract or subaward to another institution" },
-        { "Code": "materials_supplies", "Label": "Materials and Supplies", "Display_Order": 9, "Description": "Consumable materials and supplies" },
-        { "Code": "publication", "Label": "Publication", "Display_Order": 10, "Description": "Publication and dissemination costs" },
-        { "Code": "consultant", "Label": "Consultant", "Display_Order": 11, "Description": "External consultant services" },
-        { "Code": "tuition", "Label": "Tuition", "Display_Order": 12, "Description": "Graduate student tuition remission" }
+        { "Code": "email", "Label": "Email", "Display_Order": 1 },
+        { "Code": "phone", "Label": "Phone", "Display_Order": 2 },
+        { "Code": "fax", "Label": "Fax", "Display_Order": 3 },
+        { "Code": "address", "Label": "Mailing Address", "Display_Order": 4 }
       ]
     },
     {
-      "Value_Group": "ComplianceType",
-      "description": "Types of regulatory compliance requirements for sponsored research",
+      "Value_Group": "COIRelationship",
+      "description": "Types of conflict of interest relationships",
       "values": [
-        { "Code": "irb", "Label": "Human Subjects", "Display_Order": 1, "Description": "Institutional Review Board approval for human subjects research" },
-        { "Code": "iacuc", "Label": "Animal Subjects", "Display_Order": 2, "Description": "Institutional Animal Care and Use Committee approval" },
-        { "Code": "ibc", "Label": "Biosafety", "Display_Order": 3, "Description": "Institutional Biosafety Committee approval for biohazards" },
-        { "Code": "export_control", "Label": "Export Control", "Display_Order": 4, "Description": "Export control review for restricted technologies or data" },
-        { "Code": "conflict_of_interest", "Label": "Conflict of Interest", "Display_Order": 5, "Description": "Financial conflict of interest disclosure and management" },
-        { "Code": "responsible_conduct", "Label": "Responsible Conduct", "Display_Order": 6, "Description": "Responsible conduct of research training requirements" },
-        { "Code": "data_management", "Label": "Data Management", "Display_Order": 7, "Description": "Data management and sharing plan requirements" }
-      ]
-    },
-    {
-      "Value_Group": "DocumentType",
-      "description": "Types of documents included in a proposal submission package",
-      "values": [
-        { "Code": "proposal_narrative", "Label": "Proposal Narrative", "Display_Order": 1, "Description": "Main proposal document describing the research plan" },
-        { "Code": "budget_justification", "Label": "Budget Justification", "Display_Order": 2, "Description": "Narrative justification for each budget category" },
-        { "Code": "biosketches", "Label": "Biosketches", "Display_Order": 3, "Description": "Biographical sketches of key personnel" },
-        { "Code": "facilities", "Label": "Facilities", "Display_Order": 4, "Description": "Description of facilities, equipment, and resources" },
-        { "Code": "data_management_plan", "Label": "Data Management Plan", "Display_Order": 5, "Description": "Plan for managing and sharing research data" },
-        { "Code": "other_supplementary", "Label": "Other Supplementary", "Display_Order": 6, "Description": "Additional supplementary documents" },
-        { "Code": "subcontract", "Label": "Subcontract", "Display_Order": 7, "Description": "Subaward or subcontract documentation" },
-        { "Code": "letter_of_support", "Label": "Letter of Support", "Display_Order": 8, "Description": "Letters of support or commitment from collaborators" }
-      ]
-    },
-    {
-      "Value_Group": "ApprovalStatus",
-      "description": "Status of internal routing approvals",
-      "values": [
-        { "Code": "pending", "Label": "Pending", "Display_Order": 1, "Description": "Approval request is awaiting review" },
-        { "Code": "approved", "Label": "Approved", "Display_Order": 2, "Description": "Request has been approved" },
-        { "Code": "returned", "Label": "Returned", "Display_Order": 3, "Description": "Request has been returned for revision" },
-        { "Code": "not_required", "Label": "Not Required", "Display_Order": 4, "Description": "Approval is not required for this item" }
+        { "Code": "equity", "Label": "Equity Interest", "Display_Order": 1 },
+        { "Code": "consulting", "Label": "Consulting Agreement", "Display_Order": 2 },
+        { "Code": "board", "Label": "Board Membership", "Display_Order": 3 },
+        { "Code": "ip", "Label": "Intellectual Property", "Display_Order": 4 },
+        { "Code": "travel", "Label": "Sponsored Travel", "Display_Order": 5 },
+        { "Code": "other", "Label": "Other", "Display_Order": 6 }
       ]
     },
     {
       "Value_Group": "FundType",
-      "description": "Source classification for sponsored funding",
+      "description": "Source category for project funding",
       "values": [
-        { "Code": "federal", "Label": "Federal", "Display_Order": 1, "Description": "United States federal government funding" },
-        { "Code": "state", "Label": "State", "Display_Order": 2, "Description": "State government funding" },
-        { "Code": "private", "Label": "Private", "Display_Order": 3, "Description": "Private foundation or corporate funding" },
-        { "Code": "internal", "Label": "Internal", "Display_Order": 4, "Description": "University internal funding programs" },
-        { "Code": "other", "Label": "Other", "Display_Order": 5, "Description": "Funding source not otherwise classified" }
+        { "Code": "sponsored", "Label": "Sponsored Research", "Display_Order": 1 },
+        { "Code": "institutional", "Label": "Institutional Funds", "Display_Order": 2 },
+        { "Code": "cost_share", "Label": "Cost Share", "Display_Order": 3 }
       ]
     },
     {
-      "Value_Group": "RateType",
-      "description": "Indirect cost rate calculation bases",
+      "Value_Group": "TransactionType",
+      "description": "Financial transaction classification (reserved for post-award)",
       "values": [
-        { "Code": "mtdc", "Label": "Modified Total Direct Cost", "Display_Order": 1, "Description": "Standard federal indirect cost rate base excluding equipment, patient care, and subaward amounts over $25K" },
-        { "Code": "tdc", "Label": "Total Direct Cost", "Display_Order": 2, "Description": "Indirect cost rate applied to all direct costs" },
-        { "Code": "salary_wages", "Label": "Salary and Wages", "Display_Order": 3, "Description": "Indirect cost rate applied only to salary and wage base" },
-        { "Code": "other", "Label": "Other", "Display_Order": 4, "Description": "Custom or sponsor-specified rate base" }
+        { "Code": "expenditure", "Label": "Expenditure", "Display_Order": 1 },
+        { "Code": "encumbrance", "Label": "Encumbrance", "Display_Order": 2 },
+        { "Code": "revenue", "Label": "Revenue", "Display_Order": 3 },
+        { "Code": "transfer", "Label": "Transfer", "Display_Order": 4 }
+      ]
+    },
+    {
+      "Value_Group": "DeliverableType",
+      "description": "Project deliverable categories (reserved for post-award)",
+      "values": [
+        { "Code": "progress_report", "Label": "Progress Report", "Display_Order": 1 },
+        { "Code": "final_report", "Label": "Final Report", "Display_Order": 2 },
+        { "Code": "financial_report", "Label": "Financial Report", "Display_Order": 3 },
+        { "Code": "invention_report", "Label": "Invention Report", "Display_Order": 4 },
+        { "Code": "other", "Label": "Other Deliverable", "Display_Order": 5 }
+      ]
+    },
+    {
+      "Value_Group": "ModEventType",
+      "description": "Award modification event types (reserved for post-award)",
+      "values": [
+        { "Code": "no_cost_ext", "Label": "No-Cost Extension", "Display_Order": 1 },
+        { "Code": "supplemental", "Label": "Supplemental Funding", "Display_Order": 2 },
+        { "Code": "budget_realloc", "Label": "Budget Reallocation", "Display_Order": 3 },
+        { "Code": "pi_change", "Label": "Change of PI", "Display_Order": 4 },
+        { "Code": "scope_change", "Label": "Change in Scope", "Display_Order": 5 },
+        { "Code": "reduction", "Label": "Funding Reduction", "Display_Order": 6 },
+        { "Code": "termination", "Label": "Early Termination", "Display_Order": 7 }
+      ]
+    },
+    {
+      "Value_Group": "ProposalCategory",
+      "description": "Proposal submission type classification",
+      "values": [
+        { "Code": "full", "Label": "Full Proposal", "Display_Order": 1 },
+        { "Code": "preliminary", "Label": "Preliminary/Pre-Proposal", "Display_Order": 2 },
+        { "Code": "subproject", "Label": "Sub-Project", "Display_Order": 3 }
+      ]
+    },
+    {
+      "Value_Group": "ProposalActionType",
+      "description": "Action type of a proposal submission",
+      "values": [
+        { "Code": "new", "Label": "New", "Display_Order": 1 },
+        { "Code": "renewal", "Label": "Renewal", "Display_Order": 2 },
+        { "Code": "continuation", "Label": "Continuation", "Display_Order": 3 },
+        { "Code": "supplement", "Label": "Supplement", "Display_Order": 4 },
+        { "Code": "revision", "Label": "Revision", "Display_Order": 5 },
+        { "Code": "resubmission", "Label": "Resubmission", "Display_Order": 6 },
+        { "Code": "transfer_in", "Label": "Transfer-in", "Display_Order": 7 }
+      ]
+    },
+    {
+      "Value_Group": "AgreementType",
+      "description": "Funding agreement type classification",
+      "values": [
+        { "Code": "grant", "Label": "Grant", "Display_Order": 1 },
+        { "Code": "cooperative", "Label": "Cooperative Agreement", "Display_Order": 2 },
+        { "Code": "contract", "Label": "Contract", "Display_Order": 3 },
+        { "Code": "subaward", "Label": "Subaward", "Display_Order": 4 },
+        { "Code": "other", "Label": "Other", "Display_Order": 5 }
+      ]
+    },
+    {
+      "Value_Group": "CampusType",
+      "description": "Campus or facility type for F&A rate determination",
+      "values": [
+        { "Code": "on_campus", "Label": "On-Campus", "Display_Order": 1 },
+        { "Code": "off_campus", "Label": "Off-Campus", "Display_Order": 2 },
+        { "Code": "ag_research", "Label": "Ag & Forestry Research", "Display_Order": 3 },
+        { "Code": "ag_non_research", "Label": "Ag & Forestry Non-Research", "Display_Order": 4 }
+      ]
+    },
+    {
+      "Value_Group": "CampusLocation",
+      "description": "University of Idaho campus locations",
+      "values": [
+        { "Code": "moscow", "Label": "Moscow", "Display_Order": 1 },
+        { "Code": "boise", "Label": "Boise", "Display_Order": 2 },
+        { "Code": "cda", "Label": "Coeur d'Alene", "Display_Order": 3 },
+        { "Code": "if", "Label": "Idaho Falls", "Display_Order": 4 },
+        { "Code": "tf", "Label": "Twin Falls", "Display_Order": 5 }
+      ]
+    },
+    {
+      "Value_Group": "SponsorRegulatory",
+      "description": "Federal regulatory frameworks applicable to sponsors",
+      "values": [
+        { "Code": "dod", "Label": "Department of Defense (DoD)", "Display_Order": 1 },
+        { "Code": "nist_sp800", "Label": "NIST SP 800-171", "Display_Order": 2 },
+        { "Code": "cmmc", "Label": "CMMC", "Display_Order": 3 },
+        { "Code": "cui", "Label": "Controlled Unclassified Information (CUI)", "Display_Order": 4 },
+        { "Code": "doe", "Label": "Department of Energy (DOE)", "Display_Order": 5 },
+        { "Code": "nasa", "Label": "NASA", "Display_Order": 6 },
+        { "Code": "nih", "Label": "National Institutes of Health (NIH)", "Display_Order": 7 },
+        { "Code": "nsf", "Label": "National Science Foundation (NSF)", "Display_Order": 8 }
+      ]
+    },
+    {
+      "Value_Group": "ExportControl",
+      "description": "Export control risk factor classification",
+      "values": [
+        { "Code": "foreign_involvement", "Label": "Foreign National Involvement", "Display_Order": 1 },
+        { "Code": "military_defense", "Label": "Military / Defense Related", "Display_Order": 2 },
+        { "Code": "pub_restrictions", "Label": "Publication Restrictions", "Display_Order": 3 },
+        { "Code": "foreign_national_id", "Label": "Foreign National Identification", "Display_Order": 4 },
+        { "Code": "work_outside_us", "Label": "Work Performed Outside the US", "Display_Order": 5 },
+        { "Code": "intl_travel", "Label": "International Travel", "Display_Order": 6 },
+        { "Code": "controlled_tech", "Label": "Controlled Technology / Items", "Display_Order": 7 },
+        { "Code": "uas_drone", "Label": "UAS / Drone Research", "Display_Order": 8 }
+      ]
+    },
+    {
+      "Value_Group": "ResearchInstitute",
+      "description": "University of Idaho research institute affiliations",
+      "values": [
+        { "Code": "iids", "Label": "Institute for Interdisciplinary Data Sciences (IIDS)", "Display_Order": 1 },
+        { "Code": "imci", "Label": "Institute for Modeling Collaboration & Innovation (IMCI)", "Display_Order": 2 },
+        { "Code": "ari", "Label": "Aquaculture Research Institute (ARI)", "Display_Order": 3 },
+        { "Code": "iwrri", "Label": "Idaho Water Resources Research Institute (IWRRI)", "Display_Order": 4 },
+        { "Code": "igs", "Label": "Idaho Geological Survey (IGS)", "Display_Order": 5 },
+        { "Code": "caes", "Label": "Center for Advanced Energy Studies (CAES)", "Display_Order": 6 },
+        { "Code": "ihhe", "Label": "Institute for Health in the Human Ecosystem (IHHE)", "Display_Order": 7 },
+        { "Code": "ics", "Label": "Institute for Cyber Security (ICS)", "Display_Order": 8 },
+        { "Code": "na", "Label": "Not Applicable", "Display_Order": 9 }
+      ]
+    },
+    {
+      "Value_Group": "RequirementCategory",
+      "description": "Categories for requirements extracted from RFAs",
+      "values": [
+        { "Code": "document", "Label": "Document", "Display_Order": 1, "Description": "Required proposal document or attachment" },
+        { "Code": "formatting", "Label": "Formatting", "Display_Order": 2, "Description": "Page/font/margin formatting specification" },
+        { "Code": "eligibility", "Label": "Eligibility", "Display_Order": 3, "Description": "Applicant eligibility requirement" },
+        { "Code": "review_criterion", "Label": "Review Criterion", "Display_Order": 4, "Description": "Merit review criterion" },
+        { "Code": "budget_constraint", "Label": "Budget Constraint", "Display_Order": 5, "Description": "Budget limitation or rule" },
+        { "Code": "submission", "Label": "Submission", "Display_Order": 6, "Description": "Submission portal or format requirement" },
+        { "Code": "deadline", "Label": "Deadline", "Display_Order": 7, "Description": "Submission or review deadline" },
+        { "Code": "compliance", "Label": "Compliance", "Display_Order": 8, "Description": "Regulatory or policy compliance requirement" }
+      ]
+    },
+    {
+      "Value_Group": "ChecklistStatus",
+      "description": "Completion status for proposal checklist items",
+      "values": [
+        { "Code": "not_started", "Label": "Not Started", "Display_Order": 1, "Description": "Work has not begun on this item" },
+        { "Code": "in_progress", "Label": "In Progress", "Display_Order": 2, "Description": "Work is underway" },
+        { "Code": "complete", "Label": "Complete", "Display_Order": 3, "Description": "Item has been completed" },
+        { "Code": "not_applicable", "Label": "Not Applicable", "Display_Order": 4, "Description": "Item does not apply to this proposal" }
+      ]
+    },
+    {
+      "Value_Group": "AppointmentType",
+      "description": "Personnel appointment types for APM 45.22 PI/Co-PI eligibility evaluation",
+      "values": [
+        { "Code": "tenured", "Label": "Tenured", "Display_Order": 1 },
+        { "Code": "tenure_track", "Label": "Tenure-Track", "Display_Order": 2 },
+        { "Code": "non_tenure_track", "Label": "Non-Tenure-Track", "Display_Order": 3 },
+        { "Code": "research_faculty", "Label": "Research Faculty", "Display_Order": 4 },
+        { "Code": "extension_faculty", "Label": "Extension Faculty", "Display_Order": 5 },
+        { "Code": "librarian_faculty", "Label": "Librarian Faculty", "Display_Order": 6 },
+        { "Code": "clinical_faculty", "Label": "Clinical Faculty", "Display_Order": 7 },
+        { "Code": "visiting_faculty", "Label": "Visiting Faculty", "Display_Order": 8 },
+        { "Code": "emeritus", "Label": "Emeritus", "Display_Order": 9 },
+        { "Code": "postdoctoral_fellow", "Label": "Postdoctoral Fellow", "Display_Order": 10 },
+        { "Code": "research_scientist", "Label": "Research Scientist", "Display_Order": 11 },
+        { "Code": "staff", "Label": "Staff", "Display_Order": 12 },
+        { "Code": "graduate_student", "Label": "Graduate Student", "Display_Order": 13 },
+        { "Code": "undergraduate_student", "Label": "Undergraduate Student", "Display_Order": 14 },
+        { "Code": "external_collaborator", "Label": "External Collaborator", "Display_Order": 15 }
+      ]
+    },
+    {
+      "Value_Group": "FacultyRank",
+      "description": "Faculty rank levels",
+      "values": [
+        { "Code": "professor", "Label": "Professor", "Display_Order": 1 },
+        { "Code": "assoc_professor", "Label": "Associate Professor", "Display_Order": 2 },
+        { "Code": "asst_professor", "Label": "Assistant Professor", "Display_Order": 3 },
+        { "Code": "lecturer", "Label": "Lecturer", "Display_Order": 4 },
+        { "Code": "senior_lecturer", "Label": "Senior Lecturer", "Display_Order": 5 },
+        { "Code": "clinical_professor", "Label": "Clinical Professor", "Display_Order": 6 },
+        { "Code": "research_sci_i", "Label": "Research Scientist I", "Display_Order": 7 },
+        { "Code": "research_sci_ii", "Label": "Research Scientist II", "Display_Order": 8 },
+        { "Code": "research_sci_iii", "Label": "Research Scientist III", "Display_Order": 9 }
       ]
     }
   ]

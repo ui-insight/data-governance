@@ -6,67 +6,133 @@ Complete listing of all controlled vocabulary groups across every application in
 
 ## Research Administration -- OpenERA
 
-OpenERA has the largest vocabulary footprint, reflecting the complexity of sponsored-program administration.
+OpenERA has the largest vocabulary footprint, reflecting the complexity of sponsored-program administration. All AllowedValue codes use `snake_case` naming.
 
-### ContactType (5 codes)
+### DocumentType (11 codes)
 
-Classifies the nature of a contact record associated with an organization or proposal.
+Categorizes documents attached to proposals and RFAs.
 
-`primary`, `administrative`, `financial`, `technical`, `authorized_representative`
-
-### OrganizationType (9 codes)
-
-Categorizes organizations involved in sponsored research.
-
-`university`, `federal_agency`, `state_agency`, `nonprofit`, `industry`, `foundation`, `international`, `consortium`, `other`
+`proposal_narrative`, `budget_justification`, `biosketch`, `current_pending`, `facilities`, `data_mgmt`, `letter_support`, `rfa_document`, `subaward_docs`, `coi_disclosure`, `other`
 
 ### ProjectRole (10 codes)
 
 Defines the role a person holds on a research project. Aligns with federal sponsor role definitions (e.g., NSF Senior Personnel categories).
 
-`pi`, `co_pi`, `senior_personnel`, `postdoc`, `graduate_student`, `undergraduate_student`, `technician`, `consultant`, `other_professional`, `administrator`
+`pi`, `co_pi`, `co_i`, `key_person`, `senior_person`, `postdoc`, `grad_student`, `undergrad`, `technician`, `consultant`
 
-### ProposalStatus (8 codes)
+### ProjectType (7 codes)
 
-Tracks a proposal through its lifecycle from initial draft to completion or closure.
+Classifies the type of funded project.
 
-`draft`, `submitted`, `under_review`, `approved`, `rejected`, `active`, `completed`, `closed`
+`research`, `instruction`, `public_service`, `fellowship`, `equipment`, `conference`, `other`
 
-### AccountType (12 codes)
+### ContactType (4 codes)
 
-Classifies financial accounts associated with awards and institutional funds.
+Classifies the contact method for a person or organization.
 
-`federal_grant`, `federal_contract`, `federal_cooperative`, `state_grant`, `state_contract`, `industry_grant`, `industry_contract`, `foundation_grant`, `gift`, `internal`, `cost_share`, `program_income`
+`email`, `phone`, `fax`, `address`
 
-### ComplianceType (7 codes)
+### COIRelationship (6 codes)
 
-Identifies the type of regulatory compliance review required for a project.
+Classifies the nature of a conflict of interest relationship.
 
-`irb`, `iacuc`, `ibc`, `export_control`, `conflict_of_interest`, `data_security`, `environmental`
+`equity`, `consulting`, `board`, `ip`, `travel`, `other`
 
-### DocumentType (8 codes)
+### FundType (3 codes)
 
-Categorizes documents attached to proposals and awards.
+Classifies the source category of project funding.
 
-`proposal`, `budget`, `biosketches`, `facilities`, `data_management`, `compliance`, `subaward`, `other`
+`sponsored`, `institutional`, `cost_share`
 
-### ApprovalStatus (4 codes)
+### TransactionType (4 codes)
 
-Tracks the outcome of an approval action (routing, compliance review, etc.).
+Classifies financial transactions (reserved for post-award modules).
 
-`pending`, `approved`, `rejected`, `conditional`
+`expenditure`, `encumbrance`, `revenue`, `transfer`
 
-### FundType (5 codes)
+### DeliverableType (5 codes)
 
-Classifies the source category of award funding.
+Categorizes project deliverables (reserved for post-award modules).
 
-`federal`, `state`, `industry`, `foundation`, `internal`
+`progress_report`, `final_report`, `financial_report`, `invention_report`, `other`
 
-### RateType (4 codes)
+### ModEventType (7 codes)
 
-Identifies the type of indirect cost rate applied to an award.
+Classifies award modification events (reserved for post-award modules).
 
-`on_campus`, `off_campus`, `special`, `waived`
+`no_cost_ext`, `supplemental`, `budget_realloc`, `pi_change`, `scope_change`, `reduction`, `termination`
+
+### ProposalCategory (3 codes)
+
+Classifies proposals by submission type.
+
+`full`, `preliminary`, `subproject`
+
+### ProposalActionType (7 codes)
+
+Classifies the action type of a proposal submission.
+
+`new`, `renewal`, `continuation`, `supplement`, `revision`, `resubmission`, `transfer_in`
+
+### AgreementType (5 codes)
+
+Classifies the type of funding agreement.
+
+`grant`, `cooperative`, `contract`, `subaward`, `other`
+
+### CampusType (4 codes)
+
+Classifies the campus or facility type for F&A rate determination.
+
+`on_campus`, `off_campus`, `ag_research`, `ag_non_research`
+
+### CampusLocation (5 codes)
+
+Identifies the University of Idaho campus location.
+
+`moscow`, `boise`, `cda`, `if`, `tf`
+
+### SponsorRegulatory (8 codes)
+
+Identifies federal regulatory frameworks applicable to a sponsor.
+
+`dod`, `nist_sp800`, `cmmc`, `cui`, `doe`, `nasa`, `nih`, `nsf`
+
+### ExportControl (8 codes)
+
+Classifies export control risk factors.
+
+`foreign_involvement`, `military_defense`, `pub_restrictions`, `foreign_national_id`, `work_outside_us`, `intl_travel`, `controlled_tech`, `uas_drone`
+
+### ResearchInstitute (9 codes)
+
+Identifies University of Idaho research institute affiliations.
+
+`iids`, `imci`, `ari`, `iwrri`, `igs`, `caes`, `ihhe`, `ics`, `na`
+
+### RequirementCategory (8 codes)
+
+Categorizes requirements extracted from RFAs.
+
+`document`, `formatting`, `eligibility`, `review_criterion`, `budget_constraint`, `submission`, `deadline`, `compliance`
+
+### ChecklistStatus (4 codes)
+
+Tracks the completion status of proposal checklist items.
+
+`not_started`, `in_progress`, `complete`, `not_applicable`
+
+### AppointmentType (15 codes)
+
+Classifies personnel appointment types, used for APM 45.22 PI/Co-PI eligibility evaluation.
+
+`tenured`, `tenure_track`, `non_tenure_track`, `research_faculty`, `extension_faculty`, `librarian_faculty`, `clinical_faculty`, `visiting_faculty`, `emeritus`, `postdoctoral_fellow`, `research_scientist`, `staff`, `graduate_student`, `undergraduate_student`, `external_collaborator`
+
+### FacultyRank (9 codes)
+
+Classifies faculty rank levels.
+
+`professor`, `assoc_professor`, `asst_professor`, `lecturer`, `senior_lecturer`, `clinical_professor`, `research_sci_i`, `research_sci_ii`, `research_sci_iii`
 
 ### Check-Constrained Enums (RFA Analysis)
 

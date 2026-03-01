@@ -10,7 +10,7 @@ OpenERA is the University of Idaho's pre-award proposal management system, built
 | **Repository** | [github.com/ui-insight/OpenERA](https://github.com/ui-insight/OpenERA) |
 | **Data Model Spec** | AI4RA-UDM (direct implementation) |
 | **Total Tables** | 31 |
-| **AllowedValue Groups** | 10 (72+ controlled values) |
+| **AllowedValue Groups** | 21 (156 controlled values) |
 | **Check-Constrained Enums** | 4 (Analysis_Type, Analysis_Status, Section_Type, Item_Type) |
 | **Auth Model** | JWT with 5 RBAC roles |
 | **Stack** | FastAPI + SQLAlchemy 2.0 + React/TypeScript + TailwindCSS |
@@ -112,20 +112,31 @@ erDiagram
 
 ## AllowedValue Groups
 
-The `AllowedValue` table stores all controlled vocabularies for the application. Values are grouped by `Value_Group` and referenced by foreign key throughout the data model.
+The `AllowedValue` table stores all controlled vocabularies for the application. Values are grouped by `Allowed_Value_Group` and referenced by foreign key throughout the data model. All codes use `snake_case` naming.
 
-| Value Group | Example Values | Used By |
-|---|---|---|
-| `Proposal_Status` | Draft, Routing, Under_Review, Submitted, Awarded, Declined | Proposal |
-| `Budget_Category` | Personnel, Equipment, Travel, Participant_Support, Other_Direct | BudgetCategory |
-| `Compliance_Type` | IRB, IACUC, IBC, Export_Control, RCR | ComplianceRequirement |
-| `COI_Status` | No_Conflict, Disclosed, Under_Review, Managed | ConflictOfInterest |
-| `Approval_Status` | Pending, Approved, Returned, Withdrawn | ApprovalStep |
-| `Document_Type` | Narrative, Budget_Justification, Biosketch, Support_Letter | Document |
-| `Finding_Severity` | Info, Warning, Error | DocumentReviewFinding |
-| `Project_Role` | PI, Co_PI, Senior_Personnel, Postdoc, Student | ProjectRole |
-| `Organization_Type` | Federal, State, Foundation, Industry, Academic | Organization |
-| `Eligibility_Status` | Eligible, Ineligible, Override_Granted | SponsorEligibilityRule |
+| Value Group | Codes | Count | Used By |
+|---|---|---|---|
+| `DocumentType` | `proposal_narrative`, `budget_justification`, `biosketch`, `current_pending`, `facilities`, `data_mgmt`, `letter_support`, `rfa_document`, `subaward_docs`, `coi_disclosure`, `other` | 11 | Document |
+| `ProjectRole` | `pi`, `co_pi`, `co_i`, `key_person`, `senior_person`, `postdoc`, `grad_student`, `undergrad`, `technician`, `consultant` | 10 | ProjectRole |
+| `ProjectType` | `research`, `instruction`, `public_service`, `fellowship`, `equipment`, `conference`, `other` | 7 | Project |
+| `ContactType` | `email`, `phone`, `fax`, `address` | 4 | ContactDetails |
+| `COIRelationship` | `equity`, `consulting`, `board`, `ip`, `travel`, `other` | 6 | ConflictOfInterest |
+| `FundType` | `sponsored`, `institutional`, `cost_share` | 3 | ProposalBudget |
+| `TransactionType` | `expenditure`, `encumbrance`, `revenue`, `transfer` | 4 | (post-award, reserved) |
+| `DeliverableType` | `progress_report`, `final_report`, `financial_report`, `invention_report`, `other` | 5 | (post-award, reserved) |
+| `ModEventType` | `no_cost_ext`, `supplemental`, `budget_realloc`, `pi_change`, `scope_change`, `reduction`, `termination` | 7 | (post-award, reserved) |
+| `ProposalCategory` | `full`, `preliminary`, `subproject` | 3 | Proposal |
+| `ProposalActionType` | `new`, `renewal`, `continuation`, `supplement`, `revision`, `resubmission`, `transfer_in` | 7 | Proposal |
+| `AgreementType` | `grant`, `cooperative`, `contract`, `subaward`, `other` | 5 | Proposal |
+| `CampusType` | `on_campus`, `off_campus`, `ag_research`, `ag_non_research` | 4 | Proposal |
+| `CampusLocation` | `moscow`, `boise`, `cda`, `if`, `tf` | 5 | Proposal |
+| `SponsorRegulatory` | `dod`, `nist_sp800`, `cmmc`, `cui`, `doe`, `nasa`, `nih`, `nsf` | 8 | Proposal |
+| `ExportControl` | `foreign_involvement`, `military_defense`, `pub_restrictions`, `foreign_national_id`, `work_outside_us`, `intl_travel`, `controlled_tech`, `uas_drone` | 8 | Proposal |
+| `ResearchInstitute` | `iids`, `imci`, `ari`, `iwrri`, `igs`, `caes`, `ihhe`, `ics`, `na` | 9 | Proposal |
+| `RequirementCategory` | `document`, `formatting`, `eligibility`, `review_criterion`, `budget_constraint`, `submission`, `deadline`, `compliance` | 8 | RFARequirement |
+| `ChecklistStatus` | `not_started`, `in_progress`, `complete`, `not_applicable` | 4 | ProposalChecklistItem |
+| `AppointmentType` | `tenured`, `tenure_track`, `non_tenure_track`, `research_faculty`, `extension_faculty`, `librarian_faculty`, `clinical_faculty`, `visiting_faculty`, `emeritus`, `postdoctoral_fellow`, `research_scientist`, `staff`, `graduate_student`, `undergraduate_student`, `external_collaborator` | 15 | Personnel |
+| `FacultyRank` | `professor`, `assoc_professor`, `asst_professor`, `lecturer`, `senior_lecturer`, `clinical_professor`, `research_sci_i`, `research_sci_ii`, `research_sci_iii` | 9 | Personnel |
 
 ## Check-Constrained Enums (RFA Analysis)
 
@@ -157,11 +168,11 @@ Key AI capabilities:
 
 | Role | Permissions |
 |---|---|
-| `admin` | Full system access, user management, LLM endpoint configuration |
-| `osp_reviewer` | Review and approve proposals, manage compliance, view all submissions |
-| `department_admin` | Route proposals within department, manage department personnel |
+| `system_admin` | Full system access, user management, LLM endpoint configuration |
+| `osp_admin` | Review and approve proposals at OSP level, manage compliance, view all submissions |
+| `college_admin` | Review and approve proposals at college level |
+| `dept_admin` | Route proposals within department, manage department personnel |
 | `pi` | Create and edit own proposals, view project team, submit for routing |
-| `viewer` | Read-only access to assigned proposals and projects |
 
 ## Deployment
 
