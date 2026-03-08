@@ -10,7 +10,7 @@ The UCM Daily Register application is an AI-assisted newsletter production pipel
 | **Repository** | [github.com/ui-insight/UCMDailyRegister](https://github.com/ui-insight/UCMDailyRegister) |
 | **Newsletters** | The Daily Register (TDR, weekdays) and My UI (Mondays) |
 | **Total Tables** | 10 |
-| **AllowedValue Groups** | 9 (37 controlled values) |
+| **AllowedValue Groups** | 10 (37 controlled values) |
 | **Auth Model** | None (internal tool, network-restricted) |
 | **Stack** | FastAPI + SQLAlchemy 2.0 + React/TypeScript + TailwindCSS |
 | **Prod URL** | `ucmnews.insight.uidaho.edu` (port 9280) |
@@ -53,23 +53,24 @@ erDiagram
 
 | Table | Description |
 |---|---|
-| `StyleRule` | Editorial rules loaded into AI system prompts to guide text transformation. Rules are categorized by `Rule_Set` (e.g., AP_Style, UCM_House) and `Severity` (must, should, prefer). Stored in the database rather than hard-coded to allow non-developer editing. |
+| `StyleRule` | Editorial rules loaded into AI system prompts to guide text transformation. Rules are categorized by `Rule_Set` (shared, tdr, myui) and `Severity` (error, warning, info). Stored in the database rather than hard-coded to allow non-developer editing. |
 | `ScheduleConfig` | Publication schedule configuration defining which newsletter types publish on which days, along with submission deadlines and processing modes. |
 | `AllowedValue` | Centralized controlled vocabulary store shared across the application. All picklist values and enum-like fields reference this table. |
 
 ## AllowedValue Groups
 
-| Value Group | Example Values | Used By |
+| Value Group | Codes | Used By |
 |---|---|---|
-| `Newsletter_Type` | TDR, My_UI | Newsletter, ScheduleConfig |
-| `Submission_Status` | Draft, Submitted, In_Review, Approved, Published, Rejected | Submission |
+| `Submission_Category` | faculty_staff, student, job_opportunity, kudos, in_memoriam, news_release, calendar_event | Submission |
+| `Newsletter_Type` | tdr, myui | Newsletter, ScheduleConfig |
+| `Target_Newsletter` | tdr, myui, both | SubmissionScheduleRequest |
+| `Submission_Status` | new, ai_edited, in_review, approved, scheduled, published, rejected | Submission |
+| `Newsletter_Status` | draft, in_progress, ready_for_review, submitted, published | Newsletter |
 | `Version_Type` | original, ai_suggested, editor_final | EditVersion |
-| `Rule_Set` | AP_Style, UCM_House, Headline, Brevity | StyleRule |
-| `Severity` | must, should, prefer | StyleRule |
-| `Section_Name` | Announcements, Events, Deadlines, Opportunities | NewsletterSection |
-| `Link_Type` | Primary, Registration, Resource, Related | SubmissionLink |
-| `Schedule_Mode` | auto, manual, hold | ScheduleConfig |
-| `Day_Of_Week` | Monday, Tuesday, Wednesday, Thursday, Friday | ScheduleConfig |
+| `Headline_Case` | sentence_case, title_case | EditVersion |
+| `Rule_Set` | shared, tdr, myui | StyleRule |
+| `Severity` | error, warning, info | StyleRule |
+| `Schedule_Mode` | academic_year, summer | ScheduleConfig |
 
 ## AI Integration
 

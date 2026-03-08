@@ -7,7 +7,7 @@
     "frontend": "React + TypeScript + Tailwind CSS",
     "database": "SQLite (dev) / PostgreSQL 16 (prod)"
   },
-  "table_count": 31,
+  "table_count": 32,
   "tables": [
     {
       "table_name": "AllowedValues",
@@ -154,6 +154,10 @@
         {"name": "FA_Split_Details", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
         {"name": "FA_Split_Rationale", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null}
       ],
+      "check_constraints": {
+        "Internal_Approval_Status": ["Draft", "In Review", "Approved", "Rejected", "Returned"],
+        "Decision_Status": ["Pending", "Awarded", "Declined", "Withdrawn"]
+      },
       "unique_constraints": [["Proposal_Number"]],
       "relationships": [
         {"name": "sponsor", "target": "Organization", "type": "many_to_one"},
@@ -670,6 +674,7 @@
         {"name": "Source_Document_Hash", "type": "String(128)", "nullable": true, "primary_key": false, "foreign_key": null},
         {"name": "Source_Document_Name", "type": "String(255)", "nullable": true, "primary_key": false, "foreign_key": null},
         {"name": "Summary_Text", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "OCR_Markdown", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
         {"name": "Raw_Output", "type": "Text", "nullable": true, "primary_key": false, "foreign_key": null},
         {"name": "Status", "type": "String(30)", "nullable": false, "primary_key": false, "foreign_key": null},
         {"name": "Items_Extracted", "type": "Integer", "nullable": true, "primary_key": false, "foreign_key": null},
@@ -739,6 +744,18 @@
         {"name": "section", "target": "RFAAnalysisSection", "type": "many_to_one"},
         {"name": "materialized_requirement", "target": "RFARequirement", "type": "many_to_one"}
       ]
+    },
+    {
+      "table_name": "Token_Blacklist",
+      "model_class": "TokenBlacklist",
+      "description": "Revoked JWT identifiers for persistent token invalidation across server restarts",
+      "columns": [
+        {"name": "JTI", "type": "String(64)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "Expires_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "Blacklisted_At", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "unique_constraints": [],
+      "relationships": []
     }
   ]
 }

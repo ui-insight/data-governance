@@ -9,9 +9,9 @@ OpenERA is the University of Idaho's pre-award proposal management system, built
 | **Domain** | Pre-award proposal management |
 | **Repository** | [github.com/ui-insight/OpenERA](https://github.com/ui-insight/OpenERA) |
 | **Data Model Spec** | AI4RA-UDM (direct implementation) |
-| **Total Tables** | 31 |
+| **Total Tables** | 32 |
 | **AllowedValue Groups** | 21 (156 controlled values) |
-| **Check-Constrained Enums** | 4 (Analysis_Type, Analysis_Status, Section_Type, Item_Type) |
+| **Check-Constrained Enums** | 6 (Internal_Approval_Status, Decision_Status, Analysis_Type, Analysis_Status, Section_Type, Item_Type) |
 | **Auth Model** | JWT with 5 RBAC roles |
 | **Stack** | FastAPI + SQLAlchemy 2.0 + React/TypeScript + TailwindCSS |
 | **Prod URL** | `openera.insight.uidaho.edu` (port 9200) |
@@ -109,6 +109,7 @@ erDiagram
 | `DataDictionary` | Self-documenting metadata for all tables and columns in the data model, queryable at runtime. |
 | `ActivityLog` | Timestamped audit trail of user actions across the application (creates, updates, approvals, AI invocations). |
 | `AllowedValue` | Centralized controlled vocabulary store. All enums and picklist values are stored here rather than hard-coded. |
+| `Token_Blacklist` | Revoked JWT identifiers for persistent token invalidation across server restarts. Stores JTI, expiration, and blacklist timestamp. |
 
 ## AllowedValue Groups
 
@@ -144,6 +145,8 @@ The RFA Analysis tables use SQL CHECK constraints rather than the AllowedValue p
 
 | Column | Table | Values |
 |---|---|---|
+| `Internal_Approval_Status` | Proposal | `Draft`, `In Review`, `Approved`, `Rejected`, `Returned` |
+| `Decision_Status` | Proposal | `Pending`, `Awarded`, `Declined`, `Withdrawn` |
 | `Analysis_Type` | RFAAnalysisRun | `comprehensive_checklist`, `ffr_checklist`, `eligibility_review`, `budget_review`, `custom` |
 | `Status` | RFAAnalysisRun | `pending`, `completed`, `failed`, `superseded` |
 | `Section_Type` | RFAAnalysisSection | `key_value`, `table`, `rule_list`, `narrative`, `mixed` |

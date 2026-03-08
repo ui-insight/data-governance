@@ -172,13 +172,13 @@ UCM Daily Register manages the University of Idaho's faculty/staff and student n
 
 Classifies the type of content submitted for newsletter inclusion.
 
-`announcement`, `event`, `deadline`, `achievement`, `grant`, `resource`, `other`
+`faculty_staff`, `student`, `job_opportunity`, `kudos`, `in_memoriam`, `news_release`, `calendar_event`
 
 ### Newsletter_Type (2 codes)
 
 Distinguishes between the two newsletters produced by the system.
 
-`daily_register`, `myui`
+`tdr`, `myui`
 
 ### Target_Newsletter (3 codes)
 
@@ -190,13 +190,13 @@ Specifies which newsletter(s) a submission is intended for.
 
 Tracks a submission through the editorial pipeline from intake to publication.
 
-`new`, `ai_edited`, `in_review`, `revision_requested`, `approved`, `scheduled`, `published`
+`new`, `ai_edited`, `in_review`, `approved`, `scheduled`, `published`, `rejected`
 
 ### Newsletter_Status (5 codes)
 
 Tracks a newsletter edition through assembly and distribution.
 
-`draft`, `assembling`, `ready`, `sent`, `archived`
+`draft`, `in_progress`, `ready_for_review`, `submitted`, `published`
 
 ### Version_Type (3 codes)
 
@@ -208,13 +208,13 @@ Identifies the stage of an edit version in the AI editing pipeline.
 
 Specifies the capitalization style applied to headlines.
 
-`title_case`, `sentence_case`
+`sentence_case`, `title_case`
 
 ### Rule_Set (3 codes)
 
 Groups style rules into named sets for different editorial contexts.
 
-`ap_style`, `ucm_house`, `accessibility`
+`shared`, `tdr`, `myui`
 
 ### Severity (3 codes)
 
@@ -226,7 +226,7 @@ Indicates the severity of a style-rule violation detected during AI editing.
 
 Controls how newsletter publication timing is determined.
 
-`automatic`, `manual`
+`academic_year`, `summer`
 
 ---
 
@@ -238,19 +238,19 @@ The Audit Dashboard supports the University of Idaho's internal audit function, 
 
 Classifies audit reports by their purpose and scope.
 
-`ANNUAL`, `SPECIAL`, `FOLLOW_UP`
+`FULL_REPORT`, `FOLLOW_UP`, `LETTER`
 
 ### ObservationStatus (4 codes)
 
 Tracks an audit observation from initial documentation through resolution.
 
-`DRAFT`, `OPEN`, `RESOLVED`, `CLOSED`
+`OPEN`, `IN_PROGRESS`, `CLOSED`, `CLOSED_FIRST_FOLLOWUP`
 
 ### ActionItemStatus (5 codes)
 
 Tracks corrective action items assigned in response to audit observations.
 
-`OPEN`, `IN_PROGRESS`, `COMPLETED`, `OVERDUE`, `CANCELLED`
+`OPEN`, `IN_PROGRESS`, `COMPLETED`, `OVERDUE`, `CLOSED`
 
 ### Severity (3 codes)
 
@@ -260,9 +260,9 @@ Rates the impact level of an audit finding.
 
 ### AssignmentRole (2 codes)
 
-Defines the role of an auditor assigned to an engagement.
+Defines the role of a party assigned to an action item.
 
-`LEAD`, `SUPPORT`
+`IMPLEMENTER`, `REVIEWER`
 
 ### Priority (3 codes)
 
@@ -274,13 +274,13 @@ Rates the urgency of addressing an audit finding, independent of severity.
 
 Classifies documents attached to audit engagements.
 
-`REPORT`, `WORKPAPER`, `EVIDENCE`, `CORRESPONDENCE`
+`SOURCE_PDF`, `EVIDENCE`, `CORRESPONDENCE`, `OTHER`
 
 ### ExtractionStatus (8 codes)
 
 Tracks the AI-assisted extraction pipeline for processing audit documents via MindRouter OCR and LLM.
 
-`PENDING`, `PROCESSING`, `EXTRACTED`, `REVIEWED`, `APPROVED`, `REJECTED`, `FAILED`, `ARCHIVED`
+`PENDING`, `OCR_IN_PROGRESS`, `OCR_COMPLETE`, `LLM_IN_PROGRESS`, `REVIEW_PENDING`, `APPROVED`, `REJECTED`, `FAILED`
 
 ---
 

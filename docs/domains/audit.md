@@ -61,16 +61,16 @@ erDiagram
 
 ## AllowedValue Groups
 
-| Value Group | Example Values | Used By |
+| Value Group | Codes | Used By |
 |---|---|---|
-| `Observation_Risk` | High, Medium, Low | Observation |
-| `Observation_Type` | Control_Weakness, Compliance, Process_Gap, IT_Security | Observation |
-| `Action_Status` | Open, In_Progress, Completed, Overdue, Closed | ActionItem |
-| `Report_Status` | Draft, Published, Follow_Up_Scheduled, Closed | AuditReport |
-| `Extraction_Status` | Pending, Processing, Review, Accepted, Failed | ExtractionJob |
-| `Follow_Up_Result` | Resolved, Partially_Resolved, Unresolved, New_Finding | FollowUp |
-| `Document_Type` | Audit_Report, Evidence, Supporting_Doc | Document |
-| `User_Role` | admin, auditor | User |
+| `ReportType` | FULL_REPORT, FOLLOW_UP, LETTER | AuditReport |
+| `ObservationStatus` | OPEN, IN_PROGRESS, CLOSED, CLOSED_FIRST_FOLLOWUP | Observation |
+| `ActionItemStatus` | OPEN, IN_PROGRESS, COMPLETED, OVERDUE, CLOSED | ActionItem |
+| `Severity` | HIGH, MEDIUM, LOW | Observation |
+| `AssignmentRole` | IMPLEMENTER, REVIEWER | ActionItemAssignment |
+| `Priority` | HIGH, MEDIUM, LOW | ActionItem |
+| `DocumentType` | SOURCE_PDF, EVIDENCE, CORRESPONDENCE, OTHER | Document |
+| `ExtractionStatus` | PENDING, OCR_IN_PROGRESS, OCR_COMPLETE, LLM_IN_PROGRESS, REVIEW_PENDING, APPROVED, REJECTED, FAILED | ExtractionJob |
 
 ## AI Integration
 

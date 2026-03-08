@@ -38,7 +38,7 @@
     {
       "name": "Unit",
       "description": "University organizational unit",
-      "count": 25,
+      "count": 26,
       "fields": [
         {"name": "unit_name", "type": "string"},
         {"name": "source_files", "type": "array<string>"},
@@ -48,7 +48,7 @@
     {
       "name": "Tactic",
       "description": "Specific action aligned to one or more priorities",
-      "count": 385,
+      "count": 453,
       "fields": [
         {"name": "id", "type": "integer"},
         {"name": "tactic_text", "type": "string"},
@@ -95,7 +95,15 @@
         {"name": "status", "type": "string"},
         {"name": "percent_complete", "type": "integer"},
         {"name": "roi_type", "type": "string nullable"},
-        {"name": "linked_tactic_ids", "type": "array<integer>"}
+        {"name": "linked_tactic_ids", "type": "array<integer>"},
+        {"name": "fy_disbursement_schedule", "type": "string nullable"},
+        {"name": "last_update_date", "type": "date nullable"},
+        {"name": "milestone_achieved", "type": "boolean"},
+        {"name": "budget_spent_to_date", "type": "number nullable"},
+        {"name": "percent_award_expended", "type": "number nullable"},
+        {"name": "variance_from_plan", "type": "string nullable"},
+        {"name": "narrative_update", "type": "string nullable"},
+        {"name": "remaining_award", "type": "number nullable"}
       ]
     }
   ],
