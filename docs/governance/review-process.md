@@ -3,7 +3,7 @@
 This page describes how data model changes are reviewed across the UI Insight portfolio. The process is intentionally lightweight -- it provides enough structure to catch cross-domain conflicts and maintain registry accuracy without creating bureaucratic overhead.
 
 !!! info "Living document"
-    This review process is a starting point. It will be refined as the institutional data governance practice matures and as the portfolio grows beyond its current six applications.
+    This review process is a starting point. It will be refined as the institutional data governance practice matures and as the portfolio grows beyond the applications currently onboarded into this repository.
 
 ## What Requires Review
 

@@ -96,4 +96,4 @@ class Submission(Base):
     Category = sa.Column(sa.String(50), nullable=False)
 ```
 
-This convention is adopted from the AI4RA-UDM reference implementation and maintained across all applications for readability and consistency.
+This convention is adopted from the AI4RA-UDM reference implementation and maintained across the currently onboarded governance applications for readability and consistency.

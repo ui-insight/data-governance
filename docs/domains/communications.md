@@ -90,12 +90,12 @@ The AI editing pipeline operates in a defined sequence:
 
 ## Deployment
 
-The application follows the standard three-container Docker architecture:
+The application deploys as a two-container app stack connected to the shared `insight-db` PostgreSQL service:
 
 | Container | Role | Port |
 |---|---|---|
-| `frontend` (nginx) | Serves React build, proxies `/api/` to backend | Host-mapped (9280 prod / 9290 dev) |
+| `frontend` (nginx) | Serves React build, proxies `/api/` to backend | Host-mapped (`HOST_PORT`, defaults to 9280) |
 | `backend` (uvicorn) | FastAPI application server | 8001 (internal) |
-| `db` (postgres:16) | PostgreSQL database | 5432 (internal) |
+| `insight-db` (shared) | Shared PostgreSQL 16 instance | 5432 (internal, `insight-db-net`) |
 
 The frontend Vite dev server proxies `/api` requests to `http://localhost:8001` during local development.

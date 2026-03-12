@@ -1,0 +1,28 @@
+name: Governance Drift
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  check-drift:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run governance drift checks
+        env:
+          PORTFOLIO_GH_TOKEN: ${{ secrets.PORTFOLIO_GH_TOKEN }}
+        run: python3 scripts/check_governance_drift.py

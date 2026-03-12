@@ -10,7 +10,7 @@ OpenERA is the University of Idaho's pre-award proposal management system, built
 | **Repository** | [github.com/ui-insight/OpenERA](https://github.com/ui-insight/OpenERA) |
 | **Data Model Spec** | AI4RA-UDM (direct implementation) |
 | **Total Tables** | 32 |
-| **AllowedValue Groups** | 21 (156 controlled values) |
+| **AllowedValue Groups** | 21 (142 controlled values) |
 | **Check-Constrained Enums** | 6 (Internal_Approval_Status, Decision_Status, Analysis_Type, Analysis_Status, Section_Type, Item_Type) |
 | **Auth Model** | JWT with 5 RBAC roles |
 | **Stack** | FastAPI + SQLAlchemy 2.0 + React/TypeScript + TailwindCSS |
@@ -184,7 +184,7 @@ OpenERA runs as a two-container stack (frontend + backend) connected to the shar
 | Container | Role | Port |
 |---|---|---|
 | `frontend` (nginx) | Serves React build, proxies `/api/` to backend | Host-mapped (9200 prod / 9210 dev) |
-| `backend` (uvicorn) | FastAPI application server, connects to `insight-db` | 8001 (internal) |
+| `backend` (uvicorn) | FastAPI application server, connects to `insight-db` | 8000 (internal) |
 | `insight-db` (shared) | Shared PostgreSQL 16 instance | 5432 (internal, `insight-db-net`) |
 
 !!! warning "Reference Implementation Status"

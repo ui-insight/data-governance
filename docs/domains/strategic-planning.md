@@ -88,7 +88,7 @@ StratPlan runs as a frontend/backend container pair:
 | Container | Role | Port |
 |---|---|---|
 | `frontend` (nginx) | Serves React build and proxies `/api/` | Host-mapped (9220 prod / 9230 dev) |
-| `backend` (uvicorn) | FastAPI analytics API (`/api/v1`) | 8001 internal |
+| `backend` (uvicorn) | FastAPI analytics API (`/api/v1`) | 8000 internal |
 
 Database connectivity is optional and only required for `DATA_SOURCE=insight_db` runtime.
 

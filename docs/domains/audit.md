@@ -9,11 +9,12 @@ The Audit Dashboard is an observation tracking and follow-up management system b
 | **Domain** | Audit observation tracking |
 | **Repository** | [github.com/ui-insight/AuditDashboard](https://github.com/ui-insight/AuditDashboard) |
 | **Total Tables** | 13 |
-| **AllowedValue Groups** | 8 (30 controlled values) |
+| **AllowedValue Groups** | 8 (32 controlled values) |
 | **Auth Model** | JWT with 2 roles (admin, auditor) |
 | **Stack** | FastAPI + SQLAlchemy 2.0 + React/TypeScript + TailwindCSS |
 | **AI** | MindRouter on-prem (dots.OCR + Qwen3-32B) |
-| **Prod URL** | Port 9300 |
+| **Prod URL** | Port 9380 |
+| **Dev URL** | Port 9390 |
 
 ## Entity Relationship Diagram
 
@@ -98,10 +99,10 @@ The extraction pipeline processes uploaded PDF audit reports through the followi
 
 ## Deployment
 
-The application follows the standard three-container Docker architecture:
+The application deploys as a two-container app stack connected to the shared `insight-db` PostgreSQL service:
 
 | Container | Role | Port |
 |---|---|---|
-| `frontend` (nginx) | Serves React build, proxies `/api/` to backend | Host-mapped (9300) |
-| `backend` (uvicorn) | FastAPI application server | 8001 (internal) |
-| `db` (postgres:16) | PostgreSQL database | 5432 (internal) |
+| `frontend` (nginx) | Serves React build, proxies `/api/` to backend | Host-mapped (9380 prod / 9390 dev) |
+| `backend` (uvicorn) | FastAPI application server | 8000 (internal) |
+| `insight-db` (shared) | Shared PostgreSQL 16 instance | 5432 (internal, `insight-db-net`) |

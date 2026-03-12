@@ -1,0 +1,200 @@
+{
+  "application": "ProcessMapping",
+  "repository": "https://github.com/ui-insight/ProcessMapping",
+  "domain": "Process Intelligence",
+  "runtime_modes": [
+    "json",
+    "insight_db"
+  ],
+  "tech_stack": {
+    "backend": "FastAPI + Pydantic",
+    "frontend": "React + TypeScript + Vite",
+    "database": "Optional PostgreSQL projection via insight-db"
+  },
+  "canonical_assets": [
+    "processes/*/process.json",
+    "processes/*/metadata.json",
+    "workflows/*/workflow.json",
+    "workflows/*/extraction-tasks/*.md",
+    "data/allowed_values.json",
+    "transcripts/raw/*"
+  ],
+  "entity_count": 9,
+  "process_map_count": 15,
+  "workflow_count": 11,
+  "prompt_file_count": 52,
+  "projection_table_count": 1,
+  "entities": [
+    {
+      "name": "ProcessMap",
+      "description": "Canonical structured definition of an institutional process, including actors, systems, steps, and lineage metadata.",
+      "count": 15,
+      "fields": [
+        {"name": "Process_ID", "type": "string"},
+        {"name": "Process_Name", "type": "string"},
+        {"name": "Process_Description", "type": "string"},
+        {"name": "Process_Category", "type": "string"},
+        {"name": "Process_Scope", "type": "string nullable"},
+        {"name": "Source_Transcript_ID", "type": "string nullable"},
+        {"name": "Actors", "type": "array<Actor>"},
+        {"name": "Systems", "type": "array<System> nullable"},
+        {"name": "Steps", "type": "array<Step>"},
+        {"name": "UDM_Entities", "type": "array<string> nullable"},
+        {"name": "Related_Workflow_IDs", "type": "array<string> nullable"},
+        {"name": "Created_Date", "type": "date nullable"},
+        {"name": "Last_Modified_Date", "type": "date nullable"},
+        {"name": "Created_By", "type": "string nullable"},
+        {"name": "Version", "type": "integer"}
+      ]
+    },
+    {
+      "name": "Actor",
+      "description": "Nested actor within a process map representing a person, role, system, or external entity.",
+      "fields": [
+        {"name": "Actor_ID", "type": "string"},
+        {"name": "Actor_Name", "type": "string"},
+        {"name": "Actor_Type", "type": "string"},
+        {"name": "Actor_Description", "type": "string nullable"},
+        {"name": "UDM_Entity", "type": "string nullable"}
+      ],
+      "parent": "ProcessMap"
+    },
+    {
+      "name": "System",
+      "description": "Nested system referenced within a process map.",
+      "fields": [
+        {"name": "System_ID", "type": "string"},
+        {"name": "System_Name", "type": "string"},
+        {"name": "System_Description", "type": "string nullable"},
+        {"name": "System_URL", "type": "uri nullable"}
+      ],
+      "parent": "ProcessMap"
+    },
+    {
+      "name": "Step",
+      "description": "Ordered process step including actor, system, automation, and branching metadata.",
+      "fields": [
+        {"name": "Step_ID", "type": "string"},
+        {"name": "Step_Number", "type": "integer"},
+        {"name": "Step_Name", "type": "string"},
+        {"name": "Step_Type", "type": "string"},
+        {"name": "Step_Description", "type": "string"},
+        {"name": "Actor_ID", "type": "string nullable"},
+        {"name": "System_ID", "type": "string nullable"},
+        {"name": "Inputs", "type": "array<string> nullable"},
+        {"name": "Outputs", "type": "array<string> nullable"},
+        {"name": "Decision_Options", "type": "array<DecisionOption> nullable"},
+        {"name": "Is_Automated", "type": "boolean"},
+        {"name": "Is_Decision_Point", "type": "boolean"},
+        {"name": "Automation_Notes", "type": "string nullable"},
+        {"name": "Pain_Points", "type": "array<string> nullable"},
+        {"name": "Transcript_Reference", "type": "string nullable"},
+        {"name": "Next_Step_ID", "type": "string nullable"},
+        {"name": "Subprocess_ID", "type": "string nullable"}
+      ],
+      "parent": "ProcessMap"
+    },
+    {
+      "name": "DecisionOption",
+      "description": "Branch option attached to a decision step.",
+      "fields": [
+        {"name": "Option_Label", "type": "string"},
+        {"name": "Option_Description", "type": "string nullable"},
+        {"name": "Next_Step_ID", "type": "string"}
+      ],
+      "parent": "Step"
+    },
+    {
+      "name": "WorkflowDefinition",
+      "description": "Vandalizer-compatible workflow derived from process knowledge and used to drive extraction tasks.",
+      "count": 11,
+      "fields": [
+        {"name": "Workflow_ID", "type": "string"},
+        {"name": "Workflow_Name", "type": "string"},
+        {"name": "Workflow_Description", "type": "string"},
+        {"name": "Source_Process_ID", "type": "string nullable"},
+        {"name": "Document_Types", "type": "array<string> nullable"},
+        {"name": "Document_Complexity", "type": "string nullable"},
+        {"name": "Steps", "type": "array<WorkflowStep>"},
+        {"name": "Output_Format", "type": "string nullable"},
+        {"name": "Accuracy_Requirements", "type": "string nullable"},
+        {"name": "UDM_Entities", "type": "array<string> nullable"},
+        {"name": "Created_Date", "type": "date nullable"},
+        {"name": "Last_Modified_Date", "type": "date nullable"},
+        {"name": "Created_By", "type": "string nullable"},
+        {"name": "Version", "type": "integer"}
+      ]
+    },
+    {
+      "name": "WorkflowStep",
+      "description": "Ordered workflow stage such as extraction, consolidation, formatting, or prompt execution.",
+      "fields": [
+        {"name": "Step_ID", "type": "string"},
+        {"name": "Step_Number", "type": "integer"},
+        {"name": "Step_Name", "type": "string"},
+        {"name": "Step_Type", "type": "string"},
+        {"name": "Step_Description", "type": "string nullable"},
+        {"name": "Is_Parallel", "type": "boolean"},
+        {"name": "Tasks", "type": "array<WorkflowTask>"},
+        {"name": "Depends_On", "type": "array<string> nullable"}
+      ],
+      "parent": "WorkflowDefinition"
+    },
+    {
+      "name": "WorkflowTask",
+      "description": "Task-level unit within a workflow step, typically referencing an extraction or formatting prompt.",
+      "fields": [
+        {"name": "Task_ID", "type": "string"},
+        {"name": "Task_Name", "type": "string"},
+        {"name": "Task_Type", "type": "string"},
+        {"name": "Task_Description", "type": "string nullable"},
+        {"name": "Prompt_File", "type": "string nullable"},
+        {"name": "Extraction_Fields", "type": "array<ExtractionField> nullable"},
+        {"name": "Search_Sections", "type": "array<string> nullable"},
+        {"name": "Search_Keywords", "type": "array<string> nullable"}
+      ],
+      "parent": "WorkflowStep"
+    },
+    {
+      "name": "ExtractionField",
+      "description": "Structured output field expected from a workflow extraction task.",
+      "fields": [
+        {"name": "Field_Name", "type": "string"},
+        {"name": "Field_Type", "type": "string"},
+        {"name": "Field_Description", "type": "string nullable"},
+        {"name": "Is_Required", "type": "boolean"},
+        {"name": "UDM_Column", "type": "string nullable"},
+        {"name": "Not_Found_Value", "type": "string nullable"}
+      ],
+      "parent": "WorkflowTask"
+    }
+  ],
+  "projection_tables": [
+    {
+      "table_name": "process_maps",
+      "model_class": "ProcessMap",
+      "description": "Projected operational table containing process-map summary fields plus the full canonical JSON payload.",
+      "columns": [
+        {"name": "slug", "type": "String(255)", "nullable": false, "primary_key": true, "foreign_key": null},
+        {"name": "process_id", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "process_name", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "process_category", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "source_transcript_id", "type": "String(255)", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "step_count", "type": "Integer", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "process_data", "type": "JSON", "nullable": false, "primary_key": false, "foreign_key": null},
+        {"name": "metadata_data", "type": "JSON", "nullable": true, "primary_key": false, "foreign_key": null},
+        {"name": "last_modified", "type": "DateTime", "nullable": false, "primary_key": false, "foreign_key": null}
+      ],
+      "indexes": [
+        {"name": "ix_process_maps_process_name", "columns": ["process_name"]}
+      ]
+    }
+  ],
+  "controlled_vocabularies": {
+    "ProcessCategory": ["PRE_AWARD", "POST_AWARD", "COMPLIANCE", "FINANCIAL", "SUBAWARD", "REPORTING", "CONTRACTING"],
+    "StepType": ["ACTION", "DECISION", "REVIEW", "APPROVAL", "DATA_ENTRY", "COMMUNICATION", "WAIT", "SUBPROCESS"],
+    "ActorType": ["PERSON", "ROLE", "SYSTEM", "EXTERNAL"],
+    "ActorRole": ["GRANTS_SPECIALIST", "GRANTS_OFFICER", "PI", "DEPT_ADMIN", "FISCAL_OFFICER", "COMPLIANCE_OFFICER", "SPONSOR", "POST_AWARD_SPECIALIST", "FINANCIAL_UNIT_SPECIALIST", "PRE_AWARD_SPA", "DGA", "PRE_AWARD_MANAGER", "AOR"],
+    "SystemName": ["BANNER", "CAYUSE", "GRANTS_GOV", "RESEARCH_GOV", "ERA_COMMONS", "SAM_GOV", "EMAIL", "VANDALIZER", "VARUS", "EXCEL", "TEAMS", "EXPORT_TO_BANNER_FORM"]
+  }
+}

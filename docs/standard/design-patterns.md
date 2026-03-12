@@ -99,14 +99,14 @@ Concrete implementations are selected at startup via environment variable (`LLM_
 
 ## Docker Deployment
 
-All applications deploy as a three-container Docker Compose stack:
+Most DB-backed governance applications deploy as an app stack connected to the shared `insight-db` PostgreSQL service:
 
 ```
-frontend (nginx)  ←── only container with host port mapping
+frontend (nginx)  ←── only app container with host port mapping
     ↓ proxies /api/
-backend (uvicorn) ←── internal only, port 8001
+backend (uvicorn) ←── internal only, app-specific port (commonly 8000/8001)
     ↓
-db (postgres:16)  ←── internal only, port 5432
+insight-db (postgres:16)  ←── shared service on insight-db-net
 ```
 
 All containers use a `10.x.x.x` address space (custom subnet) rather than Docker's default `172.x.x.x` to avoid conflicts on the shared deployment server.

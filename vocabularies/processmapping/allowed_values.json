@@ -1,0 +1,82 @@
+{
+  "application": "ProcessMapping",
+  "description": "Governed JSON-managed controlled values for the ProcessMapping process intelligence repository",
+  "version": "1.0.0",
+  "last_updated": "2026-03-12",
+  "value_groups": [
+    {
+      "Value_Group": "ProcessCategory",
+      "description": "Institutional process families represented by canonical process maps",
+      "values": [
+        { "Code": "PRE_AWARD", "Label": "Pre-Award", "Description": "Proposal preparation, routing, and submission processes" },
+        { "Code": "POST_AWARD", "Label": "Post-Award", "Description": "Award setup, modifications, and closeout processes" },
+        { "Code": "COMPLIANCE", "Label": "Compliance", "Description": "Regulatory or institutional compliance processes" },
+        { "Code": "FINANCIAL", "Label": "Financial", "Description": "Financial management, budgeting, and reporting processes" },
+        { "Code": "SUBAWARD", "Label": "Subaward", "Description": "Subaward issuance, monitoring, and closeout processes" },
+        { "Code": "REPORTING", "Label": "Reporting", "Description": "Progress, financial, and sponsor reporting processes" },
+        { "Code": "CONTRACTING", "Label": "Contracting", "Description": "Agreement, contract, and negotiation processes" }
+      ]
+    },
+    {
+      "Value_Group": "StepType",
+      "description": "Process-step types used inside canonical process maps",
+      "values": [
+        { "Code": "ACTION", "Label": "Action", "Description": "An actor performs a discrete action" },
+        { "Code": "DECISION", "Label": "Decision", "Description": "A branching point based on a condition" },
+        { "Code": "REVIEW", "Label": "Review", "Description": "An evaluation or review activity" },
+        { "Code": "APPROVAL", "Label": "Approval", "Description": "A formal approval or denial step" },
+        { "Code": "DATA_ENTRY", "Label": "Data Entry", "Description": "A step that records data in a system" },
+        { "Code": "COMMUNICATION", "Label": "Communication", "Description": "A communication event such as email, phone, or meeting" },
+        { "Code": "WAIT", "Label": "Wait", "Description": "A pause while awaiting external input or elapsed time" },
+        { "Code": "SUBPROCESS", "Label": "Subprocess", "Description": "A step that delegates to another process map" }
+      ]
+    },
+    {
+      "Value_Group": "ActorType",
+      "description": "High-level categories for actors inside a process map",
+      "values": [
+        { "Code": "PERSON", "Label": "Person", "Description": "A specific individual" },
+        { "Code": "ROLE", "Label": "Role", "Description": "A reusable organizational role" },
+        { "Code": "SYSTEM", "Label": "System", "Description": "A software system or automated service" },
+        { "Code": "EXTERNAL", "Label": "External", "Description": "An outside organization or entity" }
+      ]
+    },
+    {
+      "Value_Group": "ActorRole",
+      "description": "Recurring research-administration roles referenced in process maps",
+      "values": [
+        { "Code": "GRANTS_SPECIALIST", "Label": "Grants Specialist", "Description": "OSP staff member supporting proposal and award processing" },
+        { "Code": "GRANTS_OFFICER", "Label": "Grants Officer", "Description": "Senior OSP staff member with higher review authority" },
+        { "Code": "PI", "Label": "Principal Investigator", "Description": "Lead investigator or project owner" },
+        { "Code": "DEPT_ADMIN", "Label": "Department Administrator", "Description": "Department-level administrative support role" },
+        { "Code": "FISCAL_OFFICER", "Label": "Fiscal Officer", "Description": "Financial management role" },
+        { "Code": "COMPLIANCE_OFFICER", "Label": "Compliance Officer", "Description": "Role responsible for regulatory compliance oversight" },
+        { "Code": "SPONSOR", "Label": "Sponsor", "Description": "External funding agency or sponsor" },
+        { "Code": "POST_AWARD_SPECIALIST", "Label": "Post-Award Specialist", "Description": "OSP role handling post-award modifications and management" },
+        { "Code": "FINANCIAL_UNIT_SPECIALIST", "Label": "Financial Unit Specialist", "Description": "Role responsible for Banner setup and financial events" },
+        { "Code": "PRE_AWARD_SPA", "Label": "Pre-Award Sponsored Programs Administrator", "Description": "Pre-award OSP administrator role" },
+        { "Code": "DGA", "Label": "Departmental Grant Administrator", "Description": "Department-level grants liaison role" },
+        { "Code": "PRE_AWARD_MANAGER", "Label": "Pre-Award Manager", "Description": "Supervisory pre-award workload management role" },
+        { "Code": "AOR", "Label": "Authorized Organizational Representative", "Description": "Institutional representative with submission/signature authority" }
+      ]
+    },
+    {
+      "Value_Group": "SystemName",
+      "description": "Institutional and external systems referenced in process maps",
+      "values": [
+        { "Code": "BANNER", "Label": "Banner", "Description": "Ellucian Banner ERP system" },
+        { "Code": "CAYUSE", "Label": "Cayuse", "Description": "Research administration platform" },
+        { "Code": "GRANTS_GOV", "Label": "Grants.gov", "Description": "Federal grant application portal" },
+        { "Code": "RESEARCH_GOV", "Label": "Research.gov", "Description": "NSF research administration portal" },
+        { "Code": "ERA_COMMONS", "Label": "eRA Commons", "Description": "NIH research administration portal" },
+        { "Code": "SAM_GOV", "Label": "SAM.gov", "Description": "System for Award Management" },
+        { "Code": "EMAIL", "Label": "Email", "Description": "Email communication system" },
+        { "Code": "VANDALIZER", "Label": "Vandalizer", "Description": "AI document intelligence platform" },
+        { "Code": "VARUS", "Label": "Varus", "Description": "InfoEd Varus research administration system" },
+        { "Code": "EXCEL", "Label": "Microsoft Excel", "Description": "Spreadsheet application used in operational workflows" },
+        { "Code": "TEAMS", "Label": "Microsoft Teams", "Description": "Collaboration and file-sharing platform" },
+        { "Code": "EXPORT_TO_BANNER_FORM", "Label": "Export to Banner Form", "Description": "Institutional form used in Banner export workflows" }
+      ]
+    }
+  ]
+}

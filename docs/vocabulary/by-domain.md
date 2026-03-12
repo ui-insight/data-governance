@@ -1,6 +1,6 @@
 # Vocabularies by Domain
 
-Complete listing of all controlled vocabulary groups across every application in the portfolio. For cross-cutting analysis of shared concepts, see [Shared Patterns](shared-patterns.md).
+Complete listing of all controlled vocabulary groups across the onboarded governance applications in the portfolio. For cross-cutting analysis of shared concepts, see [Shared Patterns](shared-patterns.md).
 
 ---
 
@@ -344,3 +344,39 @@ Normalized status domain for SPIGP award reporting.
 Raw source status currently observed in canonical tactic records:
 
 `planned`
+
+---
+
+## Process Intelligence -- ProcessMapping
+
+ProcessMapping stores controlled values in a governed JSON reference file rather than a runtime `AllowedValue` table. Its codes currently use `UPPER_CASE` naming, which is a documented exception to the preferred `snake_case` convention for new applications.
+
+### ProcessCategory (7 codes)
+
+Classifies the institutional process family represented by a process map.
+
+`PRE_AWARD`, `POST_AWARD`, `COMPLIANCE`, `FINANCIAL`, `SUBAWARD`, `REPORTING`, `CONTRACTING`
+
+### StepType (8 codes)
+
+Classifies the type of action represented by a process step.
+
+`ACTION`, `DECISION`, `REVIEW`, `APPROVAL`, `DATA_ENTRY`, `COMMUNICATION`, `WAIT`, `SUBPROCESS`
+
+### ActorType (4 codes)
+
+Distinguishes between people, roles, systems, and external entities appearing in a process map.
+
+`PERSON`, `ROLE`, `SYSTEM`, `EXTERNAL`
+
+### ActorRole (13 codes)
+
+Defines the common research-administration roles represented across canonical process maps.
+
+`GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR`
+
+### SystemName (12 codes)
+
+Identifies the institutional and external systems referenced in process maps and workflow assets.
+
+`BANNER`, `CAYUSE`, `GRANTS_GOV`, `RESEARCH_GOV`, `ERA_COMMONS`, `SAM_GOV`, `EMAIL`, `VANDALIZER`, `VARUS`, `EXCEL`, `TEAMS`, `EXPORT_TO_BANNER_FORM`

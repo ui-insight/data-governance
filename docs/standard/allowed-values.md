@@ -44,7 +44,7 @@ class Observation(Base):
 
 ## Schema Variations
 
-The core pattern is consistent across all applications, with minor variations in column naming:
+The core pattern is consistent across the currently onboarded DB-backed governance applications, with minor variations in column naming:
 
 | Application | Table Name | PK Column | Group Column | Code Column |
 |---|---|---|---|---|
@@ -75,7 +75,7 @@ Seeding is idempotent -- existing records are skipped based on the `(Group, Code
 
 ## API Access
 
-All applications expose an `/api/v1/allowed-values` endpoint that returns all active values, grouped by value group. Frontend components use this to populate dropdowns and filter options dynamically.
+Applications that implement the pattern expose an `/api/v1/allowed-values` endpoint that returns active values grouped by value group. Frontend components use this to populate dropdowns and filter options dynamically.
 
 ## When to Use AllowedValues
 

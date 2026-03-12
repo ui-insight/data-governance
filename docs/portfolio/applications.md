@@ -1,17 +1,17 @@
 # Application Portfolio
 
-The UI Insight portfolio comprises six applications serving four institutional domains at the University of Idaho. All applications share a FastAPI + React foundation and common deployment practices; most use PostgreSQL as the operational store.
+The UI Insight portfolio includes several active repositories serving University of Idaho administrative and planning needs. This governance repository currently has complete domain-model coverage for five applications. AISPEG remains in the broader portfolio, but it is tracked as adjacent program infrastructure rather than a governed application data model.
 
 ## Summary
 
-| Application | Domain | Tables | AI Integration | Auth | Production Status |
+| Application | Domain | Tables / Model | AI Integration | Auth | Governance Coverage |
 |---|---|---|---|---|---|
-| OpenERA | Research Administration | 31 | Multi-endpoint configurable | JWT (5 roles) | Production |
-| UCM Daily Register | Communications | 10 | Claude / OpenAI / MindRouter | None | Production |
-| Audit Dashboard | Internal Audit | 13 | MindRouter OCR + LLM | JWT (2 roles) | Production |
-| StratPlan Tactics | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None | None | Production |
-| ProcessMapping | Process Improvement | TBD | None | None | Development |
-| AISPEG | Strategic Planning | TBD | Claude / OpenAI | None | Development |
+| OpenERA | Research Administration | 32 tables | Multi-endpoint configurable | JWT (5 roles) | Complete |
+| UCM Daily Register | Communications | 10 tables | Claude / OpenAI / MindRouter | None | Complete |
+| Audit Dashboard | Internal Audit | 13 tables | MindRouter OCR + LLM | JWT (2 roles) | Complete |
+| StratPlan Tactics | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None | None | Complete |
+| ProcessMapping | Process Intelligence | 15 process maps + 11 workflows + optional `process_maps` projection | None | None | Complete |
+| AISPEG | Strategic Planning collaboration site | Content/site-oriented app | None documented in repo | None | Out of scope |
 
 ---
 
@@ -23,14 +23,14 @@ The UI Insight portfolio comprises six applications serving four institutional d
 
 OpenERA is a comprehensive research administration platform for managing proposals, awards, compliance, and institutional data related to sponsored programs. It is the original application from which the AI4RA Unified Data Model (UDM) was derived, and serves as the reference implementation for portfolio-wide conventions.
 
-The application has the most complex data model in the portfolio (31 tables), the most granular role-based access control (5 JWT roles), and supports multi-endpoint AI configuration where different LLM providers can be assigned to different tasks.
+The application has the most complex data model in the portfolio (32 tables), the most granular role-based access control (5 JWT roles), and supports multi-endpoint AI configuration where different LLM providers can be assigned to different tasks.
 
 ---
 
 ## UCM Daily Register
 
 **Domain:** University Communications and Marketing
-**Repository:** [ui-insight/UCMDailyRegister-App](https://github.com/ui-insight/UCMDailyRegister-App)
+**Repository:** [ui-insight/UCMDailyRegister](https://github.com/ui-insight/UCMDailyRegister)
 **Domain docs:** [Communications](../domains/communications.md)
 
 UCM Daily Register is an AI-assisted newsletter production pipeline for the University of Idaho's University Communications and Marketing team. It produces two newsletters: The Daily Register (TDR) for faculty and staff, and My UI for students. Submissions pass through an AI editing pipeline that applies institutional style rules, generating structured diffs for human review.
@@ -43,7 +43,7 @@ The application supports three LLM providers (Claude, OpenAI, MindRouter) switch
 
 **Domain:** Internal Audit
 **Repository:** [ui-insight/AuditDashboard](https://github.com/ui-insight/AuditDashboard)
-**Domain docs:** [Internal Audit](../domains/internal-audit.md)
+**Domain docs:** [Internal Audit](../domains/audit.md)
 
 The Audit Dashboard supports the University of Idaho's Office of Internal Audit in managing audit reports, observations, corrective action items, and supporting documentation. It integrates MindRouter for OCR-based document extraction, enabling auditors to upload PDF reports and automatically extract structured observations and findings.
 
@@ -65,10 +65,11 @@ The canonical model is JSON-based, with optional `insight_db` runtime for integr
 
 ## ProcessMapping
 
-**Domain:** Process Improvement
+**Domain:** Process Intelligence
 **Repository:** [ui-insight/ProcessMapping](https://github.com/ui-insight/ProcessMapping)
+**Domain docs:** [Process Intelligence](../domains/process-mapping.md)
 
-ProcessMapping is a visual process modeling tool for documenting and analyzing institutional workflows. It is currently in early development and does not yet have a domain documentation page.
+ProcessMapping is a full-stack process intelligence application plus canonical process-data repository. It supports interactive process-map exploration, transcript-to-process ingestion workflows, and optional `insight_db` projection for operational reads and integration.
 
 ---
 
@@ -77,4 +78,4 @@ ProcessMapping is a visual process modeling tool for documenting and analyzing i
 **Domain:** Strategic Planning
 **Repository:** [ui-insight/AISPEG](https://github.com/ui-insight/AISPEG)
 
-AISPEG (AI-assisted Strategic Planning Evaluation and Governance) extends the strategic planning domain with AI-powered analysis of tactic effectiveness and strategic alignment. It is currently in development and integrates with Claude and OpenAI for analytical capabilities.
+AISPEG is a Next.js collaboration site for the AI Strategic Planning & Evaluation Group. It does not currently define an institutionally governed application data model, controlled-vocabulary registry, or cross-app schema surface, so this repository tracks it as adjacent program infrastructure outside the schema registry.

@@ -27,16 +27,16 @@ Ordered workflow progressions that track an entity from creation through complet
 
 | Value Group | Values | Count |
 |---|---|---|
-| Submission_Status | `new`, `ai_edited`, `in_review`, `revision_requested`, `approved`, `scheduled`, `published` | 7 |
-| Newsletter_Status | `draft`, `assembling`, `ready`, `sent`, `archived` | 5 |
+| Submission_Status | `new`, `ai_edited`, `in_review`, `approved`, `scheduled`, `published`, `rejected` | 7 |
+| Newsletter_Status | `draft`, `in_progress`, `ready_for_review`, `submitted`, `published` | 5 |
 
 ### Audit Dashboard
 
 | Value Group | Values | Count |
 |---|---|---|
-| ObservationStatus | `DRAFT`, `OPEN`, `RESOLVED`, `CLOSED` | 4 |
-| ActionItemStatus | `OPEN`, `IN_PROGRESS`, `COMPLETED`, `OVERDUE`, `CANCELLED` | 5 |
-| ExtractionStatus | `PENDING`, `PROCESSING`, `EXTRACTED`, `REVIEWED`, `APPROVED`, `REJECTED`, `FAILED`, `ARCHIVED` | 8 |
+| ObservationStatus | `OPEN`, `IN_PROGRESS`, `CLOSED`, `CLOSED_FIRST_FOLLOWUP` | 4 |
+| ActionItemStatus | `OPEN`, `IN_PROGRESS`, `COMPLETED`, `OVERDUE`, `CLOSED` | 5 |
+| ExtractionStatus | `PENDING`, `OCR_IN_PROGRESS`, `OCR_COMPLETE`, `LLM_IN_PROGRESS`, `REVIEW_PENDING`, `APPROVED`, `REJECTED`, `FAILED` | 8 |
 
 ### OpenERA
 
@@ -60,9 +60,9 @@ Classification values that categorize content items within an application.
 
 | Application | Value Group | Codes | Count |
 |---|---|---|---|
-| UCM Daily Register | Submission_Category | `announcement`, `event`, `deadline`, `achievement`, `grant`, `resource`, `other` | 7 |
-| Audit Dashboard | DocumentType | `REPORT`, `WORKPAPER`, `EVIDENCE`, `CORRESPONDENCE` | 4 |
-| Audit Dashboard | ReportType | `ANNUAL`, `SPECIAL`, `FOLLOW_UP` | 3 |
+| UCM Daily Register | Submission_Category | `faculty_staff`, `student`, `job_opportunity`, `kudos`, `in_memoriam`, `news_release`, `calendar_event` | 7 |
+| Audit Dashboard | DocumentType | `SOURCE_PDF`, `EVIDENCE`, `CORRESPONDENCE`, `OTHER` | 4 |
+| Audit Dashboard | ReportType | `FULL_REPORT`, `FOLLOW_UP`, `LETTER` | 3 |
 | OpenERA | DocumentType | `proposal_narrative`, `budget_justification`, `biosketch`, `current_pending`, `facilities`, `data_mgmt`, `letter_support`, `rfa_document`, `subaward_docs`, `coi_disclosure`, `other` | 11 |
 
 !!! note "Domain specificity"
@@ -76,10 +76,11 @@ Roles assigned to people within the context of an application.
 
 | Application | Value Group | Codes | Count |
 |---|---|---|---|
-| Audit Dashboard | AssignmentRole | `LEAD`, `SUPPORT` | 2 |
+| Audit Dashboard | AssignmentRole | `IMPLEMENTER`, `REVIEWER` | 2 |
 | OpenERA | ProjectRole | `pi`, `co_pi`, `co_i`, `key_person`, `senior_person`, `postdoc`, `grad_student`, `undergrad`, `technician`, `consultant` | 10 |
+| ProcessMapping | ActorRole | `GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR` | 13 |
 
-OpenERA has the most granular role vocabulary, reflecting the complexity of research team composition. Audit Dashboard uses a simpler lead/support distinction appropriate for audit engagement staffing.
+OpenERA has the most granular project-team vocabulary, reflecting the complexity of research team composition. Audit Dashboard uses a simple remediation assignment pair. ProcessMapping captures operational roles that recur across research-administration processes and workflow assets.
 
 ---
 
@@ -93,6 +94,7 @@ A notable inconsistency across applications is the casing of AllowedValue codes:
 | Audit Dashboard | `UPPER_CASE` | `HIGH`, `IN_PROGRESS` |
 | OpenERA | `snake_case` | `proposal_narrative`, `co_pi` |
 | StratPlan Tactics | `snake_case` | `in_progress`, `quick_wins` |
+| ProcessMapping | `UPPER_CASE` | `PRE_AWARD`, `GRANTS_SPECIALIST` |
 
 !!! warning "Casing convention"
-    OpenERA, UCM Daily Register, and StratPlan normalized enums all use `snake_case` codes. Only Audit Dashboard uses `UPPER_CASE`. New applications should adopt `snake_case` and document their chosen convention explicitly.
+    OpenERA, UCM Daily Register, and StratPlan normalized enums use `snake_case` codes. Audit Dashboard and ProcessMapping currently use `UPPER_CASE`. New applications should adopt `snake_case` and document their chosen convention explicitly.

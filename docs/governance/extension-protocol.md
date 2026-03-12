@@ -4,6 +4,15 @@ This page describes how to add a new domain or application to the UI Insight por
 
 ## Step-by-Step Process
 
+### 0. Confirm governance scope
+
+Before onboarding a repository here, confirm that it belongs in the schema registry:
+
+- Repositories with an institutionally governed data model, controlled vocabularies, or canonical operational data assets belong in this repository.
+- Repositories that are primarily content sites, collaboration hubs, or adjacent program infrastructure do not need catalog JSON or domain-model pages here unless they introduce a governed application data surface later.
+
+This distinction matters for portfolio sites such as AISPEG, which may share deployment infrastructure with governance applications without belonging in the application schema registry.
+
 ### 1. Start from TEMPLATE-app
 
 Clone the scaffold repository to get a consistent project structure with pre-configured tooling:
@@ -127,14 +136,9 @@ Add the following artifacts to the `data-governance` repository:
 
 ### 7. Assign port allocation
 
-Request a prod/dev port pair from the deployment administrator. Ports are allocated in increments of 20, with dev ports offset by 10:
+Request the production and development host-port assignments from the deployment administrator. Do not assume the next sequential slot from this repository; live assignments may move independently of the docs.
 
-| Slot | Prod | Dev |
-|---|---|---|
-| Next available | 9320 | 9330 |
-| Following | 9340 | 9350 |
-
-Update the [Architecture](../portfolio/architecture.md) port allocation table after assignment.
+Update the [Architecture](../portfolio/architecture.md) page and the relevant domain page after the assignment is confirmed in the application's deployment configuration.
 
 ### 8. Deploy
 
@@ -148,7 +152,7 @@ ssh devops@openera.insight.uidaho.edu
 git clone https://github.com/ui-insight/NewApp.git
 cd NewApp
 
-HOST_PORT=9320 POSTGRES_PASSWORD=<secure> \
+HOST_PORT=<assigned_prod_port> POSTGRES_PASSWORD=<secure> \
   docker compose up -d --build
 ```
 

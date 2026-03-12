@@ -39,6 +39,7 @@ nav:
     - Communications: domains/communications.md
     - Internal Audit: domains/audit.md
     - Strategic Planning: domains/strategic-planning.md
+    - Process Intelligence: domains/process-mapping.md
   - Vocabulary Registry:
     - Overview: vocabulary/index.md
     - Shared Patterns: vocabulary/shared-patterns.md

@@ -2,7 +2,7 @@
 
 ## Institutional Data Standard for the University of Idaho
 
-The UI Insight application portfolio is a family of purpose-built applications serving University of Idaho administrative functions. All applications share a common data modeling standard, controlled vocabulary pattern, and deployment infrastructure.
+The UI Insight governed application portfolio is a family of purpose-built applications serving University of Idaho administrative functions. These applications share a common data modeling standard, controlled vocabulary pattern, and deployment infrastructure.
 
 This documentation provides a unified view of the institutional data landscape for governance reviewers, developers, and stakeholders.
 
@@ -23,12 +23,13 @@ See [Adopted Standard](standard/naming-conventions.md) for full details.
 
 | Application | Domain | Data Model | AI Integration |
 |---|---|---|---|
-| [OpenERA](domains/research-admin.md) | Research Administration | 31 tables (implements AI4RA-UDM) | Multi-endpoint configurable |
+| [OpenERA](domains/research-admin.md) | Research Administration | 32 tables (implements AI4RA-UDM) | Multi-endpoint configurable |
 | [UCM Daily Register](domains/communications.md) | Communications | 10 tables | Claude / OpenAI / MindRouter |
 | [Audit Dashboard](domains/audit.md) | Internal Audit | 13 tables | MindRouter OCR + LLM |
 | [StratPlan Tactics](domains/strategic-planning.md) | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None |
+| [ProcessMapping](domains/process-mapping.md) | Process Intelligence | 15 process maps + 11 workflows + optional `process_maps` projection | None |
 
-All database-backed applications currently share 38 AllowedValue groups totaling 223 controlled vocabulary values. StratPlan Tactics currently keeps its vocabulary in app code/data files and exposes normalized enums through its API.
+The currently onboarded governance applications define 52 vocabulary groups and normalized enum domains totaling 288 controlled values. OpenERA, UCM Daily Register, and Audit Dashboard store those values in runtime tables; ProcessMapping keeps them in governed JSON reference data; StratPlan exposes normalized enums through its API.
 
 ## Data Landscape
 
@@ -39,10 +40,11 @@ graph TB
     end
 
     subgraph institutional["University of Idaho Applications"]
-        OE["OpenERA<br/>31 tables<br/>Research Admin"]
+        OE["OpenERA<br/>32 tables<br/>Research Admin"]
         UCM["UCM Daily Register<br/>10 tables<br/>Communications"]
         AD["Audit Dashboard<br/>13 tables<br/>Internal Audit"]
         SP["StratPlan Tactics<br/>JSON canonical + optional<br/>insight-db projection"]
+        PM["ProcessMapping<br/>15 process maps + 11 workflows<br/>Process Intelligence"]
     end
 
     subgraph shared["Shared Infrastructure"]
@@ -55,13 +57,16 @@ graph TB
     UDM -->|conventions & patterns| UCM
     UDM -->|conventions & patterns| AD
     UDM -->|conventions & patterns| SP
+    UDM -->|conventions & patterns| PM
 
     OE --> DB
     UCM --> DB
     AD --> DB
     SP -. optional insight_db mode .-> DB
+    PM -. optional insight_db mode .-> DB
     DB --> SRV
     SP --> SRV
+    PM --> SRV
 
     OE -.-> MR
     UCM -.-> MR
@@ -74,7 +79,7 @@ If you are reviewing this portfolio for institutional data governance alignment,
 
 1. **[Naming Conventions](standard/naming-conventions.md)** -- The column naming standard adopted from AI4RA-UDM
 2. **[AllowedValue Pattern](standard/allowed-values.md)** -- How we manage controlled vocabularies without hard-coded enums
-3. **[Vocabulary Registry](vocabulary/index.md)** -- All categorical values across all applications
+3. **[Vocabulary Registry](vocabulary/index.md)** -- Categorical values across the currently onboarded governance applications
 4. **[Extension Protocol](governance/extension-protocol.md)** -- How new applications and domains are added to the portfolio
 5. **[Review Process](governance/review-process.md)** -- How data model changes are vetted
 
