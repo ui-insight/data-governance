@@ -2,33 +2,42 @@
   "application": "ProcessMapping",
   "description": "Governed JSON-managed controlled values for the ProcessMapping process intelligence repository",
   "version": "1.0.0",
-  "last_updated": "2026-03-12",
+  "last_updated": "2026-04-20",
   "value_groups": [
     {
-      "Value_Group": "ProcessCategory",
-      "description": "Institutional process families represented by canonical process maps",
+      "Value_Group": "ActivityType",
+      "description": "Transcript-derived activity classes used during process extraction and analysis",
       "values": [
-        { "Code": "PRE_AWARD", "Label": "Pre-Award", "Description": "Proposal preparation, routing, and submission processes" },
-        { "Code": "POST_AWARD", "Label": "Post-Award", "Description": "Award setup, modifications, and closeout processes" },
-        { "Code": "COMPLIANCE", "Label": "Compliance", "Description": "Regulatory or institutional compliance processes" },
-        { "Code": "FINANCIAL", "Label": "Financial", "Description": "Financial management, budgeting, and reporting processes" },
-        { "Code": "SUBAWARD", "Label": "Subaward", "Description": "Subaward issuance, monitoring, and closeout processes" },
-        { "Code": "REPORTING", "Label": "Reporting", "Description": "Progress, financial, and sponsor reporting processes" },
-        { "Code": "CONTRACTING", "Label": "Contracting", "Description": "Agreement, contract, and negotiation processes" }
+        { "Code": "DATA_ENTRY", "Label": "Data Entry", "Description": "Entering or updating data in a system" },
+        { "Code": "REVIEW_APPROVAL", "Label": "Review / Approval", "Description": "Reviewing information and granting or denying approval" },
+        { "Code": "SYSTEM_LOOKUP", "Label": "System Lookup", "Description": "Looking up information in a system for reference or verification" },
+        { "Code": "DOCUMENT_GENERATION", "Label": "Document Generation", "Description": "Creating or generating a document, report, or correspondence" },
+        { "Code": "COMMUNICATION", "Label": "Communication", "Description": "Sending or receiving communication (email, notification, phone call)" },
+        { "Code": "DECISION_POINT", "Label": "Decision Point", "Description": "Evaluating conditions and choosing a path forward" },
+        { "Code": "CALCULATION_VALIDATION", "Label": "Calculation / Validation", "Description": "Performing calculations or validating data accuracy" },
+        { "Code": "FILING_ARCHIVAL", "Label": "Filing / Archival", "Description": "Filing documents or archiving records for retention" }
       ]
     },
     {
-      "Value_Group": "StepType",
-      "description": "Process-step types used inside canonical process maps",
+      "Value_Group": "ActorRole",
+      "description": "Recurring research-administration roles referenced in process maps",
       "values": [
-        { "Code": "ACTION", "Label": "Action", "Description": "An actor performs a discrete action" },
-        { "Code": "DECISION", "Label": "Decision", "Description": "A branching point based on a condition" },
-        { "Code": "REVIEW", "Label": "Review", "Description": "An evaluation or review activity" },
-        { "Code": "APPROVAL", "Label": "Approval", "Description": "A formal approval or denial step" },
-        { "Code": "DATA_ENTRY", "Label": "Data Entry", "Description": "A step that records data in a system" },
-        { "Code": "COMMUNICATION", "Label": "Communication", "Description": "A communication event such as email, phone, or meeting" },
-        { "Code": "WAIT", "Label": "Wait", "Description": "A pause while awaiting external input or elapsed time" },
-        { "Code": "SUBPROCESS", "Label": "Subprocess", "Description": "A step that delegates to another process map" }
+        { "Code": "GRANTS_SPECIALIST", "Label": "Grants Specialist", "Description": "OSP staff member who processes awards and proposals" },
+        { "Code": "GRANTS_OFFICER", "Label": "Grants Officer", "Description": "Senior OSP staff with signing authority" },
+        { "Code": "PI", "Label": "Principal Investigator", "Description": "Lead researcher on a project" },
+        { "Code": "DEPT_ADMIN", "Label": "Department Administrator", "Description": "Department-level administrative support" },
+        { "Code": "FISCAL_OFFICER", "Label": "Fiscal Officer", "Description": "Financial management staff" },
+        { "Code": "COMPLIANCE_OFFICER", "Label": "Compliance Officer", "Description": "Staff responsible for regulatory compliance" },
+        { "Code": "SPONSOR", "Label": "Sponsor", "Description": "External funding agency" },
+        { "Code": "POST_AWARD_SPECIALIST", "Label": "Post-Award Specialist", "Description": "OSP staff member who processes post-award modifications including amendments, rebudgets, PI changes, and no-cost extensions" },
+        { "Code": "FINANCIAL_UNIT_SPECIALIST", "Label": "Financial Unit Specialist", "Description": "Financial unit staff member who sets up new awards in Banner, verifies billing configuration, and manages financial reporting events" },
+        { "Code": "PRE_AWARD_SPA", "Label": "Pre-Award Sponsored Programs Administrator", "Description": "OSP staff member who reviews proposals, checks document completeness, and manages pre-award submission processes" },
+        { "Code": "DGA", "Label": "Departmental Grant Administrator", "Description": "Department-level administrator who manages grant activities and serves as liaison between PI and OSP" },
+        { "Code": "PRE_AWARD_MANAGER", "Label": "Pre-Award Manager", "Description": "OSP supervisor who oversees pre-award SPA team, manages workload distribution, provides weekly metrics, and leads bi-weekly workload meetings" },
+        { "Code": "AOR", "Label": "Authorized Organizational Representative", "Description": "University official with authority to submit proposals and sign awards on behalf of the institution" },
+        { "Code": "SENIOR_GRANTS_ANALYST", "Label": "Senior Grants & Contracts Analyst", "Description": "Senior OSP analyst who handles complex grant and contract administration" },
+        { "Code": "SPONSORED_PROGRAMS_OFFICER", "Label": "Sponsored Programs Officer", "Description": "OSP officer who oversees sponsored program administration and compliance" },
+        { "Code": "ASSISTANT_DIRECTOR_SPONSORED_ACCOUNTING", "Label": "Assistant Director for Sponsored Accounting", "Description": "Senior financial staff who oversees sponsored accounting functions including final billing and financial reporting" }
       ]
     },
     {
@@ -36,46 +45,87 @@
       "description": "High-level categories for actors inside a process map",
       "values": [
         { "Code": "PERSON", "Label": "Person", "Description": "A specific individual" },
-        { "Code": "ROLE", "Label": "Role", "Description": "A reusable organizational role" },
-        { "Code": "SYSTEM", "Label": "System", "Description": "A software system or automated service" },
-        { "Code": "EXTERNAL", "Label": "External", "Description": "An outside organization or entity" }
+        { "Code": "ROLE", "Label": "Role", "Description": "A role that could be filled by different people (e.g., Grants Specialist)" },
+        { "Code": "SYSTEM", "Label": "System", "Description": "A software system or automated process" },
+        { "Code": "EXTERNAL", "Label": "External", "Description": "An external entity (sponsor, subrecipient, vendor)" }
       ]
     },
     {
-      "Value_Group": "ActorRole",
-      "description": "Recurring research-administration roles referenced in process maps",
+      "Value_Group": "FileType",
+      "description": "Source transcript file formats accepted into governed transcript workflows",
       "values": [
-        { "Code": "GRANTS_SPECIALIST", "Label": "Grants Specialist", "Description": "OSP staff member supporting proposal and award processing" },
-        { "Code": "GRANTS_OFFICER", "Label": "Grants Officer", "Description": "Senior OSP staff member with higher review authority" },
-        { "Code": "PI", "Label": "Principal Investigator", "Description": "Lead investigator or project owner" },
-        { "Code": "DEPT_ADMIN", "Label": "Department Administrator", "Description": "Department-level administrative support role" },
-        { "Code": "FISCAL_OFFICER", "Label": "Fiscal Officer", "Description": "Financial management role" },
-        { "Code": "COMPLIANCE_OFFICER", "Label": "Compliance Officer", "Description": "Role responsible for regulatory compliance oversight" },
-        { "Code": "SPONSOR", "Label": "Sponsor", "Description": "External funding agency or sponsor" },
-        { "Code": "POST_AWARD_SPECIALIST", "Label": "Post-Award Specialist", "Description": "OSP role handling post-award modifications and management" },
-        { "Code": "FINANCIAL_UNIT_SPECIALIST", "Label": "Financial Unit Specialist", "Description": "Role responsible for Banner setup and financial events" },
-        { "Code": "PRE_AWARD_SPA", "Label": "Pre-Award Sponsored Programs Administrator", "Description": "Pre-award OSP administrator role" },
-        { "Code": "DGA", "Label": "Departmental Grant Administrator", "Description": "Department-level grants liaison role" },
-        { "Code": "PRE_AWARD_MANAGER", "Label": "Pre-Award Manager", "Description": "Supervisory pre-award workload management role" },
-        { "Code": "AOR", "Label": "Authorized Organizational Representative", "Description": "Institutional representative with submission/signature authority" }
+        { "Code": "VTT", "Label": "WebVTT", "Description": "Web Video Text Tracks format — caption/subtitle file from video recording" },
+        { "Code": "TXT", "Label": "Plain Text", "Description": "Plain text transcript file" },
+        { "Code": "DOCX", "Label": "Word Document", "Description": "Microsoft Word document with transcript notes" },
+        { "Code": "MD", "Label": "Markdown", "Description": "Markdown-formatted transcript file" }
+      ]
+    },
+    {
+      "Value_Group": "ProcessCategory",
+      "description": "Institutional process families represented by canonical process maps",
+      "values": [
+        { "Code": "PRE_AWARD", "Label": "Pre-Award", "Description": "Processes related to proposal preparation, submission, and pre-award activities" },
+        { "Code": "POST_AWARD", "Label": "Post-Award", "Description": "Processes related to award setup, management, and closeout" },
+        { "Code": "COMPLIANCE", "Label": "Compliance", "Description": "Processes related to regulatory compliance (IRB, IACUC, COI, etc.)" },
+        { "Code": "FINANCIAL", "Label": "Financial", "Description": "Processes related to financial management, budgeting, and reporting" },
+        { "Code": "SUBAWARD", "Label": "Subaward", "Description": "Processes related to subaward issuance, monitoring, and closeout" },
+        { "Code": "REPORTING", "Label": "Reporting", "Description": "Processes related to progress reports, financial reports, and deliverables" },
+        { "Code": "CONTRACTING", "Label": "Contracting", "Description": "Processes related to agreements, contracts, and negotiations" }
+      ]
+    },
+    {
+      "Value_Group": "ProcessingStatus",
+      "description": "Transcript processing stages from raw ingestion through structured mapping",
+      "values": [
+        { "Code": "RAW", "Label": "Raw", "Description": "Transcript is in its original unprocessed form" },
+        { "Code": "PARSED", "Label": "Parsed", "Description": "Transcript has been parsed into structured segments but not yet mapped to a process" },
+        { "Code": "MAPPED", "Label": "Mapped", "Description": "Transcript has been fully mapped to one or more structured process definitions" }
+      ]
+    },
+    {
+      "Value_Group": "RedactionStatus",
+      "description": "PII redaction review states tracked for transcript assets",
+      "values": [
+        { "Code": "NOT_REDACTED", "Label": "Not Redacted", "Description": "Transcript has not been reviewed for PII redaction" },
+        { "Code": "PARTIALLY_REDACTED", "Label": "Partially Redacted", "Description": "Some PII has been redacted but review may be incomplete" },
+        { "Code": "FULLY_REDACTED", "Label": "Fully Redacted", "Description": "All PII has been reviewed and redacted" }
+      ]
+    },
+    {
+      "Value_Group": "StepType",
+      "description": "Process-step types used inside canonical process maps",
+      "values": [
+        { "Code": "ACTION", "Label": "Action", "Description": "A step where an actor performs a specific action" },
+        { "Code": "DECISION", "Label": "Decision", "Description": "A branching point where the process flow depends on a condition" },
+        { "Code": "REVIEW", "Label": "Review", "Description": "A step where information is reviewed or evaluated" },
+        { "Code": "APPROVAL", "Label": "Approval", "Description": "A step where formal approval is granted or denied" },
+        { "Code": "DATA_ENTRY", "Label": "Data Entry", "Description": "A step where data is entered into a system" },
+        { "Code": "COMMUNICATION", "Label": "Communication", "Description": "A step involving communication (email, phone, meeting)" },
+        { "Code": "WAIT", "Label": "Wait", "Description": "A step where the process pauses for external input or a time period" },
+        { "Code": "SUBPROCESS", "Label": "Subprocess", "Description": "A step that references another process map" }
       ]
     },
     {
       "Value_Group": "SystemName",
       "description": "Institutional and external systems referenced in process maps",
       "values": [
-        { "Code": "BANNER", "Label": "Banner", "Description": "Ellucian Banner ERP system" },
-        { "Code": "CAYUSE", "Label": "Cayuse", "Description": "Research administration platform" },
+        { "Code": "BANNER", "Label": "Banner", "Description": "Ellucian Banner ERP system for financial and student records" },
+        { "Code": "CAYUSE", "Label": "Cayuse", "Description": "Research administration software for proposals and IRB" },
         { "Code": "GRANTS_GOV", "Label": "Grants.gov", "Description": "Federal grant application portal" },
         { "Code": "RESEARCH_GOV", "Label": "Research.gov", "Description": "NSF research administration portal" },
-        { "Code": "ERA_COMMONS", "Label": "eRA Commons", "Description": "NIH research administration portal" },
+        { "Code": "ERA_COMMONS", "Label": "eRA Commons", "Description": "NIH electronic research administration" },
         { "Code": "SAM_GOV", "Label": "SAM.gov", "Description": "System for Award Management" },
         { "Code": "EMAIL", "Label": "Email", "Description": "Email communication system" },
         { "Code": "VANDALIZER", "Label": "Vandalizer", "Description": "AI document intelligence platform" },
-        { "Code": "VARUS", "Label": "Varus", "Description": "InfoEd Varus research administration system" },
-        { "Code": "EXCEL", "Label": "Microsoft Excel", "Description": "Spreadsheet application used in operational workflows" },
-        { "Code": "TEAMS", "Label": "Microsoft Teams", "Description": "Collaboration and file-sharing platform" },
-        { "Code": "EXPORT_TO_BANNER_FORM", "Label": "Export to Banner Form", "Description": "Institutional form used in Banner export workflows" }
+        { "Code": "VERAS", "Label": "VERAS", "Description": "InfoEd VERAS research administration system for proposal and award management, workflow tracking, and correspondence" },
+        { "Code": "EXCEL", "Label": "Microsoft Excel", "Description": "Spreadsheet application used for personal tracking, data analysis, and workload management" },
+        { "Code": "TEAMS", "Label": "Microsoft Teams", "Description": "Collaboration platform used for file sharing and team communication" },
+        { "Code": "EXPORT_TO_BANNER_FORM", "Label": "Export to Banner Form", "Description": "VERAS form used to configure how proposal/award data exports to Banner, including index codes, fund codes, and cost share distribution codes" },
+        { "Code": "CHROME_RIVER", "Label": "Chrome River", "Description": "Travel and expense management system for processing reimbursements and expense reports" },
+        { "Code": "JAGGAER", "Label": "JAGGAER", "Description": "Procurement system for vendor payments, purchase orders, and Q-Doc processing" },
+        { "Code": "KUALI", "Label": "Kuali", "Description": "Research compliance system for COI, IRB, and IACUC protocols" },
+        { "Code": "ARGOS", "Label": "Argos", "Description": "Reporting tool for financial reports, due dates, and payroll data from Banner" },
+        { "Code": "SOFTDOCS", "Label": "SoftDocs/eRetrieve", "Description": "Document management and retrieval system for journal entry documentation" }
       ]
     }
   ]

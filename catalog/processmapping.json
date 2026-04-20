@@ -20,15 +20,15 @@
     "transcripts/raw/*"
   ],
   "entity_count": 9,
-  "process_map_count": 15,
-  "workflow_count": 11,
-  "prompt_file_count": 52,
+  "process_map_count": 24,
+  "workflow_count": 15,
+  "prompt_file_count": 65,
   "projection_table_count": 1,
   "entities": [
     {
       "name": "ProcessMap",
       "description": "Canonical structured definition of an institutional process, including actors, systems, steps, and lineage metadata.",
-      "count": 15,
+      "count": 24,
       "fields": [
         {"name": "Process_ID", "type": "string"},
         {"name": "Process_Name", "type": "string"},
@@ -107,7 +107,7 @@
     {
       "name": "WorkflowDefinition",
       "description": "Vandalizer-compatible workflow derived from process knowledge and used to drive extraction tasks.",
-      "count": 11,
+      "count": 15,
       "fields": [
         {"name": "Workflow_ID", "type": "string"},
         {"name": "Workflow_Name", "type": "string"},
@@ -194,7 +194,11 @@
     "ProcessCategory": ["PRE_AWARD", "POST_AWARD", "COMPLIANCE", "FINANCIAL", "SUBAWARD", "REPORTING", "CONTRACTING"],
     "StepType": ["ACTION", "DECISION", "REVIEW", "APPROVAL", "DATA_ENTRY", "COMMUNICATION", "WAIT", "SUBPROCESS"],
     "ActorType": ["PERSON", "ROLE", "SYSTEM", "EXTERNAL"],
-    "ActorRole": ["GRANTS_SPECIALIST", "GRANTS_OFFICER", "PI", "DEPT_ADMIN", "FISCAL_OFFICER", "COMPLIANCE_OFFICER", "SPONSOR", "POST_AWARD_SPECIALIST", "FINANCIAL_UNIT_SPECIALIST", "PRE_AWARD_SPA", "DGA", "PRE_AWARD_MANAGER", "AOR"],
-    "SystemName": ["BANNER", "CAYUSE", "GRANTS_GOV", "RESEARCH_GOV", "ERA_COMMONS", "SAM_GOV", "EMAIL", "VANDALIZER", "VARUS", "EXCEL", "TEAMS", "EXPORT_TO_BANNER_FORM"]
+    "ActorRole": ["GRANTS_SPECIALIST", "GRANTS_OFFICER", "PI", "DEPT_ADMIN", "FISCAL_OFFICER", "COMPLIANCE_OFFICER", "SPONSOR", "POST_AWARD_SPECIALIST", "FINANCIAL_UNIT_SPECIALIST", "PRE_AWARD_SPA", "DGA", "PRE_AWARD_MANAGER", "AOR", "SENIOR_GRANTS_ANALYST", "SPONSORED_PROGRAMS_OFFICER", "ASSISTANT_DIRECTOR_SPONSORED_ACCOUNTING"],
+    "SystemName": ["BANNER", "CAYUSE", "GRANTS_GOV", "RESEARCH_GOV", "ERA_COMMONS", "SAM_GOV", "EMAIL", "VANDALIZER", "VERAS", "EXCEL", "TEAMS", "EXPORT_TO_BANNER_FORM", "CHROME_RIVER", "JAGGAER", "KUALI", "ARGOS", "SOFTDOCS"],
+    "ActivityType": ["DATA_ENTRY", "REVIEW_APPROVAL", "SYSTEM_LOOKUP", "DOCUMENT_GENERATION", "COMMUNICATION", "DECISION_POINT", "CALCULATION_VALIDATION", "FILING_ARCHIVAL"],
+    "FileType": ["VTT", "TXT", "DOCX", "MD"],
+    "RedactionStatus": ["NOT_REDACTED", "PARTIALLY_REDACTED", "FULLY_REDACTED"],
+    "ProcessingStatus": ["RAW", "PARSED", "MAPPED"]
   }
 }

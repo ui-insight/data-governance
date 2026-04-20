@@ -38,6 +38,13 @@ Ordered workflow progressions that track an entity from creation through complet
 | ActionItemStatus | `OPEN`, `IN_PROGRESS`, `COMPLETED`, `OVERDUE`, `CLOSED` | 5 |
 | ExtractionStatus | `PENDING`, `OCR_IN_PROGRESS`, `OCR_COMPLETE`, `LLM_IN_PROGRESS`, `REVIEW_PENDING`, `APPROVED`, `REJECTED`, `FAILED` | 8 |
 
+### ProcessMapping
+
+| Value Group | Values | Count |
+|---|---|---|
+| ProcessingStatus | `RAW`, `PARSED`, `MAPPED` | 3 |
+| RedactionStatus | `NOT_REDACTED`, `PARTIALLY_REDACTED`, `FULLY_REDACTED` | 3 |
+
 ### OpenERA
 
 OpenERA tracks lifecycle status through inline column values rather than AllowedValue groups. One lifecycle-related AllowedValue group exists:
@@ -64,6 +71,7 @@ Classification values that categorize content items within an application.
 | Audit Dashboard | DocumentType | `SOURCE_PDF`, `EVIDENCE`, `CORRESPONDENCE`, `OTHER` | 4 |
 | Audit Dashboard | ReportType | `FULL_REPORT`, `FOLLOW_UP`, `LETTER` | 3 |
 | OpenERA | DocumentType | `proposal_narrative`, `budget_justification`, `biosketch`, `current_pending`, `facilities`, `data_mgmt`, `letter_support`, `rfa_document`, `subaward_docs`, `coi_disclosure`, `other` | 11 |
+| ProcessMapping | FileType | `VTT`, `TXT`, `DOCX`, `MD` | 4 |
 
 !!! note "Domain specificity"
     Document/content type groups are the most domain-specific vocabulary. Unlike severity or status, there is little opportunity for convergence here -- each application classifies content relevant to its own domain. The shared pattern is the use of an AllowedValue group (rather than a hard-coded enum) to keep these classifications extensible.
@@ -78,7 +86,7 @@ Roles assigned to people within the context of an application.
 |---|---|---|---|
 | Audit Dashboard | AssignmentRole | `IMPLEMENTER`, `REVIEWER` | 2 |
 | OpenERA | ProjectRole | `pi`, `co_pi`, `co_i`, `key_person`, `senior_person`, `postdoc`, `grad_student`, `undergrad`, `technician`, `consultant` | 10 |
-| ProcessMapping | ActorRole | `GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR` | 13 |
+| ProcessMapping | ActorRole | `GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR`, `SENIOR_GRANTS_ANALYST`, `SPONSORED_PROGRAMS_OFFICER`, `ASSISTANT_DIRECTOR_SPONSORED_ACCOUNTING` | 16 |
 
 OpenERA has the most granular project-team vocabulary, reflecting the complexity of research team composition. Audit Dashboard uses a simple remediation assignment pair. ProcessMapping captures operational roles that recur across research-administration processes and workflow assets.
 

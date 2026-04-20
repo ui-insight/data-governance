@@ -38,7 +38,7 @@
     {
       "name": "Unit",
       "description": "University organizational unit",
-      "count": 26,
+      "count": 27,
       "fields": [
         {"name": "unit_name", "type": "string"},
         {"name": "source_files", "type": "array<string>"},
@@ -48,7 +48,7 @@
     {
       "name": "Tactic",
       "description": "Specific action aligned to one or more priorities",
-      "count": 453,
+      "count": 457,
       "fields": [
         {"name": "id", "type": "integer"},
         {"name": "tactic_text", "type": "string"},
@@ -109,7 +109,7 @@
   ],
   "controlled_vocabularies": {
     "pillar_code": ["A", "B", "C", "D", "E"],
-    "alignment_level": ["explicit_subpillar", "mixed", "pillar_only"],
+    "alignment_level": ["explicit", "explicit_subpillar", "mixed", "pillar_only"],
     "priority_code_confidence": ["explicit", "inferred", "pillar_only"],
     "execution_status": ["not_started", "in_progress", "completed", "delayed_at_risk"],
     "funding_source": ["spigp", "base", "philanthropy", "external", "unfunded"],

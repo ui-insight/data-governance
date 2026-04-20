@@ -155,16 +155,16 @@ def run_local_checks(checks: CheckRunner) -> None:
 
     processmapping_catalog = read_json(ROOT / "catalog/processmapping.json")
     checks.require(
-        processmapping_catalog["process_map_count"] == 15,
-        "ProcessMapping catalog process count is 15",
+        processmapping_catalog["process_map_count"] == 24,
+        "ProcessMapping catalog process count is 24",
     )
     checks.require(
-        processmapping_catalog["workflow_count"] == 11,
-        "ProcessMapping catalog workflow count is 11",
+        processmapping_catalog["workflow_count"] == 15,
+        "ProcessMapping catalog workflow count is 15",
     )
     checks.require(
-        processmapping_catalog["prompt_file_count"] == 52,
-        "ProcessMapping catalog prompt file count is 52",
+        processmapping_catalog["prompt_file_count"] == 65,
+        "ProcessMapping catalog prompt file count is 65",
     )
     checks.require(
         processmapping_catalog["projection_table_count"] == 1,
@@ -192,12 +192,12 @@ def run_local_checks(checks: CheckRunner) -> None:
     total_groups = open_era_groups + ucm_groups + audit_groups + pm_groups + stratplan_groups
     total_values = open_era_values + ucm_values + audit_values + pm_values + stratplan_values
 
-    checks.require(total_groups == 52, "Total vocabulary group count is 52")
-    checks.require(total_values == 288, "Total vocabulary value count is 288")
+    checks.require(total_groups == 56, "Total vocabulary group count is 56")
+    checks.require(total_values == 315, "Total vocabulary value count is 315")
 
     checks.require_contains(
         ROOT / "README.md",
-        "| [ProcessMapping](https://github.com/ui-insight/ProcessMapping) | Process Intelligence | 15 canonical process maps + 11 workflows + optional `process_maps` projection | Production |",
+        "| [ProcessMapping](https://github.com/ui-insight/ProcessMapping) | Process Intelligence | 24 canonical process maps + 15 workflows + optional `process_maps` projection | Production |",
         "README ProcessMapping row",
     )
     checks.require_contains(
@@ -207,7 +207,7 @@ def run_local_checks(checks: CheckRunner) -> None:
     )
     checks.require_contains(
         ROOT / "docs/index.md",
-        "| [ProcessMapping](domains/process-mapping.md) | Process Intelligence | 15 process maps + 11 workflows + optional `process_maps` projection | None |",
+        "| [ProcessMapping](domains/process-mapping.md) | Process Intelligence | 24 process maps + 15 workflows + optional `process_maps` projection | None |",
         "docs/index ProcessMapping row",
     )
     checks.require_contains(
@@ -217,7 +217,7 @@ def run_local_checks(checks: CheckRunner) -> None:
     )
     checks.require_contains(
         ROOT / "docs/portfolio/applications.md",
-        "| ProcessMapping | Process Intelligence | 15 process maps + 11 workflows + optional `process_maps` projection | None | None | Complete |",
+        "| ProcessMapping | Process Intelligence | 24 process maps + 15 workflows + optional `process_maps` projection | None | None | Complete |",
         "portfolio summary ProcessMapping row",
     )
     checks.require_contains(
@@ -247,7 +247,7 @@ def run_local_checks(checks: CheckRunner) -> None:
     )
     checks.require_contains(
         ROOT / "docs/vocabulary/index.md",
-        "| Process Intelligence | ProcessMapping | 5 (JSON-managed) | 44 |",
+        "| Process Intelligence | ProcessMapping | 9 (JSON-managed) | 70 |",
         "vocabulary index ProcessMapping row",
     )
     checks.require_contains(
@@ -324,7 +324,7 @@ def run_remote_checks(checks: CheckRunner) -> None:
     )
     pm_remote_values = len(processmapping_allowed["AllowedValues"])
     checks.require(
-        pm_remote_groups == 5 and pm_remote_values == 44,
+        pm_remote_groups == 9 and pm_remote_values == 70,
         "ProcessMapping remote controlled-value counts match local governance registry",
     )
 
@@ -344,7 +344,7 @@ def run_remote_checks(checks: CheckRunner) -> None:
         for path in processmapping_tree
     )
     checks.require(
-        process_count == 15 and workflow_count == 11 and prompt_count == 52,
+        process_count == 24 and workflow_count == 15 and prompt_count == 65,
         "ProcessMapping remote asset counts match local governance registry",
     )
 
@@ -356,8 +356,8 @@ def run_remote_checks(checks: CheckRunner) -> None:
     tactic_count = sum(len(unit["tactics"]) for unit in stratplan_data["units"])
     checks.require(
         len(stratplan_data["pillars"]) == 5
-        and len(stratplan_data["units"]) == 26
-        and tactic_count == 453
+        and len(stratplan_data["units"]) == 27
+        and tactic_count == 457
         and len(stratplan_data["spigp_awards"]) == 3,
         "StratPlan remote canonical counts match local governance registry",
     )

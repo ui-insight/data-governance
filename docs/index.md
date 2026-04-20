@@ -27,9 +27,9 @@ See [Adopted Standard](standard/naming-conventions.md) for full details.
 | [UCM Daily Register](domains/communications.md) | Communications | 10 tables | Claude / OpenAI / MindRouter |
 | [Audit Dashboard](domains/audit.md) | Internal Audit | 13 tables | MindRouter OCR + LLM |
 | [StratPlan Tactics](domains/strategic-planning.md) | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None |
-| [ProcessMapping](domains/process-mapping.md) | Process Intelligence | 15 process maps + 11 workflows + optional `process_maps` projection | None |
+| [ProcessMapping](domains/process-mapping.md) | Process Intelligence | 24 process maps + 15 workflows + optional `process_maps` projection | None |
 
-The currently onboarded governance applications define 52 vocabulary groups and normalized enum domains totaling 288 controlled values. OpenERA, UCM Daily Register, and Audit Dashboard store those values in runtime tables; ProcessMapping keeps them in governed JSON reference data; StratPlan exposes normalized enums through its API.
+The currently onboarded governance applications define 56 vocabulary groups and normalized enum domains totaling 315 controlled values. OpenERA, UCM Daily Register, and Audit Dashboard store those values in runtime tables; ProcessMapping keeps them in governed JSON reference data; StratPlan exposes normalized enums through its API.
 
 ## Data Landscape
 
@@ -44,7 +44,7 @@ graph TB
         UCM["UCM Daily Register<br/>10 tables<br/>Communications"]
         AD["Audit Dashboard<br/>13 tables<br/>Internal Audit"]
         SP["StratPlan Tactics<br/>JSON canonical + optional<br/>insight-db projection"]
-        PM["ProcessMapping<br/>15 process maps + 11 workflows<br/>Process Intelligence"]
+        PM["ProcessMapping<br/>24 process maps + 15 workflows<br/>Process Intelligence"]
     end
 
     subgraph shared["Shared Infrastructure"]

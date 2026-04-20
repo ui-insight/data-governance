@@ -10,10 +10,10 @@ The canonical source remains JSON-first. The application can run directly from r
 |---|---|
 | **Domain** | Process intelligence for research administration operations |
 | **Repository** | [github.com/ui-insight/ProcessMapping](https://github.com/ui-insight/ProcessMapping) |
-| **Canonical Process Maps** | 15 |
-| **Workflow Definitions** | 11 |
-| **Extraction Task Prompt Files** | 52 |
-| **Controlled Value Groups** | 5 (44 codes) |
+| **Canonical Process Maps** | 24 |
+| **Workflow Definitions** | 15 |
+| **Extraction Task Prompt Files** | 65 |
+| **Controlled Value Groups** | 9 (70 codes) |
 | **Runtime Modes** | `json` (canonical), `insight_db` (optional projection) |
 | **Auth Model** | None |
 | **AI Integration** | None direct; stores workflow specifications for external extraction systems |
@@ -30,19 +30,19 @@ The source-of-truth assets live directly in repository-managed JSON and transcri
 | Process metadata | `processes/*/metadata.json` | Lineage, parse notes, and asset-level metadata |
 | Workflow definitions | `workflows/*/workflow.json` | Vandalizer-compatible extraction workflow specifications |
 | Extraction prompts | `workflows/*/extraction-tasks/*.md` | Task-level prompt assets referenced by workflows |
-| Controlled values | `data/allowed_values.json` | Governed coded values for process categories, step types, roles, and systems |
+| Controlled values | `data/allowed_values.json` | Governed coded values for process categories, steps, roles, systems, and transcript-governance metadata |
 | Raw transcripts | `transcripts/raw/` | Source inputs with the highest sensitivity and strongest lineage requirements |
 
 ## Canonical Logical Model
 
 | Entity | Count | Description |
 |---|---|---|
-| `ProcessMap` | 15 | Top-level process definitions with identifiers, descriptions, category, actors, systems, steps, and lineage fields |
+| `ProcessMap` | 24 | Top-level process definitions with identifiers, descriptions, category, actors, systems, steps, and lineage fields |
 | `Actor` | variable | Nested people, roles, systems, or external entities participating in a process |
 | `System` | variable | Systems referenced within a process map |
 | `Step` | variable | Ordered process steps with automation notes, pain points, inputs, outputs, and next-step references |
 | `DecisionOption` | variable | Branching outcomes attached to decision-type steps |
-| `WorkflowDefinition` | 11 | Vandalizer-compatible extraction workflows derived from operational process knowledge |
+| `WorkflowDefinition` | 15 | Vandalizer-compatible extraction workflows derived from operational process knowledge |
 | `WorkflowStep` | variable | Ordered workflow stages such as extraction, consolidation, and formatting |
 | `WorkflowTask` | variable | Task-level units within a workflow step, including prompt references and search guidance |
 | `ExtractionField` | variable | Structured extraction targets expected from a workflow task |
@@ -76,8 +76,12 @@ ProcessMapping does not currently expose a runtime `AllowedValue` table. Instead
 | `ProcessCategory` | `PRE_AWARD`, `POST_AWARD`, `COMPLIANCE`, `FINANCIAL`, `SUBAWARD`, `REPORTING`, `CONTRACTING` |
 | `StepType` | `ACTION`, `DECISION`, `REVIEW`, `APPROVAL`, `DATA_ENTRY`, `COMMUNICATION`, `WAIT`, `SUBPROCESS` |
 | `ActorType` | `PERSON`, `ROLE`, `SYSTEM`, `EXTERNAL` |
-| `ActorRole` | `GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR` |
-| `SystemName` | `BANNER`, `CAYUSE`, `GRANTS_GOV`, `RESEARCH_GOV`, `ERA_COMMONS`, `SAM_GOV`, `EMAIL`, `VANDALIZER`, `VARUS`, `EXCEL`, `TEAMS`, `EXPORT_TO_BANNER_FORM` |
+| `ActorRole` | `GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR`, `SENIOR_GRANTS_ANALYST`, `SPONSORED_PROGRAMS_OFFICER`, `ASSISTANT_DIRECTOR_SPONSORED_ACCOUNTING` |
+| `SystemName` | `BANNER`, `CAYUSE`, `GRANTS_GOV`, `RESEARCH_GOV`, `ERA_COMMONS`, `SAM_GOV`, `EMAIL`, `VANDALIZER`, `VERAS`, `EXCEL`, `TEAMS`, `EXPORT_TO_BANNER_FORM`, `CHROME_RIVER`, `JAGGAER`, `KUALI`, `ARGOS`, `SOFTDOCS` |
+| `ActivityType` | `DATA_ENTRY`, `REVIEW_APPROVAL`, `SYSTEM_LOOKUP`, `DOCUMENT_GENERATION`, `COMMUNICATION`, `DECISION_POINT`, `CALCULATION_VALIDATION`, `FILING_ARCHIVAL` |
+| `FileType` | `VTT`, `TXT`, `DOCX`, `MD` |
+| `RedactionStatus` | `NOT_REDACTED`, `PARTIALLY_REDACTED`, `FULLY_REDACTED` |
+| `ProcessingStatus` | `RAW`, `PARSED`, `MAPPED` |
 
 !!! note "Casing exception"
     ProcessMapping currently uses `UPPER_CASE` codes in its governed JSON reference data. This is a documented exception to the preferred `snake_case` convention for new applications.

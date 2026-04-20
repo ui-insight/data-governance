@@ -297,11 +297,11 @@ Maps tactics and SPIGP awards to strategic plan pillars.
 
 `A`, `B`, `C`, `D`, `E`
 
-### alignment_level (3 codes)
+### alignment_level (4 codes)
 
 Rates how strongly a tactic aligns with its primary strategic objective.
 
-`explicit_subpillar`, `mixed`, `pillar_only`
+`explicit`, `explicit_subpillar`, `mixed`, `pillar_only`
 
 ### priority_code_confidence (3 codes)
 
@@ -349,7 +349,7 @@ Raw source status currently observed in canonical tactic records:
 
 ## Process Intelligence -- ProcessMapping
 
-ProcessMapping stores controlled values in a governed JSON reference file rather than a runtime `AllowedValue` table. Its codes currently use `UPPER_CASE` naming, which is a documented exception to the preferred `snake_case` convention for new applications.
+ProcessMapping stores controlled values in a governed JSON reference file rather than a runtime `AllowedValue` table. Its codes currently use `UPPER_CASE` naming, which is a documented exception to the preferred `snake_case` convention for new applications. The current registry now spans process-map semantics plus transcript-governance metadata used during ingestion, redaction review, and mapping workflows.
 
 ### ProcessCategory (7 codes)
 
@@ -369,14 +369,38 @@ Distinguishes between people, roles, systems, and external entities appearing in
 
 `PERSON`, `ROLE`, `SYSTEM`, `EXTERNAL`
 
-### ActorRole (13 codes)
+### ActorRole (16 codes)
 
 Defines the common research-administration roles represented across canonical process maps.
 
-`GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR`
+`GRANTS_SPECIALIST`, `GRANTS_OFFICER`, `PI`, `DEPT_ADMIN`, `FISCAL_OFFICER`, `COMPLIANCE_OFFICER`, `SPONSOR`, `POST_AWARD_SPECIALIST`, `FINANCIAL_UNIT_SPECIALIST`, `PRE_AWARD_SPA`, `DGA`, `PRE_AWARD_MANAGER`, `AOR`, `SENIOR_GRANTS_ANALYST`, `SPONSORED_PROGRAMS_OFFICER`, `ASSISTANT_DIRECTOR_SPONSORED_ACCOUNTING`
 
-### SystemName (12 codes)
+### SystemName (17 codes)
 
 Identifies the institutional and external systems referenced in process maps and workflow assets.
 
-`BANNER`, `CAYUSE`, `GRANTS_GOV`, `RESEARCH_GOV`, `ERA_COMMONS`, `SAM_GOV`, `EMAIL`, `VANDALIZER`, `VARUS`, `EXCEL`, `TEAMS`, `EXPORT_TO_BANNER_FORM`
+`BANNER`, `CAYUSE`, `GRANTS_GOV`, `RESEARCH_GOV`, `ERA_COMMONS`, `SAM_GOV`, `EMAIL`, `VANDALIZER`, `VERAS`, `EXCEL`, `TEAMS`, `EXPORT_TO_BANNER_FORM`, `CHROME_RIVER`, `JAGGAER`, `KUALI`, `ARGOS`, `SOFTDOCS`
+
+### ActivityType (8 codes)
+
+Classifies transcript-derived operational activities used during process extraction, analysis, and workflow normalization.
+
+`DATA_ENTRY`, `REVIEW_APPROVAL`, `SYSTEM_LOOKUP`, `DOCUMENT_GENERATION`, `COMMUNICATION`, `DECISION_POINT`, `CALCULATION_VALIDATION`, `FILING_ARCHIVAL`
+
+### FileType (4 codes)
+
+Identifies the governed transcript file formats accepted into the repository.
+
+`VTT`, `TXT`, `DOCX`, `MD`
+
+### RedactionStatus (3 codes)
+
+Tracks PII redaction review status for transcript assets.
+
+`NOT_REDACTED`, `PARTIALLY_REDACTED`, `FULLY_REDACTED`
+
+### ProcessingStatus (3 codes)
+
+Tracks transcript progression from raw ingestion to structured process mapping.
+
+`RAW`, `PARSED`, `MAPPED`

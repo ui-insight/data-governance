@@ -10,7 +10,7 @@ The UI Insight portfolio includes several active repositories serving University
 | UCM Daily Register | Communications | 10 tables | Claude / OpenAI / MindRouter | None | Complete |
 | Audit Dashboard | Internal Audit | 13 tables | MindRouter OCR + LLM | JWT (2 roles) | Complete |
 | StratPlan Tactics | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None | None | Complete |
-| ProcessMapping | Process Intelligence | 15 process maps + 11 workflows + optional `process_maps` projection | None | None | Complete |
+| ProcessMapping | Process Intelligence | 24 process maps + 15 workflows + optional `process_maps` projection | None | None | Complete |
 | AISPEG | Strategic Planning collaboration site | Content/site-oriented app | None documented in repo | None | Out of scope |
 
 ---

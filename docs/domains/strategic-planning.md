@@ -14,8 +14,8 @@ The canonical dataset is JSON-based, and the backend can run in either:
 | **Domain** | Strategic planning execution and investment analytics |
 | **Repository** | [github.com/ui-insight/StratPlanTacticsMB](https://github.com/ui-insight/StratPlanTacticsMB) |
 | **Strategic Plan** | University of Idaho 2025-2030 |
-| **Units** | 26 |
-| **Tactics** | 453 |
+| **Units** | 27 |
+| **Tactics** | 457 |
 | **Pillars / Priorities** | 5 / 20 |
 | **SPIGP Awards** | 3 |
 | **Frontend Views** | 12 |
@@ -33,8 +33,8 @@ The source-of-truth model is stored in `backend/app/data/strategic_plan_data.jso
 |---|---|---|
 | `Pillar` | 5 | Top-level strategic pillars (`A`..`E`) with embedded priorities |
 | `Priority` | 20 | Strategic objectives under each pillar |
-| `Unit` | 26 | Academic and administrative units submitting tactics |
-| `Tactic` | 453 | Tactical actions with alignment, execution, and investment metadata |
+| `Unit` | 27 | Academic and administrative units submitting tactics |
+| `Tactic` | 457 | Tactical actions with alignment, execution, and investment metadata |
 | `PriorityCodeMapping` | variable | Multi-priority linkage with confidence/source metadata |
 | `SPIGPAward` | 3 | Strategic Plan Implementation Grant Program awards linked to tactics |
 
@@ -73,7 +73,7 @@ StratPlan currently does not use an `AllowedValue` table. Enum domains are defin
 | Group | Codes |
 |---|---|
 | `pillar_code` | `A`, `B`, `C`, `D`, `E` |
-| `alignment_level` | `explicit_subpillar`, `mixed`, `pillar_only` |
+| `alignment_level` | `explicit`, `explicit_subpillar`, `mixed`, `pillar_only` |
 | `priority_code_confidence` | `explicit`, `inferred`, `pillar_only` |
 | `execution_status` | `not_started`, `in_progress`, `completed`, `delayed_at_risk` |
 | `funding_source` | `spigp`, `base`, `philanthropy`, `external`, `unfunded` |
