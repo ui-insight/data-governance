@@ -1,8 +1,8 @@
 {
   "application": "ProcessMapping",
   "description": "Governed JSON-managed controlled values for the ProcessMapping process intelligence repository",
-  "version": "1.0.0",
-  "last_updated": "2026-04-20",
+  "version": "1.1.0",
+  "last_updated": "2026-05-01",
   "value_groups": [
     {
       "Value_Group": "ActivityType",
@@ -48,6 +48,20 @@
         { "Code": "ROLE", "Label": "Role", "Description": "A role that could be filled by different people (e.g., Grants Specialist)" },
         { "Code": "SYSTEM", "Label": "System", "Description": "A software system or automated process" },
         { "Code": "EXTERNAL", "Label": "External", "Description": "An external entity (sponsor, subrecipient, vendor)" }
+      ]
+    },
+    {
+      "Value_Group": "DocumentType",
+      "description": "Document classifications for materials referenced in process maps and workflows — award documents, funding announcements, budget forms, proposal narratives, subaward agreements, and sponsor correspondence",
+      "values": [
+        { "Code": "AWARD_NOTICE", "Label": "Award Notice / Agreement", "Description": "Fully executed award agreements, federal notices of award, cooperative agreements, research terms and conditions, and related award-establishing documents" },
+        { "Code": "AWARD_MODIFICATION", "Label": "Award Modification", "Description": "Post-award amendments including modifications, no-cost extensions, PI changes, rebudget approvals, and amendment letters" },
+        { "Code": "FUNDING_OPPORTUNITY", "Label": "Funding Opportunity (FOA/NOFO/RFA)", "Description": "Funding opportunity announcements, notices of funding opportunity, requests for applications, program announcements, and program solicitations" },
+        { "Code": "BUDGET_DOCUMENT", "Label": "Budget Form / Spreadsheet / Justification", "Description": "R&R and SF-424A budget forms, budget spreadsheets, budget justification narratives, and sponsor-specific budget pages (NIH modular, NSF detailed)" },
+        { "Code": "PROPOSAL_NARRATIVE", "Label": "Proposal Narrative & Personnel Forms", "Description": "Proposal documents, project narratives, research plans, biosketches, current and pending support, and VERAS proposal forms with personnel listings" },
+        { "Code": "SUBAWARD_DOCUMENT", "Label": "Subaward / Subrecipient Agreement", "Description": "Subaward agreements, subrecipient agreements, pass-through entity subaward documents, and subaward modifications" },
+        { "Code": "COMPLIANCE_RECORD", "Label": "Compliance / Personnel Reference Record", "Description": "SFI disclosure confirmations, RST completion records, Banner NBAJOBS records, departmental personnel lists, and institutional policy references (APM)" },
+        { "Code": "SPONSOR_CORRESPONDENCE", "Label": "Sponsor Correspondence & Guidance", "Description": "Sponsor correspondence, agency financial reporting guides, and other ad-hoc communications or guidance documents from the funding agency" }
       ]
     },
     {

@@ -13,7 +13,7 @@ The canonical source remains JSON-first. The application can run directly from r
 | **Canonical Process Maps** | 24 |
 | **Workflow Definitions** | 15 |
 | **Extraction Task Prompt Files** | 65 |
-| **Controlled Value Groups** | 9 (70 codes) |
+| **Controlled Value Groups** | 10 (78 codes) |
 | **Runtime Modes** | `json` (canonical), `insight_db` (optional projection) |
 | **Auth Model** | None |
 | **AI Integration** | None direct; stores workflow specifications for external extraction systems |

@@ -192,8 +192,8 @@ def run_local_checks(checks: CheckRunner) -> None:
     total_groups = open_era_groups + ucm_groups + audit_groups + pm_groups + stratplan_groups
     total_values = open_era_values + ucm_values + audit_values + pm_values + stratplan_values
 
-    checks.require(total_groups == 56, "Total vocabulary group count is 56")
-    checks.require(total_values == 315, "Total vocabulary value count is 315")
+    checks.require(total_groups == 57, "Total vocabulary group count is 57")
+    checks.require(total_values == 323, "Total vocabulary value count is 323")
 
     checks.require_contains(
         ROOT / "README.md",
@@ -247,7 +247,7 @@ def run_local_checks(checks: CheckRunner) -> None:
     )
     checks.require_contains(
         ROOT / "docs/vocabulary/index.md",
-        "| Process Intelligence | ProcessMapping | 9 (JSON-managed) | 70 |",
+        "| Process Intelligence | ProcessMapping | 10 (JSON-managed) | 78 |",
         "vocabulary index ProcessMapping row",
     )
     checks.require_contains(
@@ -324,7 +324,7 @@ def run_remote_checks(checks: CheckRunner) -> None:
     )
     pm_remote_values = len(processmapping_allowed["AllowedValues"])
     checks.require(
-        pm_remote_groups == 9 and pm_remote_values == 70,
+        pm_remote_groups == 10 and pm_remote_values == 78,
         "ProcessMapping remote controlled-value counts match local governance registry",
     )
 

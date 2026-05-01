@@ -9,7 +9,7 @@ The UI Insight application portfolio uses a **federated vocabulary** approach: e
 | Research Admin | OpenERA | 21 | 142 |
 | Communications | UCM Daily Register | 10 | 37 |
 | Internal Audit | Audit Dashboard | 8 | 32 |
-| Process Intelligence | ProcessMapping | 9 (JSON-managed) | 70 |
+| Process Intelligence | ProcessMapping | 10 (JSON-managed) | 78 |
 | Strategic Planning | StratPlan Tactics | 8 (inline/code-normalized) | 34 |
 
 !!! info "StratPlan Tactics"
