@@ -29,7 +29,7 @@ See [Adopted Standard](standard/naming-conventions.md) for full details.
 | [StratPlan Tactics](domains/strategic-planning.md) | Strategic Planning | JSON canonical model + optional insight-db projection (10 tables) | None |
 | [ProcessMapping](domains/process-mapping.md) | Process Intelligence | 24 process maps + 15 workflows + optional `process_maps` projection | None |
 
-The currently onboarded governance applications define 56 vocabulary groups and normalized enum domains totaling 315 controlled values. OpenERA, UCM Daily Register, and Audit Dashboard store those values in runtime tables; ProcessMapping keeps them in governed JSON reference data; StratPlan exposes normalized enums through its API.
+The currently onboarded governance applications define 57 vocabulary groups and normalized enum domains totaling 323 controlled values. OpenERA, UCM Daily Register, and Audit Dashboard store those values in runtime tables; ProcessMapping keeps them in governed JSON reference data; StratPlan exposes normalized enums through its API.
 
 ## Data Landscape
 
