@@ -324,7 +324,7 @@ def run_remote_checks(checks: CheckRunner) -> None:
     )
     pm_remote_values = len(processmapping_allowed["AllowedValues"])
     checks.require(
-        pm_remote_groups == 10 and pm_remote_values == 78,
+        pm_remote_groups == 13 and pm_remote_values == 89,
         "ProcessMapping remote controlled-value counts match local governance registry",
     )
 
