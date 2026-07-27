@@ -1,31 +1,32 @@
 {
   "application": "IIDS Portfolio",
   "description": "Controlled vocabularies for the IIDS Portfolio site (https://aispeg.insight.uidaho.edu) — the institutional inventory of AI projects across University of Idaho units. Per ADR 0001 (https://github.com/ui-insight/AISPEG/blob/main/docs/adr/0001-product-lifecycle-taxonomy.md), each operational status carries a measurable verification rule that is enforced by lib/portfolio-verification.ts and CI.",
-  "version": "2.1.0",
-  "last_updated": "2026-07-09",
+  "version": "2.2.0",
+  "last_updated": "2026-07-27",
   "value_groups": [
     {
       "Value_Group": "ProjectStatus",
       "description": "Operational ladder for a project — the day-to-day status IIDS tracks. Source of truth: lib/portfolio.ts. Each value's Verification_Rule is enforced by lib/portfolio-verification.ts on every PR.",
       "values": [
-        { "Code": "idea", "Label": "Idea", "Display_Order": 1, "Description": "Named with a unit-of-interest; not yet committed to build.", "Verification_Rule": "No committed operationalOwner OR no committed iidsSponsor; repoUrl empty or repo has zero commits." },
-        { "Code": "approved", "Label": "Approved", "Display_Order": 2, "Description": "Committed to build with named owner and sponsor; not yet under active development.", "Verification_Rule": "operationalOwners[0] set AND iidsSponsor set AND non-empty description; no liveUrl; repo (if present) has <10 commits OR no commits in last 14 days." },
-        { "Code": "building", "Label": "Building", "Display_Order": 3, "Description": "Active development. Code exists but not yet for real users.", "Verification_Rule": "repoUrl set; lastCommitDate within last 60 days; no liveUrl (or liveUrl flagged liveUrlIsStaging:true); pilotCohort empty." },
-        { "Code": "prototype", "Label": "Prototype", "Display_Order": 4, "Description": "Demo-able but quiet — feature-complete or dormant.", "Verification_Rule": "pilotCohort empty; either lastCommitDate older than 30 days OR featureComplete:true." },
-        { "Code": "piloting", "Label": "Piloting", "Display_Order": 5, "Description": "In use by a bounded, named cohort.", "Verification_Rule": "liveUrl set; pilotCohort populated with size > 0 and a bounded scope." },
-        { "Code": "production", "Label": "Production", "Display_Order": 6, "Description": "In real institutional use beyond the pilot cohort.", "Verification_Rule": "Publicly-accessible artifact: liveUrl OR a public repoUrl (isPrivateRepo:false) for repo-as-artifact deliverables (infrastructure, scaffolds, appliances). productionScope and supportContact populated." },
-        { "Code": "maintained", "Label": "Maintained", "Display_Order": 7, "Description": "In production but in maintenance-only mode.", "Verification_Rule": "Inherits production accessibility (liveUrl or public repo); no commits to main in last 90 days; no open feature issues — only bug-, security-, or chore-labeled." },
-        { "Code": "paused", "Label": "Paused", "Display_Order": 8, "Description": "Deliberately on hold — not abandoned; expected to resume.", "Verification_Rule": "Deliberate hold, so no commit-cadence requirement; pilotCohort empty." },
-        { "Code": "sunsetting", "Label": "Sunsetting", "Display_Order": 9, "Description": "Being wound down with a planned successor.", "Verification_Rule": "sunsetDate (ISO) set; replacedBy populated — successor project slug or the literal 'manual-process'." },
-        { "Code": "archived", "Label": "Archived", "Display_Order": 10, "Description": "Stopped. Record kept for institutional memory.", "Verification_Rule": "liveUrl returns 404 / is null / domain dead, or (for repo-as-artifact) repoUrl is archived/deleted; service stopped." },
-        { "Code": "tracked", "Label": "Tracked", "Display_Order": 11, "Description": "Externally-owned project IIDS observes but does not build.", "Verification_Rule": "trackingOnly:true; bypasses the operational ladder." }
+        { "Code": "idea", "Label": "Idea", "Display_Order": 1, "Description": "Named with a unit-of-interest; no owner or sponsor engaged yet.", "Verification_Rule": "No committed operationalOwner AND no committed iidsSponsor (either one engaged makes it scoping); repoUrl empty or repo has zero commits." },
+        { "Code": "scoping", "Label": "Scoping", "Display_Order": 2, "Description": "Named humans engaged; feasibility and shape being worked out before a formal go decision.", "Verification_Rule": "A named operationalOwners[0] OR iidsSponsor is engaged (neither means it is still idea); no liveUrl; pilotCohort empty. No repo-cadence requirement — scoping produces framing and feasibility work, not necessarily commits." },
+        { "Code": "approved", "Label": "Approved", "Display_Order": 3, "Description": "Committed to build with named owner and sponsor; not yet under active development.", "Verification_Rule": "operationalOwners[0] set AND iidsSponsor set AND non-empty description; no liveUrl; repo (if present) has <10 commits OR no commits in last 14 days." },
+        { "Code": "building", "Label": "Building", "Display_Order": 4, "Description": "Active development. Code exists but not yet for real users.", "Verification_Rule": "repoUrl set; lastCommitDate within last 60 days; no liveUrl (or liveUrl flagged liveUrlIsStaging:true); pilotCohort empty." },
+        { "Code": "prototype", "Label": "Prototype", "Display_Order": 5, "Description": "Demo-able but quiet — feature-complete or dormant.", "Verification_Rule": "pilotCohort empty; either lastCommitDate older than 30 days OR featureComplete:true." },
+        { "Code": "piloting", "Label": "Piloting", "Display_Order": 6, "Description": "In use by a bounded, named cohort.", "Verification_Rule": "liveUrl set; pilotCohort populated with size > 0 and a bounded scope." },
+        { "Code": "production", "Label": "Production", "Display_Order": 7, "Description": "In real institutional use beyond the pilot cohort.", "Verification_Rule": "Publicly-accessible artifact: liveUrl OR a public repoUrl (isPrivateRepo:false) for repo-as-artifact deliverables (infrastructure, scaffolds, appliances). productionScope and supportContact populated." },
+        { "Code": "maintained", "Label": "Maintained", "Display_Order": 8, "Description": "In production but in maintenance-only mode.", "Verification_Rule": "Inherits production accessibility (liveUrl or public repo); no commits to main in last 90 days; no open feature issues — only bug-, security-, or chore-labeled." },
+        { "Code": "paused", "Label": "Paused", "Display_Order": 9, "Description": "Deliberately on hold — not abandoned; expected to resume.", "Verification_Rule": "Deliberate hold, so no commit-cadence requirement; pilotCohort empty." },
+        { "Code": "sunsetting", "Label": "Sunsetting", "Display_Order": 10, "Description": "Being wound down with a planned successor.", "Verification_Rule": "sunsetDate (ISO) set; replacedBy populated — successor project slug or the literal 'manual-process'." },
+        { "Code": "archived", "Label": "Archived", "Display_Order": 11, "Description": "Stopped. Record kept for institutional memory.", "Verification_Rule": "liveUrl returns 404 / is null / domain dead, or (for repo-as-artifact) repoUrl is archived/deleted; service stopped." },
+        { "Code": "tracked", "Label": "Tracked", "Display_Order": 12, "Description": "Externally-owned project IIDS observes but does not build.", "Verification_Rule": "trackingOnly:true; bypasses the operational ladder." }
       ]
     },
     {
       "Value_Group": "PublicStage",
       "description": "Stakeholder-facing rollup. Computed deterministically from ProjectStatus by lib/portfolio.ts:computePublicStage. The public surfaces (/portfolio cards primary chip, landing stat strip, /explore tile breakdowns) render this axis; operational status is only shown as a secondary detail on cards.",
       "values": [
-        { "Code": "exploring", "Label": "Exploring", "Display_Order": 1, "Description": "Thinking about it / committed to build.", "Verification_Rule": "Rolls up from ProjectStatus values: idea, approved." },
+        { "Code": "exploring", "Label": "Exploring", "Display_Order": 1, "Description": "Thinking about it / committed to build.", "Verification_Rule": "Rolls up from ProjectStatus values: idea, scoping, approved." },
         { "Code": "building", "Label": "Building", "Display_Order": 2, "Description": "Code exists; not yet for real users.", "Verification_Rule": "Rolls up from ProjectStatus values: building, prototype." },
         { "Code": "live", "Label": "Live", "Display_Order": 3, "Description": "In use today.", "Verification_Rule": "Rolls up from ProjectStatus values: piloting, production, maintained." },
         { "Code": "paused", "Label": "Paused", "Display_Order": 4, "Description": "Deliberately on hold; not abandoned.", "Verification_Rule": "Rolls up from ProjectStatus value: paused." },
